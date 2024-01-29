@@ -1,0 +1,32 @@
+my-nextjs-app/
+├── node_modules/
+├── pages/
+│   ├── _app.tsx       # Global App component
+│   ├── index.tsx      # Home page
+│   ├── products/
+│   │   ├── [id].tsx   # Individual product page
+│   │   └── index.tsx  # Product listing page
+│   └── ...            # Other pages
+├── public/
+│   └── ...            # Static files like images
+├── src/
+│   ├── components/    # Reusable components
+│   │   ├── Header.tsx
+│   │   ├── Footer.tsx
+│   │   └── ...
+│   ├── styles/        # CSS/SCSS files
+│   │   ├── globals.css
+│   │   └── ...
+│   ├── hooks/         # Custom React hooks
+│   │   └── ...
+│   └── utils/         # Utility functions
+│       └── ...
+├── styles/            # Global styles
+│   ├── Home.module.css
+│   └── globals.css
+├── .gitignore
+├── package.json
+├── README.md
+├── next.config.js
+├── tsconfig.json      # TypeScript configuration
+└── yarn.lock or package-lock.json

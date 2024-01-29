@@ -21,9 +21,7 @@ my-nextjs-app/
 │   │   └── ...
 │   └── utils/         # Utility functions
 │       └── ...
-├── styles/            # Global styles
-│   ├── Home.module.css
-│   └── globals.css
+│   
 ├── .gitignore
 ├── package.json
 ├── README.md

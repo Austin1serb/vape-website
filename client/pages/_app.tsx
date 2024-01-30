@@ -1,15 +1,18 @@
 // pages/_app.tsx
 import type { AppProps } from 'next/app';
-import { Inter } from "next/font/google";
 import "./globals.css";
+import Layout from './layout';
+import NavBar from '@/src/app/components/NavBar';
 
-const inter = Inter({ subsets: ["latin"] });
+
+
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <div className={inter.className}>
+      <Layout>
+        <NavBar/>
       <Component {...pageProps} />
-    </div>
+      </Layout>
   );
 }
 

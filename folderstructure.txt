@@ -28,3 +28,8 @@ my-nextjs-app/
 ├── next.config.js
 ├── tsconfig.json      # TypeScript configuration
 └── yarn.lock or package-lock.json
+
+
+
+Changelog structure:
+ type(feature):description [not breaking]

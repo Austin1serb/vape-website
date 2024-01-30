@@ -36,23 +36,27 @@ const NavBar = () => {
                 </div>
                 <div className="flex items-center justify-end flex-1 gap-4">
                     <Link href="/account">
-                        <Icon name='Account' width={'40'} height={'40'} className='accountIcon' />
+                        <Icon name='Account' width={'40'} height={'40'} className='accountIcon mr-4 hover:text-primary-variant transition duration-300' />
                     </Link>
                     <Link href="/cart">
-                        <Icon name='Cart' width={'40'} height={'40'} className='cartIcon' />
+                        <Icon name='Cart' width={'40'} height={'40'} className='cartIcon mr-4 hover:text-primary-variant transition duration-300' />
                     </Link>
                 </div>
             </div>
             <hr className="hidden md:block" />
             <ul className="hidden md:flex justify-evenly py-2">
                 {navLinks.map((link) => (
-                    <li key={link.href}>
+                    <li key={link.href} className="relative group">
                         <Link href={link.href}>
-                            <span className=" uppercase font-semibold text-primary hover:text-secondary transition duration-300">{link.label}</span>
+                            <span className="uppercase  font-semibold text-primary group-hover:text-secondary transition duration-300">
+                                {link.label}
+                                <span className="absolute  bottom-0 left-0 w-0 h-[0.1rem] bg-secondary group-hover:w-full transition-all duration-300"></span>
+                            </span>
                         </Link>
                     </li>
                 ))}
             </ul>
+
 
             {/* Mobile Menu */}
             <div className="md:hidden  flex justify-between items-center py-2 px-4">
@@ -75,7 +79,7 @@ const NavBar = () => {
                     ))}
                 </ul>
             )}
-     
+
         </nav>
     );
 };

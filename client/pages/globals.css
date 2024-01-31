@@ -65,3 +65,19 @@
   color: var(--color-on-primary); /* Replace with your color */
   
 }
+.swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet{
+  width: 24px; 
+  height: 24px;
+  bottom:-5px;
+  background: var(--color-primary);
+  transition: background 0.3s ease;
+}
+.swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet:hover{
+  transition: background 0.3s ease;
+  background: var(--color-secondary);
+
+}
+.swiper-pagination.swiper-pagination-clickable.swiper-pagination-bullets.swiper-pagination-horizontal {
+  bottom: 20px; /* Adjust this value as needed */
+
+}

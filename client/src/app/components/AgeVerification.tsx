@@ -41,7 +41,7 @@ const AgeVerification: React.FC<AgeVerificationProps> = ({ onVerify }) => {
                             Are You of Legal Age?
                         </h3>
                         <p className="my-2.5 font-light text-black">
-                            By entering this website, you certify that you are of legal age to consume CBD in the state in which you reside, that you agree to our
+                            By entering this website, you certify that you are of legal age to consume Nicotine in the state in which you reside, that you agree to our
                             <Link href='/terms' className="text-blue-500 transition duration-300 hover:text-blue-700"> Terms and Conditions</Link>,
                             and to our
                             <Link href="/privacy-policy" className="text-blue-500 transition duration-300 hover:text-blue-700"> Privacy Policy</Link>

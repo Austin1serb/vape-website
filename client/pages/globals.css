@@ -61,9 +61,9 @@
 
   /* slider */
   /* TextSlider.css */
+
 .swiper-button-prev::after, .swiper-button-next::after {
   color: var(--color-on-primary); /* Replace with your color */
-  
 }
 .swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet{
   width: 24px; 

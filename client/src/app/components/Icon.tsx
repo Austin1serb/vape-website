@@ -1,6 +1,6 @@
-import React, { useEffect, useState, FC, ReactElement } from 'react';
+import React, { useEffect, useState, FC } from 'react';
 
-// Define a type for the icon props
+// type for the icon props
 interface IconProps {
     name: string;
     className?: string;
@@ -8,17 +8,26 @@ interface IconProps {
     width?: string | number;
 }
 
-// Define a type for the imported icon module
+// type for the imported icon module
 type ImportedIconModule = {
     default: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 };
 
+// Cache for imported icons
+const iconCache: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {};
+
 // Function to dynamically import an icon
 const importIcon = async (iconName: string): Promise<ImportedIconModule> => {
+    if (iconCache[iconName]) {
+        return { default: iconCache[iconName] };
+    }
+
     try {
-        const mod = await import(`../icons/${iconName}.icon.tsx`) as ImportedIconModule;
-        return mod;
+        const module = await import(`../icons/${iconName}.icon.tsx`);
+        iconCache[iconName] = module.default;
+        return module as ImportedIconModule;
     } catch (error) {
+        console.error(`Unable to import icon: ${iconName}`, error);
         throw new Error(`Unable to import icon: ${iconName}`);
     }
 };
@@ -26,29 +35,25 @@ const importIcon = async (iconName: string): Promise<ImportedIconModule> => {
 // Icon component
 const Icon: FC<IconProps> = React.memo(({ name, className, height, width }) => {
     const [IconComponent, setIconComponent] = useState<React.ComponentType<React.SVGProps<SVGSVGElement>> | null>(null);
-    const iconStyles={
+    const loaderStyles = {
         fontSize: '30px',
         animation: 'spin 4s linear infinite',
         zIndex: 5,
-    }
+    };
 
     useEffect(() => {
-        importIcon(name).then(ImportedIcon => {
-            const DynamicIconComponent: FC<React.SVGProps<SVGSVGElement>> = (props): ReactElement => <ImportedIcon.default {...props} />;
-            DynamicIconComponent.displayName = `${name}Icon`; // Assign a display name
-            setIconComponent(() => DynamicIconComponent);
+        importIcon(name).then((ImportedIcon) => {
+            setIconComponent(() => ImportedIcon.default);
         }).catch(console.error);
     }, [name]);
 
     return IconComponent ? (
-        <IconComponent className={className} height={height} width={width} />
+        <IconComponent className={className} aria-label={name} height={height} width={width} role="img" />
     ) : (
-        <div style={iconStyles}>
-            ⏳
-        </div>
+        <div style={loaderStyles}>⏳</div>
     );
 });
 
-Icon.displayName = 'Icon'; // Assign a display name to the main component
+Icon.displayName = 'Icon';
 
 export default Icon;

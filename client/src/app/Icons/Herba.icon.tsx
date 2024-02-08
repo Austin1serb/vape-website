@@ -1,16 +1,13 @@
 import React from 'react';
 
 // Define a type for the component's props
-type IconProps = {
-    className?: string;
-    height?: string;
-    width?: string;
-};
+type IconProps = React.SVGProps<SVGSVGElement>;
 
-const Herba: React.FC<IconProps> = ({ className, height, width }) => {
+
+const Herba: React.FC<IconProps> = (props) => {
     return (
 
-        <svg  className={className} height={height} width={width} xmlns="http://www.w3.org/2000/svg" version="1.0" viewBox="0 0 300.000000 100.000000" preserveAspectRatio="xMidYMid meet">
+        <svg  {...props} xmlns="http://www.w3.org/2000/svg" version="1.0" viewBox="0 0 300.000000 100.000000" preserveAspectRatio="xMidYMid meet">
             <metadata>
                 Created by potrace 1.10, written by Peter Selinger 2001-2011
             </metadata>

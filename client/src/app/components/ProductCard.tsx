@@ -37,9 +37,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, sm }) => {
 
 
   return (
-    <div className=" flex flex-col justify-center items-center">
+    <div className=" flex flex-col justify-center items-center p-2">
       <div className='group relative w-full h-full flex flex-col justify-center items-center'>
-        <Image src={product.imageUrl} height={320} width={320} alt={product.name} className={` w-${sm ? '9/12' : 'full'} h-${sm ? '9/12' : 'full'} object-cover hover:cursor-pointer p-4`} />
+        <Image src={product.imageUrl} height={320} width={320} alt={product.name} className={` w-${sm ? '9/12' : 'full'} h-${sm ? '9/12' : 'full'} object-cover rounded hover:cursor-pointer `} />
         <button className="absolute opacity-0 group-hover:opacity-100 flex justify-center items-center transition-all duration-300 bg-primary-transparent border border-primary border-2 hover:bg-primary-variant  bg-opacity-100 hover:bg-opacity-100 text-white px-4 py-2 rounded text-base" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
           Quick View
         </button>

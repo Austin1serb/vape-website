@@ -11,7 +11,7 @@ const TextSlider = () => {
     const messages = ["New Year, New Gears", "Free US Shipping $85+", "Pod Pocket 7500: Buy One, Get One"];
 
     return (
-        <div   className="bg-primary h-14 w-full flex items-center justify-center rounded-none">
+        <div   className="bg-primary h-12 w-full flex items-center justify-center rounded-none">
         <Swiper
             modules={[Navigation, Pagination, Autoplay]}
             spaceBetween={50}

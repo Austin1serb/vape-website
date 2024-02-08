@@ -10,7 +10,8 @@ const config: Config = {
     extend: {
       colors: {
         primary: '#6200EE',
-        'primary-variant': '#3700B3',
+        'primary-transparent': '#6200EEA5',
+        'primary-variant': '#311B92',
         secondary: '#03DAC6',
         'secondary-variant': '#018786',
         background: '#FFFFFF',
@@ -35,6 +36,13 @@ const config: Config = {
         'deep-purple-A200': '#7C4DFF',
         'deep-purple-A400': '#651FFF',
         'deep-purple-A700': '#6200EA',
+
+
+
+       
+      },
+      boxShadow: {
+        'custom-glow': '0 0 15px 5px rgba(0, 0, 0, 0.5)', // Customize this
       },
     },
   },

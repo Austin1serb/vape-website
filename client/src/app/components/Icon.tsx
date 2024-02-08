@@ -28,7 +28,7 @@ const Icon: FC<IconProps> = React.memo(({ name, className, height, width }) => {
     const [IconComponent, setIconComponent] = useState<React.ComponentType<React.SVGProps<SVGSVGElement>> | null>(null);
     const iconStyles={
         fontSize: '30px',
-        animation: 'spin 2s linear infinite',
+        animation: 'spin 4s linear infinite',
         zIndex: 5,
     }
 

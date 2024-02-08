@@ -25,7 +25,7 @@ const AgeVerification: React.FC<AgeVerificationProps> = ({ onVerify }) => {
                 {showWelcomeMessage ? (
                     <div className="absolute flex flex-col justify-center items-center w-full h-full">
                         {/* Replace ThumbUpIcon with your SVG or an equivalent icon */}
-                        <span className="text-9xl text-green-500">👍</span>
+                        <span className="text-9xl text-green-500">LOGO</span>
                         <h4 className="mt-2 text-4xl text-green-500">Welcome to Herba Natural</h4>
                     </div>
                 ) : (
@@ -50,13 +50,13 @@ const AgeVerification: React.FC<AgeVerificationProps> = ({ onVerify }) => {
                         <div className="flex justify-evenly items-center flex-col sm:flex-row">
                             <button
                                 onClick={handleOldEnough}
-                                className="w-50 px-5 py-2.5 text-white bg-[var(--color-primary)] rounded-none hover:bg-[var(--color-primary-hover)] transition duration-300 mb-3 sm:mb-3 h-14"
+                                className="w-50 px-5 py-2.5 text-white bg-primary rounded hover:bg-primary-variant transition duration-300 mb-3 sm:mb-3 h-14 "
                             >
                                 YES, I AM OF LEGAL AGE
                             </button>
                             <button
                                 onClick={handleNotOldEnough}
-                                className="mb-1 w-50 px-5 py-2.5 text-gray-800 bg-white border-gray-800 border-2 rounded-none hover:bg-[var(--color-secondary-hover)] hover:text-white transition duration-300 h-14"
+                                className="primary-variant-shine mb-1 w-50 px-5 py-2.5 text-gray-800 bg-white border-gray-800 border-2 rounded hover:border-secondary-variant hover:text-secondary-variant transition duration-300 h-14"
                             >
                                 NO, I DON'T AGREE
                             </button>

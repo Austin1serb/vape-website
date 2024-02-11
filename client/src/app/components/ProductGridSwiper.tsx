@@ -21,9 +21,13 @@ interface PropData {
 
 interface Props {
     products: PropData[];
+    id:number;
+    sm:boolean
 }
 
-const ProductGridSwiper: React.FC<Props> = ({ products }) => {
+const ProductGridSwiper: React.FC<Props> = ({ products,id,sm }) => {
+    const nextButtonId = `swiper-${id}-next`;
+    const prevButtonId = `swiper-${id}-prev`;
     return (
         <div className="mx-auto p-4 relative"> {/* Make sure this div is positioned relatively */}
             <Swiper
@@ -31,12 +35,27 @@ const ProductGridSwiper: React.FC<Props> = ({ products }) => {
                 spaceBetween={30}
                 slidesPerView={3}
                 navigation={{
-                    nextEl: '.swiper-button-next-custom',
-                    prevEl: '.swiper-button-prev-custom',
+                    nextEl: `#${nextButtonId}`,
+                    prevEl: `#${prevButtonId}`,
                 }}
-                autoplay={{ delay: 5000, disableOnInteraction: false }}
+                autoplay={{ delay:sm? 5000:3500, disableOnInteraction: false }}
                 loop={true}
                 className="my-4"
+                breakpoints={{
+                    // Adjustments for responsive breakpoints
+                    140: {
+                        slidesPerView: 3,
+                
+                    },
+                    840: {
+                        slidesPerView: 4,
+                
+                    },
+                    1040: {
+                        slidesPerView: 5,
+                
+                    },
+                }}
             >
                 {products.map((product, index) => (
                     <SwiperSlide key={index}>
@@ -46,14 +65,14 @@ const ProductGridSwiper: React.FC<Props> = ({ products }) => {
                     </SwiperSlide>
                 ))}
             </Swiper>
-            {/* Position the buttons absolutely within the relative container */}
-            <div className="swiper-button-next-custom absolute top-1/2 right-0 transform -translate-y-1/2 z-10 hover: cursor-pointer shadow-md transition-all duration-300 ease-in-out group">
-                <Icon name={'Forward'} height={50} width={50}
-                    className="group hover:stroke-secondary transition-all duration-300 ease-in-out" />
+            {/* SWIPER BUTTONS*/}
+            <div id={nextButtonId}  className="swiper-button-next-custom backdrop-blur-md bg-white/30 absolute top-1/2 right-2 transform -translate-y-1/2 z-10 hover: cursor-pointer shadow-md transition-all duration-300 ease-in-out group" >
+                <Icon name={'Forward'} height={'5vw'} width={'5vw'}
+                    className="back-icon group hover:stroke-secondary transition-all duration-300 ease-in-out"/>
             </div>
-            <div className="swiper-button-prev-custom absolute top-1/2 left-0 transform -translate-y-1/2 z-10 hover: cursor-pointer shadow-md transition-all duration-300 ease-in-out group">
-                <Icon name={'Back'} height={50} width={50}
-                    className="group hover:stroke-secondary transition-all duration-300 ease-in-out" />
+            <div id={prevButtonId}  className="swiper-button-prev-custom absolute backdrop-blur-md bg-white/30 top-1/2 left-2 transform -translate-y-1/2 z-10 hover: cursor-pointer shadow-md transition-all duration-300 ease-in-out group">
+                <Icon name={'Back'} height={'5vw'} width={'5vw'}
+                    className="forward-icon group hover:stroke-secondary transition-all duration-300 ease-in-out" />
             </div>
         </div>
 

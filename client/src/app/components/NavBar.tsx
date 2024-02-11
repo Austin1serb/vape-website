@@ -1,5 +1,4 @@
 // components/NavBar.tsx
-import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import Icon from '@/src/app/components/Icon';
@@ -27,10 +26,9 @@ const NavBar = () => {
     return (
         <nav className="bg-white ">
             {/* Desktop Menu */}
-            <div className="hidden md:flex justify-between items-center h-32 ">
+            <div className="hidden md:flex justify-between items-center h-28 ">
                 <div className="flex-1" />
                 <div className="flex items-center justify-center flex-1">
-                    {/*<Image src="" alt="Brand Icon" width={50} height={50} />*/}
                     <Icon name='Herba' className='herbaIcon h-9/12 w-9/12' />
 
                 </div>
@@ -59,8 +57,9 @@ const NavBar = () => {
 
 
             {/* Mobile Menu */}
-            <div className="md:hidden  flex justify-between items-center py-2 px-4">
-                <Icon name='Herba' width={'375'} height={'175'} className='herbaIcon h-9/12 w-9/12' />
+            <div className="md:hidden  flex justify-between items-center py-2 px-4 h-24">
+                <Icon name='Herba' width={'375'} height={'175'} className='herbaIcon herbaIcon h-full w-full' />
+                {/* MENU HAMBURGER ICON */}
                 <button
                     aria-label="menu-icon"
                     type="button"

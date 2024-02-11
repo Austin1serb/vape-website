@@ -1,10 +1,13 @@
 import AgeVerification from "@/src/app/components/AgeVerification";
 import ImageSlider from "@/src/app/components/ImageSlider";
-import ProductsGrid from "@/src/app/components/TrendingGrid";
 import TextSlider from "@/src/app/components/TextSlider";
 import TwoBoxSection from "@/src/app/components/TwoBoxSection";
-import TrendingGrid from "@/src/app/components/TrendingGrid";
+import ProductGrid from "@/src/app/components/ProductGrid";
 import ProductGridSwiper from "@/src/app/components/ProductGridSwiper";
+import BrandIconSlider from "@/src/app/components/BrandIconSwiper";
+import BoxLinks from "@/src/app/components/BoxLinks";
+import SubscribeField from "@/src/app/components/SubscribeField";
+import Footer from "@/src/app/components/Footer";
 
 export default function Home() {
 
@@ -39,6 +42,108 @@ export default function Home() {
       link: '/path-to-destination-3',
     },
   ];
+  const brandIcons = [
+
+    {
+        id: 1,
+        src: 'https://www.elementvape.com/media/amasty/shopby/option_images/slider/Vapetasia_color_200x200_.png',
+        link: '#',
+        name: 'brandName'
+    },
+    {
+        id: 2,
+        src: 'https://www.elementvape.com/media/amasty/shopby/option_images/slider/Pod_Juice_Color_Transparent.png',
+        link: '#',
+        name: 'brandName'
+    },
+    {
+        id: 3,
+        src: 'https://www.elementvape.com/media/amasty/shopby/option_images/slider/geek_vape_logo.jpg',
+        link: '#',
+        name: 'brandName'
+    },
+    {
+        id: 4,
+        src: 'https://www.elementvape.com/media/amasty/shopby/option_images/slider/slider_s_m_smok.jpg',
+        link: '#',
+        name: 'brandName'
+    },
+    {
+        id: 5,
+        src: 'https://www.elementvape.com/media/amasty/shopby/option_images/slider/Ruthless_Logo_-_Black_200x200_.png',
+        link: '#',
+        name: 'brandName'
+    },
+    {
+        id: 6,
+        src: 'https://www.elementvape.com/media/amasty/shopby/option_images/slider/7_daze.jpg',
+        link: '#',
+        name: 'brandName'
+    },
+    {
+        id: 7,
+        src: 'https://www.elementvape.com/media/amasty/shopby/option_images/slider/slider_s_m_smok.jpg',
+        link: '#',
+        name: 'brandName'
+    },
+    {
+        id: 7,
+        src: 'https://www.elementvape.com/media/amasty/shopby/option_images/slider/slider_i_n_innokin.jpg',
+        link: '#',
+        name: 'brandName'
+    },
+    {
+        id: 1,
+        src: 'https://www.elementvape.com/media/amasty/shopby/option_images/slider/Vapetasia_color_200x200_.png',
+        link: '#',
+        name: 'brandName'
+    },
+    {
+        id: 2,
+        src: 'https://www.elementvape.com/media/amasty/shopby/option_images/slider/Pod_Juice_Color_Transparent.png',
+        link: '#',
+        name: 'brandName'
+    },
+    {
+        id: 3,
+        src: 'https://www.elementvape.com/media/amasty/shopby/option_images/slider/geek_vape_logo.jpg',
+        link: '#',
+        name: 'brandName'
+    },
+    {
+        id: 4,
+        src: 'https://www.elementvape.com/media/amasty/shopby/option_images/slider/slider_s_m_smok.jpg',
+        link: '#',
+        name: 'brandName'
+    },
+    {
+        id: 5,
+        src: 'https://www.elementvape.com/media/amasty/shopby/option_images/slider/Ruthless_Logo_-_Black_200x200_.png',
+        link: '#',
+        name: 'brandName'
+    },
+    {
+        id: 6,
+        src: 'https://www.elementvape.com/media/amasty/shopby/option_images/slider/7_daze.jpg',
+        link: '#',
+        name: 'brandName'
+    },
+    {
+        id: 7,
+        src: 'https://www.elementvape.com/media/amasty/shopby/option_images/slider/slider_s_m_smok.jpg',
+        link: '#',
+        name: 'brandName'
+    },
+    {
+        id: 7,
+        src: 'https://www.elementvape.com/media/amasty/shopby/option_images/slider/slider_i_n_innokin.jpg',
+        link: '#',
+        name: 'brandName'
+    },
+
+  ]
+
+
   return (
     <div>
       <TextSlider />
@@ -53,36 +158,41 @@ export default function Home() {
       <h2 className="text-center text-3xl font-bold uppercase">
         Trending
       </h2>
-      <ProductGridSwiper products={featuredProducts} />
+      <ProductGridSwiper products={featuredProducts} id={1} sm={true} />
       {/*<AgeVerification onVerify={function (value: boolean=false): void {
         throw new Error("Function not implemented.");
       } }/>*/}
-      <div className="bg-gray-100" >
-        <h2 className="text-center text-3xl font-normal p-4 uppercase">
+      <div className="bg-gray-100 rounded-none py-12">
+        <h2 className="text-center text-3xl font-normal p-4 uppercase rounded-none">
           New Arrivals
         </h2>
-        <TrendingGrid products={products} />
+        <ProductGridSwiper products={products} id={2} sm={false}/>
       </div>
       <div className="p-8">
       <TwoBoxSection
-        text1={'Premium E-Liquids'}
-        text2={"Best Vape of 2023"}
-        imgUrl1={"https://www.elementvape.com/media/homepage_banners/homepage2024/13_-_Front_Page_Category_Banner_-_Disposables_-_767X343.jpg"}
-        imgUrl2={"https://www.elementvape.com/media/homepage_banners/homepage_2023/Front_Page_Banner_-_Best_Vape_Holiday_2023.jpg"}
+        text1={'New Disposables'}
+        text2={"New Mods"}
+        imgUrl1={"https://www.elementvape.com/media/homepage_banners/homepage_2023/Front_Page_Banner_-_Customers_Love_Us_Holiday_2023.jpg"}
+        imgUrl2={"https://www.elementvape.com/media/homepage_banners/homepage2024/Front_Page_Category_Banner_-_767X343_1_.jpg"}
       />
       </div>
-      <div className="bg-gray-100" >
+      <div className="bg-gray-100 rounded-none py-16" >
         <h2 className="text-center text-3xl font-normal p-4 uppercase">
         Best sellers
         </h2>
-        <TrendingGrid products={products} />
+        <ProductGrid products={products} sm={false} />
       </div>
-      <div className="bg-gray-100" >
+      <div className="mt-8 pt-8" >
         <h2 className="text-center text-3xl font-normal p-4 uppercase">
         featured Brands
         </h2>
-       
+        <BrandIconSlider brandIcons={brandIcons}/>
       </div>
+      <div>
+       <BoxLinks/>
+      </div>
+      <Footer/>
+
     </div>
   );
 }

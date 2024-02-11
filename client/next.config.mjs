@@ -6,6 +6,10 @@ const nextConfig = {
             protocol: 'https',
             hostname: 'www.elementvape.com',
           },
+          {
+            protocol: 'https',
+            hostname: 'i.imgur.com',
+          },
           
         ],
       },

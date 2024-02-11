@@ -5,84 +5,121 @@
 
 
 /*@media (prefers-color-scheme: dark) {*/
-  :root {
-    /* Primary colors */
-    --color-primary: #6200EE;
-    --color-primary-variant: #3700B3;
+:root {
+  /* Primary colors */
+  --color-primary: #6200EE;
+  --color-primary-variant: #3700B3;
 
-    /* Secondary colors */
-    --color-secondary: #03DAC6;
-    --color-secondary-variant: #018786;
+  /* Secondary colors */
+  --color-secondary: #03DAC6;
+  --color-secondary-variant: #018786;
 
-    /* Background, Surface, and Error */
-    --color-background: #FFFFFF;
-    --color-surface: #F5F5F5;
-    --color-error: #B00020;
+  /* Background, Surface, and Error */
+  --color-background: #FFFFFF;
+  --color-surface: #F5F5F5;
+  --color-error: #B00020;
 
-    /* On colors */
-    --color-on-primary: #FFFFFF;
-    --color-on-secondary: #000000;
-    --color-on-background: #000000;
-    --color-on-surface: #000000;
-    --color-on-error: #FFFFFF;
+  /* On colors */
+  --color-on-primary: #FFFFFF;
+  --color-on-secondary: #000000;
+  --color-on-background: #000000;
+  --color-on-surface: #000000;
+  --color-on-error: #FFFFFF;
 
-    /* Additional color shades */
-    --deep-purple-50: #EDE7F6;
-    --deep-purple-100: #D1C4E9;
-    --deep-purple-200: #B39DDB;
-    --deep-purple-300: #9575CD;
-    --deep-purple-400: #7E57C2;
-    --deep-purple-500: #673AB7;
-    --deep-purple-600: #5E35B1;
-    --deep-purple-700: #512DA8;
-    --deep-purple-800: #4527A0;
-    --deep-purple-900: #311B92;
-    --deep-purple-A100: #B388FF;
-    --deep-purple-A200: #7C4DFF;
-    --deep-purple-A400: #651FFF;
-    --deep-purple-A700: #6200EA;
-  }
-
-  body {
-    font-size: 22px;
-    font-weight: 400;
-    background-color: var(--color-background);
-    color: var(--color-on-background);
-  }
-
-  @layer utilities {
-    .text-balance {
-      text-wrap: balance;
-    }
-  }
-
-
-
-
-  /* slider */
-  /* TextSlider.css */
-
-.swiper-button-prev::after, .swiper-button-next::after {
-  color: var(--color-on-primary); /* Replace with your color */
+  /* Additional color shades */
+  --deep-purple-50: #EDE7F6;
+  --deep-purple-100: #D1C4E9;
+  --deep-purple-200: #B39DDB;
+  --deep-purple-300: #9575CD;
+  --deep-purple-400: #7E57C2;
+  --deep-purple-500: #673AB7;
+  --deep-purple-600: #5E35B1;
+  --deep-purple-700: #512DA8;
+  --deep-purple-800: #4527A0;
+  --deep-purple-900: #311B92;
+  --deep-purple-A100: #B388FF;
+  --deep-purple-A200: #7C4DFF;
+  --deep-purple-A400: #651FFF;
+  --deep-purple-A700: #6200EA;
 }
-.swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet{
-  width: 24px; 
+
+
+body {
+  /*font-size: 22px;*/
+  font-size: clamp(1rem, 2vw, 3rem);
+  font-weight: 400;
+  background-color: var(--color-background);
+  color: var(--color-on-background);
+  min-width: 320px;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+
+
+
+/* slider */
+/* TextSlider.css */
+@media(min-width:409px) {
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    color: var(--color-on-primary);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    padding: 5px;
+  }
+}
+
+@media(max-width:409px) {
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    color: var(--color-on-primary);
+
+  }
+}
+
+.swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet {
+  width: 24px;
   height: 24px;
-  bottom:-5px;
+  bottom: -5px;
   background: var(--color-primary);
   transition: background 0.3s ease;
 }
-.swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet:hover{
+
+.swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet:hover {
   transition: background 0.3s ease;
   background: var(--color-secondary);
 
 }
+
 .swiper-pagination.swiper-pagination-clickable.swiper-pagination-bullets.swiper-pagination-horizontal {
-  bottom: 20px; /* Adjust this value as needed */
+  bottom: 20px;
 
 }
 
-*{
+.back-icon {
+  min-width: 40px;
+  min-height: 40px;
+  max-width: 50px;
+  max-height: 50px;
+}
+
+.forward-icon {
+  min-width: 40px;
+  min-height: 40px;
+  max-width: 50px;
+  max-height: 50px;
+}
+
+* {
   border-radius: 10px;
 }
 
@@ -91,8 +128,8 @@
   fill: gold;
 
 }
+
 .rating-stars {
   transition: all 0.3s;
 
 }
-

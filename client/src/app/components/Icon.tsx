@@ -50,7 +50,7 @@ const Icon: FC<IconProps> = React.memo(({ name, className, height, width }) => {
     return IconComponent ? (
         <IconComponent className={className} aria-label={name} height={height} width={width} role="img" />
     ) : (
-        <div style={loaderStyles}>⏳</div>
+        <span style={loaderStyles}>⏳</span>
     );
 });
 

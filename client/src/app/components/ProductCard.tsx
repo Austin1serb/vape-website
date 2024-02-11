@@ -38,13 +38,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, sm }) => {
 
   return (
     <div className=" flex flex-col justify-center items-center p-2">
-      <div className='group relative w-full h-full flex flex-col justify-center items-center'>
-        <Image src={product.imageUrl} height={320} width={320} alt={product.name} className={` w-${sm ? '9/12' : 'full'} h-${sm ? '9/12' : 'full'} object-cover rounded hover:cursor-pointer `} />
-        <button className="absolute opacity-0 group-hover:opacity-100 flex justify-center items-center transition-all duration-300 bg-primary-transparent border border-primary border-2 hover:bg-primary-variant  bg-opacity-100 hover:bg-opacity-100 text-white px-4 py-2 rounded text-base" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+      <div className='group relative w-full h-full flex flex-col justify-center items-center bg-white p-2'>
+        <Image src={product.imageUrl} height={320} width={320} alt={product.name} className={` w-${sm ? '9/12' : 'full'} h-${sm ? '9/12' : 'full'} object-cover rounded hover:cursor-pointer`} />
+        <button className="absolute opacity-0 group-hover:opacity-100 flex justify-center items-center transition-all duration-300 bg-primary-transparent border border-primary border-2 hover:bg-primary-variant  bg-opacity-100 hover:bg-opacity-100 text-white p-2 lg:p-4 uppercase font-normal text-sm rounded text-base hidden md:flex" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
           Quick View
         </button>
       </div>
-      <div className="pt-2 flex flex-col justify-center items-center">
+      <div className="pt-2 mh-20 flex flex-col justify-center items-center text-center">
         {sm ? (<span className='text-sm font-semibold hover:text-primary-variant hover:underline transition duration-300'>{product.name}</span>) : (<Link href={`/products/${product.id}`}
           className="text-sm font-semibold hover:text-primary-variant hover:underline transition duration-300">
           {product.name}</Link>)}

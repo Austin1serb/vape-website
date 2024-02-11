@@ -1,5 +1,5 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Autoplay, Pagination } from 'swiper/modules';
+import { Navigation, Autoplay, Pagination, EffectCoverflow } from 'swiper/modules';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -23,12 +23,13 @@ const ImageSlider: React.FC<Props> = ({ imageData }) => {
     return (
         <div className="">
             <Swiper
-                modules={[Navigation, Autoplay, Pagination]}
+                modules={[Navigation, Autoplay, Pagination ,EffectCoverflow]}
                 spaceBetween={50}
                 slidesPerView={1}
                 navigation
+                effect='coverflow'
                 pagination={{ clickable: true }}
-                autoplay={{ delay: 3000 }}
+                autoplay={{ delay: 3500 }}
                 loop={true}
                 className="my-4"
             >

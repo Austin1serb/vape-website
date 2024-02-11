@@ -8,6 +8,7 @@ const config: Config = {
   ],
   theme: {
     extend: {
+
       colors: {
         primary: '#6200EE',
         'primary-transparent': '#6200EEA5',
@@ -39,11 +40,13 @@ const config: Config = {
 
 
 
-       
+
       },
-      boxShadow: {
-        'custom-glow': '0 0 15px 5px rgba(0, 0, 0, 0.5)', // Customize this
+      backdropFilter: {
+        'none': 'none',
+        'blur': 'blur(20px)',
       },
+      
     },
   },
   plugins: [],

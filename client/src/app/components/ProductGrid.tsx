@@ -11,10 +11,11 @@ interface PropData {
 }
 interface Props {
     products: PropData[]
+    sm: boolean;
 }
-const TrendingGrid: React.FC<Props> = ({ products }) => {
+const TrendingGrid: React.FC<Props> = ({ products, sm }) => {
     return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+        <div className="grid grid-cols-3  gap-2">
             {products.slice(0, 3).map(product => (
                 <ProductCard key={product.id} product={product} sm={false} />
             ))}

@@ -37,7 +37,7 @@ const BrandIconSlider: React.FC<Props> = ({ brandIcons }) => {
                     prevEl: '.swiper-button-prev-custom',
                 }}
                 autoplay={{ delay: 5000, disableOnInteraction: false }}
-                loop={true}
+         
                 className="my-4"
                 breakpoints={{
                     // Adjustments for responsive breakpoints
@@ -57,18 +57,23 @@ const BrandIconSlider: React.FC<Props> = ({ brandIcons }) => {
                         slidesPerView: 5,
                         slidesPerGroup: 1,
                     },
-                 
+
                 }}
             >
-                {brandIcons.map((icon) => (
-                    <SwiperSlide key={icon.id}>
+                {brandIcons.map((icon, index) => (
+                    <SwiperSlide key={index}>
                         <div className=' flex justify-center items-center '>
-                        <Link href={icon.link} passHref >
-                            <div className="block p-4 cursor-pointer" style={{width:'13vw', minWidth:'150px'}}>
-                                {/* Use Next.js Image for optimized image handling */}
-                                <Image src={icon.src} alt={`Brand ${icon.name}`} width={150} height={150} layout="responsive" />
-                            </div>
-                        </Link>
+                            <Link href={icon.link} passHref >
+                                <div className="block p-4 cursor-pointer hover:scale-90 transition duration-300	" style={{ width: '13vw', minWidth: '150px' }}>
+                                    {/* Use Next.js Image for optimized image handling */}
+                                    <Image
+                                        src={icon.src}
+                                        alt={`Brand ${icon.name}`}
+                                        width={150}
+                                        height={150}
+                                    />
+                                </div>
+                            </Link>
                         </div>
                     </SwiperSlide>
                 ))}

@@ -1,42 +1,37 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { useDebounce } from '../hooks/useDebounce'
+'use client'
 
+// ResponsiveContext.tsx
+import React, { createContext, useContext, ReactNode } from 'react';
+import useWindowSize from '../hooks/useWindowSize';
+import { useDebounce } from '../hooks/useDebounce';
 
 interface ResponsiveContextType {
-    screenWidth: number;
+    width: number | undefined;
+    height: number | undefined;
     isMobile: boolean;
-}
-
-interface Props {
-    children: React.ReactNode;
 }
 
 const ResponsiveContext = createContext<ResponsiveContextType | undefined>(undefined);
 
-export const ResponsiveProvider: React.FC<Props> = ({ children }) => {
-    const [screenWidth, setScreenWidth] = useState<number>(typeof window !== 'undefined' ? window.innerWidth : 0);
-    const debouncedScreenWidth = useDebounce(screenWidth, 250); // Debounce screen width update
-    const isMobile = debouncedScreenWidth < 768; // Set mobile breakpoint
+interface Props {
+    children: ReactNode;
+}
 
-    useEffect(() => {
-        const updateScreenSize = () => {
-            setScreenWidth(window.innerWidth);
-        };
-        updateScreenSize();
-        window.addEventListener('resize', updateScreenSize);
-        return () => {
-            window.removeEventListener('resize', updateScreenSize);
-        };
-    }, []);
+export const ResponsiveProvider: React.FC<Props> = ({ children }) => {
+    const { width, height } = useWindowSize();
+    const debouncedScreenWidth = useDebounce(width, 250);
+    const debouncedScreenHeight = useDebounce(height, 250);
+    const isMobile = debouncedScreenWidth ? debouncedScreenWidth < 1024 : false;
+    
 
     return (
-        <ResponsiveContext.Provider value={{ screenWidth: debouncedScreenWidth, isMobile }}>
+        <ResponsiveContext.Provider value={{ width:debouncedScreenWidth, height:debouncedScreenHeight, isMobile }}>
             {children}
         </ResponsiveContext.Provider>
     );
 };
 
-export const useResponsive = () => {
+export const useResponsive = (): ResponsiveContextType => {
     const context = useContext(ResponsiveContext);
     if (!context) {
         throw new Error('useResponsive must be used within a ResponsiveProvider');

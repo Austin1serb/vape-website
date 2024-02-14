@@ -14,7 +14,7 @@ app.use(cors(), express.json({ limit: '50mb' }), express.urlencoded({ limit: '50
 router.get('/data', (req, res) => {
     try {
         // Fetch data from your database or any source
-        const data = { message: 'Hello from the API!' };
+        const data = { message: "Hello from the API!" };
 
         // Send the data as a JSON response
         res.json(data);

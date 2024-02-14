@@ -21,7 +21,8 @@ const navLinks: NavLink[] = [
 ];
 
 const NavBar = () => {
-    const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [isMobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+    const [drawerOpen, setDrawerOpen] = useState<boolean>(true);
 
     return (
         <nav className="bg-white ">
@@ -43,8 +44,8 @@ const NavBar = () => {
             </div>
             <div className="hidden md:block border-b-2" />
             <ul className="hidden sm:flex justify-evenly py-2 sm:text-xs md:sm lg:text-base xl:text-lg">
-                {navLinks.map((link) => (
-                    <li key={link.href} className="relative group">
+                {navLinks.map((link, i) => (
+                    <li key={i} className="relative group">
                         <Link href={link.href}>
                             <span className="uppercase font-semibold text-black group-hover:text-secondary transition duration-300">
                                 {link.label}
@@ -58,7 +59,7 @@ const NavBar = () => {
 
             {/* Mobile Menu */}
             <div className="md:hidden  flex justify-between items-center py-2 px-4 h-24">
-                <Icon name='Herba' width={'375'} height={'175'} className='herbaIcon herbaIcon h-full w-full' />
+
                 {/* MENU HAMBURGER ICON */}
                 <button
                     aria-label="menu-icon"
@@ -76,7 +77,15 @@ const NavBar = () => {
                     {/* Middle Bar */}
                     <span className={`block w-10 h-1 bg-black ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'} transition-all duration-300 ease-in-out`}></span>
                 </button>
-
+                <Icon name='Herba' width={'375'} height={'175'} className='herbaIcon herbaIcon h-full w-full' />
+                <div className="flex items-center justify-end flex-1 gap-4">
+                    <Link href="/account">
+                        <Icon name='Account' width={'40'} height={'40'} className='accountIcon hover:text-primary-variant hover:scale-110 transition duration-300' />
+                    </Link>
+                    <Link href="/cart">
+                        <Icon name='Cart' width={'40'} height={'40'} className='cartIcon hover:text-primary-variant hover:scale-110 transition duration-300' />
+                    </Link>
+                </div>
             </div>
 
             {isMobileMenuOpen && (

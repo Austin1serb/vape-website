@@ -23,7 +23,7 @@ const ImageSlider: React.FC<Props> = ({ imageData }) => {
     return (
         <div className="">
             <Swiper
-                modules={[Navigation, Autoplay, Pagination ,EffectCoverflow]}
+                modules={[Navigation, Autoplay, Pagination, EffectCoverflow]}
                 spaceBetween={50}
                 slidesPerView={1}
                 navigation
@@ -36,7 +36,11 @@ const ImageSlider: React.FC<Props> = ({ imageData }) => {
                 {imageData.map((item, index) => (
                     <SwiperSlide key={index}>
                         <Link href={item.link}>
-                            <Image src={item.url} alt={`Slide ${index}`} className="w-full h-auto " width={1390} height={569} />
+                            <div style={{ width: '100vw', height: "42vw" ,position:'relative' }}>
+                                <Image priority src={item.url} alt={`Slide ${index}`} className="w-full h-auto  object-cover" fill
+                                    sizes='(max-width: 1268px) 50vw'
+                                />
+                            </div>
                         </Link>
                     </SwiperSlide>
                 ))}

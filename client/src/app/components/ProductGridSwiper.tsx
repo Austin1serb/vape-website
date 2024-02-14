@@ -66,11 +66,11 @@ const ProductGridSwiper: React.FC<Props> = ({ products,id,sm }) => {
                 ))}
             </Swiper>
             {/* SWIPER BUTTONS*/}
-            <div id={nextButtonId}  className="swiper-button-next-custom backdrop-blur-md bg-white/30 absolute top-1/2 right-2 transform -translate-y-1/2 z-10 hover: cursor-pointer shadow-md transition-all duration-300 ease-in-out group" >
+            <div id={nextButtonId}  className="swiper-button-next-custom backdrop-blur-md bg-white/30 absolute top-1/2 right-2 transform -translate-y-1/2 z-10 hover: cursor-pointer shadow-md transition-all duration-300 ease-in-out group rounded-xl" >
                 <Icon name={'Forward'} height={'5vw'} width={'5vw'}
                     className="back-icon group hover:stroke-secondary transition-all duration-300 ease-in-out"/>
             </div>
-            <div id={prevButtonId}  className="swiper-button-prev-custom absolute backdrop-blur-md bg-white/30 top-1/2 left-2 transform -translate-y-1/2 z-10 hover: cursor-pointer shadow-md transition-all duration-300 ease-in-out group">
+            <div id={prevButtonId}  className="swiper-button-prev-custom absolute backdrop-blur-md bg-white/30 top-1/2 left-2 transform -translate-y-1/2 z-10 hover: cursor-pointer shadow-md transition-all duration-300 ease-in-out group rounded-xl">
                 <Icon name={'Back'} height={'5vw'} width={'5vw'}
                     className="forward-icon group hover:stroke-secondary transition-all duration-300 ease-in-out" />
             </div>

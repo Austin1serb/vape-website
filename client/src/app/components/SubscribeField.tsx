@@ -18,7 +18,7 @@ const SubscribeField: React.FC = () => {
     };
 
     return (
-        <div className={`bg-gray-800 py-4 px-6 m-4`}>
+        <div className={`bg-gray-800 py-4 px-6 m-4 rounded-xl`}>
             <div className="flex flex-col sm:flex-row items-center justify-between">
                 <div className="mr-4">
                     <p className="text-base font-medium underline text-on-primary">NEWSLETTER</p>
@@ -27,7 +27,7 @@ const SubscribeField: React.FC = () => {
                 <div className="flex items-center w-full">
                     <div className="relative flex flex-row mt-2 h-12 w-full">
                         <div className='absolute'>
-                            <Icon name='Envelope' width={35} height={35} className="absolute top-4 transform -translate-y-3 text-gray-500 fill-white z-10 hover:fill-primary transition duration-300" />
+                            <Icon name='Envelope' width={35} height={35} className="absolute top-5 transform -translate-y-3 text-gray-500 fill-white z-10 hover:fill-primary transition duration-300" />
                         </div>
                         <input
                             id='email'

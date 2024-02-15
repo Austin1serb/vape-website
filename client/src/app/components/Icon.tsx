@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect, useState, FC } from 'react';
 
 // type for the icon props
@@ -36,7 +37,7 @@ const importIcon = async (iconName: string): Promise<ImportedIconModule> => {
 const Icon: FC<IconProps> = React.memo(({ name, className, height, width }) => {
     const [IconComponent, setIconComponent] = useState<React.ComponentType<React.SVGProps<SVGSVGElement>> | null>(null);
     const loaderStyles = {
-        fontSize: '30px',
+        fontSize: `${width}px`,
         animation: 'spin 4s linear infinite',
         zIndex: 5,
     };

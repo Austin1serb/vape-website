@@ -1,3 +1,4 @@
+"use client"
 // components/NavBar.tsx
 import Link from 'next/link';
 import { useState } from 'react';

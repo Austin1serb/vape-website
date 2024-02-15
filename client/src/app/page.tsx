@@ -1,13 +1,13 @@
-import AgeVerification from "@/src/app/components/AgeVerification";
-import ImageSlider from "@/src/app/components/ImageSlider";
-import TextSlider from "@/src/app/components/TextSlider";
-import TwoBoxSection from "@/src/app/components/TwoBoxSection";
-import ProductGrid from "@/src/app/components/ProductGrid";
-import ProductGridSwiper from "@/src/app/components/ProductGridSwiper";
-import BrandIconSlider from "@/src/app/components/BrandIconSwiper";
-import BoxLinks from "@/src/app/components/BoxLinks";
-import SubscribeField from "@/src/app/components/SubscribeField";
-import Footer from "@/src/app/components/Footer";
+import AgeVerification from "./components/AgeVerification";
+import ImageSlider from "./components/ImageSlider";
+import TextSlider from "./components/TextSlider";
+import TwoBoxSection from "./components/TwoBoxSection";
+import ProductGrid from "./components/ProductGrid";
+import ProductGridSwiper from "./components/ProductGridSwiper";
+import BrandIconSlider from "./components/BrandIconSwiper";
+import BoxLinks from "./components/BoxLinks";
+import SubscribeField from "./components/SubscribeField";
+import Footer from "./components/Footer";
 import { useEffect } from "react";
 import { NextPage } from "next";
 

@@ -23,7 +23,7 @@ const SubscribeField: React.FC = () => {
             <div className="flex flex-col sm:flex-row items-center justify-between">
                 <div className="mr-4">
                     <p className="text-base font-medium underline text-on-primary">NEWSLETTER</p>
-                    <p className='text-on-primary text-sm font-light'>Get special offers and find out what’s new in the store. Sign up for the Element Vape newsletter.</p>
+                    <p className='text-on-primary text-sm font-light'>Get special offers and find out what’s new in the store. Sign up for the Herba Natural Co newsletter.</p>
                 </div>
                 <div className="flex items-center w-full">
                     <div className="relative flex flex-row mt-2 h-12 w-full">

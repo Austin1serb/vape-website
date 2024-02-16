@@ -11,7 +11,7 @@ const Herba: React.FC<IconProps> = (props) => {
             <metadata>
                 Created by potrace 1.10, written by Peter Selinger 2001-2011
             </metadata>
-            <g transform="translate(0.000000,100.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+            <g transform="translate(0.000000,100.000000) scale(0.100000,-0.100000)" fill="inherit" stroke="inherit">
                 <path d="M795 770 l0 -205 665 0 665 0 -662 2 -663 3 -3 203 -3 202 1 -205z" />
                 <path d="M845 775 l0 -155 28 0 c27 0 27 1 27 65 l0 65 50 0 50 0 0 -65 c0 -63 1 -65 25 -65 l25 0 0 155 0 155 -25 0 c-24 0 -25 -2 -25 -65 l0 -65 -50 0 -50 0 0 65 c0 64 0 65 -27 65 l-28 0 0 -155z" />
                 <path d="M1110 775 l0 -155 90 0 90 0 0 31 0 30 -61 -2 -61 -3 -3 37 -2 37 64 0 c61 0 63 1 63 25 0 24 -2 25 -63 25 l-64 0 1 35 1 35 63 0 62 0 0 30 0 30 -90 0 -90 0 0 -155z" />

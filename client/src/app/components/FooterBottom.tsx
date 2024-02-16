@@ -21,7 +21,7 @@ const FooterBottom: React.FC = () => {
                 </div>
                 {/* Copyright notice, always centered */}
                 <div className="text-center text-gray-500">
-                    <p>Copyright © 2024 Element Vape. All Rights Reserved.</p>
+                    <p>Copyright © 2024 Herba Natural Co. All Rights Reserved.</p>
                 </div>
                 {/* Payment logos, centered on mobile */}
                 <div className="flex justify-center md:justify-end space-x-4 rounded-none">

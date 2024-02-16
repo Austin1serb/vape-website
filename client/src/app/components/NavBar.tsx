@@ -31,8 +31,11 @@ const NavBar = () => {
             <div className="hidden md:flex justify-between items-center h-28 ">
                 <div className="flex-1" />
                 <div className="flex items-center justify-center flex-1">
-                    <Icon name='Herba' className='herbaIcon h-9/12 w-9/12' />
+                    <Link href='/'>
+                    <Icon name='Herba' className='herbaIcon h-9/12 w-9/12 fill-primary' />
 
+                    </Link>
+                    
                 </div>
                 <div className="flex items-center justify-end flex-1 gap-4">
                     <Link href="/account">
@@ -78,7 +81,7 @@ const NavBar = () => {
                     {/* Middle Bar */}
                     <span className={`block w-10 h-1 bg-black ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'} transition-all duration-300 ease-in-out`}></span>
                 </button>
-                <Icon name='Herba' width={'375'} height={'175'} className='herbaIcon herbaIcon h-full w-full' />
+                <Icon name='Herba' width={'375'} height={'175'} className='herbaIcon h-full w-full fill-primary' />
                 <div className="flex items-center justify-end flex-1 gap-4">
                     <Link href="/account">
                         <Icon name='Account' width={'40'} height={'40'} className='accountIcon hover:text-primary-variant hover:scale-110 transition duration-300' />

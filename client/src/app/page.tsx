@@ -6,14 +6,26 @@ import ProductGrid from "./components/ProductGrid";
 import ProductGridSwiper from "./components/ProductGridSwiper";
 import BrandIconSlider from "./components/BrandIconSwiper";
 import BoxLinks from "./components/BoxLinks";
-import SubscribeField from "./components/SubscribeField";
 import Footer from "./components/Footer";
 import { useEffect } from "react";
 import { NextPage } from "next";
+import SubscribeField from "./components/SubscribeField";
 
 
+async function getData() {
+  const res = await fetch('http://localhost:8000/api/data');
 
-const Home: NextPage = () => {
+ 
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error('Failed to fetch data')
+  }
+ 
+  return res.json()
+}
+const Home: NextPage = async () => {
+  const res = await getData()
+  
   const products = [
     { id: 1, name: 'MTRX 12000 Disposable', imageUrl: 'https://www.elementvape.com/media/catalog/product/cache/9c4ebe5b1008ad09d92e6b4f5ae41f93/g/e/geek_vape_-_t200_aegis_touch_-_kits_-_all_colors.png', price: 99.99, reviews: 4.8, link: '#' },
     { id: 2, name: 'Innokin Klypse Pod System', imageUrl: 'https://www.elementvape.com/media/catalog/product/cache/9c4ebe5b1008ad09d92e6b4f5ae41f93/o/x/oxbar_magic_maze_pro_10000_disposable_-_pod_juice_default.png', price: 89.99, reviews: 5, link: '#' },
@@ -32,16 +44,17 @@ const Home: NextPage = () => {
     { id: 3, name: 'Lost Mary MT15000 Disposable', imageUrl: 'https://www.elementvape.com/media/catalog/product/m/t/mtrx_12000_disposable_-_default_1.png', price: 79.99, reviews: 3, link: '#' },
   ];
   const imageData = [
-    {
-      url: 'https://www.elementvape.com/media/slideshow/cache/1380x569/homepage_banners/homepage2024/FRONT_PAGE_-_XROS_PRO_1380X569.jpg',
-      link: '/path-to-destination-1',
-    },
+    
     {
       url: 'https://i.imgur.com/itLlTYC.jpeg',
       link: '/path-to-destination-1',
     },
     {
       url: 'https://i.imgur.com/NXxW1Ny.jpeg',
+      link: '/path-to-destination-1',
+    },
+    {
+      url: 'https://www.elementvape.com/media/slideshow/cache/1380x569/homepage_banners/homepage2024/FRONT_PAGE_-_XROS_PRO_1380X569.jpg',
       link: '/path-to-destination-1',
     },
     {
@@ -158,7 +171,7 @@ const Home: NextPage = () => {
   return (
     <div>
       <p>
-        {/*{data.data}*/}
+        {res.message}
       </p>
 
       <TextSlider />
@@ -206,7 +219,8 @@ const Home: NextPage = () => {
       <div>
         <BoxLinks />
       </div>
-      <Footer />
+      <SubscribeField/>
+  
 
     </div>
   );

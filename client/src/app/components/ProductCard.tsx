@@ -53,11 +53,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, sm }) => {
           Quick View
         </button>
       </div>
-      <div className="pt-2 mh-20 flex flex-col justify-center items-center text-center">
+      <div className="pt-2 max-h-20 min-h-20 flex flex-col items-center text-center  justify-between">
         {sm ? (<span className='text-sm font-semibold hover:text-primary-variant hover:underline transition duration-300'>{product.name}</span>) : (<Link href={`/products/${product.id}`}
           className="text-sm font-semibold hover:text-primary-variant hover:underline transition duration-300">
           {product.name}</Link>)}
-        <p className="text-sm font-bold">${product.price}</p>
+        <p className="text-sm font-bold text-gray-700">${product.price}</p>
         <div className="text-sm flex flex-row justify-center items-center">
           {renderStars(product.reviews)}
         </div>

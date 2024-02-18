@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import Icon from '@/src/app/components/Icon';
+import Cart from './Cart';
 
 type NavLink = {
     href: string;
@@ -23,27 +24,27 @@ const navLinks: NavLink[] = [
 
 const NavBar = () => {
     const [isMobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
-    const [drawerOpen, setDrawerOpen] = useState<boolean>(true);
+    const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
 
     return (
-        <nav className="bg-white ">
+        <nav className="bg-white">
             {/* Desktop Menu */}
             <div className="hidden md:flex justify-between items-center h-28 ">
                 <div className="flex-1" />
                 <div className="flex items-center justify-center flex-1">
                     <Link href='/'>
-                    <Icon name='Herba' className='herbaIcon h-9/12 w-9/12 fill-primary' />
+                        <Icon name='Herba' className='herbaIcon h-9/12 w-9/12 fill-primary' />
 
                     </Link>
-                    
+
                 </div>
                 <div className="flex items-center justify-end flex-1 gap-4">
                     <Link href="/account">
                         <Icon name='Account' width={'40'} height={'40'} className='accountIcon mr-4 hover:text-primary-variant hover:scale-110 transition duration-300' />
                     </Link>
-                    <Link href="/cart">
+                    <button aria-label='button' onClick={()=>setDrawerOpen(true)}>
                         <Icon name='Cart' width={'40'} height={'40'} className='cartIcon mr-4 hover:text-primary-variant hover:scale-110 transition duration-300' />
-                    </Link>
+                    </button>
                 </div>
             </div>
             <div className="hidden md:block border-b-2" />
@@ -86,9 +87,9 @@ const NavBar = () => {
                     <Link href="/account">
                         <Icon name='Account' width={'40'} height={'40'} className='accountIcon hover:text-primary-variant hover:scale-110 transition duration-300' />
                     </Link>
-                    <Link href="/cart">
+                    <button aria-label='button' onClick={()=>setDrawerOpen(true)}>
                         <Icon name='Cart' width={'40'} height={'40'} className='cartIcon hover:text-primary-variant hover:scale-110 transition duration-300' />
-                    </Link>
+                    </button>
                 </div>
             </div>
 
@@ -105,7 +106,8 @@ const NavBar = () => {
                     ))}
                 </ul>
             )}
-
+            
+            <Cart drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
         </nav>
     );
 };

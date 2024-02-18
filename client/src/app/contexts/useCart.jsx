@@ -1,4 +1,4 @@
-
+"use client"
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { Snackbar } from '@mui/material';
 

@@ -62,7 +62,7 @@ const Cart: React.FC<Props> = ({ setDrawerOpen, drawerOpen }) => {
                                 </svg>
                                 <Button onClick={() => {
                                     setDrawerOpen(false); // Close the drawer
-                                }} href="/shop" component={Link} sx={{ border: 1, width: '90%', borderRadius: 0, letterSpacing: 2, color: '#283047', backgroundColor: 'white', borderColor: '#283047', borderWidth: 1.5, height: 55, '&:hover': { backgroundColor: 'var(--color-primary-variant)', color: 'white' }, borderRadius:'5px' }} > Start Shopping</Button>
+                                }} href="/shop" component={Link} sx={{ border: 1, width: '90%', letterSpacing: 2, color: '#283047', backgroundColor: 'white', borderColor: 'var(--color-secondary-variant)', borderWidth: 1.5, height: 55, '&:hover': { backgroundColor: 'var(--color-secondary)', color: 'white' }, borderRadius:'5px' }} > Start Shopping</Button>
                             </Box>
                         ) : (
                             <List>

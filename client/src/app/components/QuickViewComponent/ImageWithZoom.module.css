@@ -1,0 +1,13 @@
+.imageContainer {
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    width: 300px;
+}
+
+.zoomedImage {
+    transition: transform 0.2s ease; /* Smooth transition for the zoom effect */
+}

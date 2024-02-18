@@ -67,7 +67,6 @@ const Home: NextPage = async () => {
     },
   ];
   const brandIcons = [
-
     {
       id: 1,
       src: 'https://www.elementvape.com/media/amasty/shopby/option_images/slider/Vapetasia_color_200x200_.png',

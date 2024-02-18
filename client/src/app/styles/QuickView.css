@@ -1,0 +1,204 @@
+.quickview-container{
+    min-width: 280px;
+    
+}
+
+.quickviewRightSide{
+   padding: 0;
+}
+.quickview-img-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20%;
+}
+.image-container{
+    width:300;
+    height:300;
+}
+.quickview-thumbnail {
+    max-width: 75px;
+    min-width: 75px;
+    border: .1px solid black;
+    cursor: pointer;
+}
+
+.quickview-thumbnail-container {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    width:-moz-fit-content;
+    margin-right: 15px;
+    transition: all 0.3s;
+}
+
+.image-zoom-container {
+    overflow: hidden;
+}
+
+
+.quickview-main-image {
+    max-width: 300px;
+    max-height: 300px;
+}
+
+@media(max-width:400px) {
+    .quickview-main-image {
+        height: 200px;
+    }
+}
+
+.zoom-box-title {
+    background-color: white;
+    padding-left: 5px;
+    padding-right: 5px;
+    z-index: 1111;
+    border-radius: 5px;
+
+}
+
+.zoom-box {
+    border: .1px solid black;
+    height: 200px;
+    width: 200px;
+    margin-top: -10px;
+}
+
+.quickview-title {
+
+
+}
+
+.quickview-description {
+    font-size: 16px;
+    font-weight: 200;
+    word-spacing: 2px;
+
+}
+
+.quickview-price {
+    color: green;
+    font-weight: 100;
+    font-size: 18px;
+    transform: translate(25px, -25px);
+
+    padding: -5px;
+}
+
+.quickview-close-button {
+
+    color: #282F48;
+    transform: translate(15px);
+}
+.image-lens{
+    min-width:600px;
+}
+
+@media(max-width:400px) {
+    .quickview-close-button {
+
+
+        transform: translate(13px, -305px);
+
+    }
+}
+
+
+
+.quickview-related-container:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.quickview-related-container {
+    transition: transform 0.3s ease;
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 0.1px solid black;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    min-width: 280px;
+}
+
+
+
+.quickview-related-img {
+    min-height: 50px;
+    min-width: 50px;
+    max-height: 50px;
+    max-width: 50px;
+    margin-right: 10px;
+}
+
+.quickview-related-price {
+    font-size: 14px;
+}
+
+.quickview-related-img:hover {
+    transition: transform 0.3s ease;
+    transform: scale(1.1);
+}
+
+.quickview-related-name {
+    font-size: 14px;
+    white-space: nowrap;
+    /* Prevent text from wrapping */
+    overflow: hidden;
+    /* Hide text that goes beyond the width */
+    text-overflow: ellipsis;
+    width: 280px;
+
+    /* Add ellipsis at the end of the truncated text */
+    /* Set a max-width for the text */
+    display: inline-block;
+    /* Needed to apply width and overflow properties */
+}
+
+.quickview-related-price {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+}
+
+.quickview-related-button {
+    font-size: 10px;
+    padding: 5px;
+    border-radius: 0px;
+    margin-right: 10px;
+    height: 26px;
+}
+
+
+@media(max-width:980px) {
+    .quickview-related {
+        display: none;
+    }
+
+    .quickview-related-name {
+
+        width: 240px;
+    }
+    .quickview-img-container {
+        margin-right: 0;
+    }
+}
+
+@media(min-width:1080px) {
+    .quickview-related {
+        margin-right: 0;
+    }
+
+
+}
+
+@media(max-width:500px) {
+    .quickview-related-name {
+
+        width: 200px;
+    }
+
+
+}

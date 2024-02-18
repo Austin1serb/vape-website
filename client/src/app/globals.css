@@ -51,8 +51,11 @@ body {
   background-color: var(--color-background);
   color: var(--color-on-background);
   min-width: 320px;
-}
 
+}
+body button{
+  cursor: pointer;
+}
 @layer utilities {
   .text-balance {
     text-wrap: balance;

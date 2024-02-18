@@ -7,12 +7,15 @@ import NicotineWarning from "@/src/app/components/NicotineWarning";
 import { ResponsiveProvider } from '@/src/app/contexts/ResponsiveContext';
 import "./globals.css";
 import { Metadata } from "next";
+import { CartProvider } from "./contexts/useCart";
 
 const poppins = Montserrat({ weight: ["100", '200', '400', '500', '700'], subsets: ['latin'] });
+
 export const metadata: Metadata = {
   title: 'Home',
   description: 'Welcome to Next.js',
 }
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -27,10 +30,12 @@ export default function RootLayout({
       <body>
         <ResponsiveProvider>
           <NicotineWarning />
+          <CartProvider>
           <NavBar />
           {/* Main content of the application */}
           <main>{children}</main>
           <Footer />
+          </CartProvider>
         </ResponsiveProvider>
       </body>
     </html>

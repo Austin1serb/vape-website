@@ -1,19 +1,26 @@
-import React, { useState } from 'react';
-import styles from './ImageWithZoom.module.css'; // Ensure your CSS module is correctly set up
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import ImageLoader from '../../assets/ImageLoader'
+import defaultBlurDataURL from '../../assets/ImageLoader';
+
 interface ImageWithZoomProps {
     src: string;
     alt: string;
     width: number;
     height: number;
-}
+    vw: number;
 
-const ImageWithZoom: React.FC<ImageWithZoomProps> = ({ src, alt, width, height }) => {
+}
+const placeholderSrc = defaultBlurDataURL
+
+
+
+const ImageWithZoom: React.FC<ImageWithZoomProps> = ({ src, alt, width, height, vw }) => {
+
     const [isZoomed, setIsZoomed] = useState<boolean>(false);
     const [zoomPosition, setZoomPosition] = useState<{ x: number; y: number }>({ x: 50, y: 50 });
+    const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
-    const handleMouseMove = (e: React.MouseEvent<HTMLImageElement>) => {
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isZoomed) return;
 
         const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
@@ -23,29 +30,53 @@ const ImageWithZoom: React.FC<ImageWithZoomProps> = ({ src, alt, width, height }
         setZoomPosition({ x, y });
     };
 
+
     const handleClick = () => setIsZoomed(!isZoomed);
-    const imageStyles={
+
+    const handleImageLoaded = () =>{ 
+        setIsLoaded(true)
+    };
+
+
+
+    const dynamicPosition = "relative" as React.CSSProperties['position'];
+    const dynamicObjectFit = "cover" as React.CSSProperties['objectFit']
+    const imageContainerStyles = {
+        height: height,
+        width: width,
+        overflow: 'hidden',
+        position: dynamicPosition,
+    };
+
+    const imageStyles = {
         cursor: isZoomed ? 'zoom-out' : 'zoom-in',
         transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`,
-        transition: 'transform 0.3s ease-in-out',
+        transition: 'transform 0.2s ease-in-out',
         transform: isZoomed ? 'scale(2)' : 'scale(1)',
-    }
+        objectFit: dynamicObjectFit,
+    };
+
     return (
+
         <div
-            className={styles.imageContainer}
             onClick={handleClick}
+            onMouseMove={handleMouseMove}
+            style={imageContainerStyles}
+            aria-label='image-zoom'
         >
             <Image
-                src={src}
+                src={isLoaded?src:placeholderSrc}
                 alt={alt}
-                className={isZoomed ? styles.zoomedImage : ''}
-                onMouseMove={handleMouseMove}
                 quality={60}
-                fill        
-                sizes="(max-width: 768px) 50vw,  30vw"
+                fill
+                sizes={`(max-width: 768px) 50vw,  ${vw}vw`}
                 style={imageStyles}
+                onLoadingComplete={handleImageLoaded}
+                className={isLoaded ? '' : 'animate-pulse'}
+                onMouseLeave={()=>setIsZoomed(false)}
             />
         </div>
+
     );
 };
 

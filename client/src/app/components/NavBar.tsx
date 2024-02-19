@@ -1,14 +1,11 @@
 "use client"
-// components/NavBar.tsx
+
 import Link from 'next/link';
 import { useState } from 'react';
 import Icon from '@/src/app/components/Icon';
 import Cart from './Cart';
 
-type NavLink = {
-    href: string;
-    label: string;
-};
+
 
 const navLinks: NavLink[] = [
     { href: '/new', label: 'NEW' },
@@ -73,14 +70,7 @@ const NavBar = () => {
                     className="w-12 h-10 flex flex-col justify-center items-center gap-1.5 relative hover:shadow-md transition-shadow duration-300 ease-in-out"
 
                 >
-                    {/* Top Bar */}
-                    <span className={`block w-10 h-1 bg-black ${isMobileMenuOpen ? 'rotate-45 translate-y-2.5 bg-primary' : ''} transform all duration-300 ease-in-out`}></span>
-                    {/* Middle Bar */}
-                    <span className={`block w-10 h-1 bg-black ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'} transition-all duration-300 ease-in-out`}></span>
-                    {/* Bottom Bar */}
-                    <span className={`block w-10 h-1 bg-black ${isMobileMenuOpen ? '-rotate-45 -translate-y-2.5 bg-primary' : ''} transform all duration-300 ease-in-out`}></span>
-                    {/* Middle Bar */}
-                    <span className={`block w-10 h-1 bg-black ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'} transition-all duration-300 ease-in-out`}></span>
+                    
                 </button>
                 <Icon name='Herba' width={'375'} height={'175'} className='herbaIcon h-full w-full fill-primary' />
                 <div className="flex items-center justify-end flex-1 gap-4">

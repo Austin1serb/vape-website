@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Box, Typography, Button, Grid, Tabs, Tab, Select, MenuItem, InputLabel, CircularProgress, FormControl, IconButton } from '@mui/material';
+import { Modal, Box, Grid, CircularProgress } from '@mui/material';
 import { useCart } from '../../contexts/useCart';
 import styles from './QuickView.module.css'; // Fix typo in module
 import Image from 'next/image';
-import TabPanel from './TabPanel';
 import ImageWithZoom from './ImageWithZoom';
 import ProductDetails from './ProductDetails';
 import { Product } from '../types';
@@ -74,21 +73,6 @@ const QuickView: React.FC<QuickViewProps> = ({ productId, open, handleClose, pro
         setSelectedImage(imageUrl); // Update the main image displayed
     };
 
-    //HOVER ZOOM 
-    const [showLens, setShowLens] = useState<boolean>(false);
-    const [lensPosition, setLensPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-    const lensSize = { width: 200, height: 200 };
-    const zoomFactor = 2;
-
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        const targetRect = e.currentTarget.getBoundingClientRect();
-        const x = e.clientX - targetRect.left + 60;
-        const y = e.clientY - targetRect.top + 50;
-        setLensPosition({
-            x: x - 200 / 2,
-            y: y - 200 / 2,
-        });
-    };
 
     const renderContent = () => {
         if (loading) {
@@ -135,12 +119,15 @@ const QuickView: React.FC<QuickViewProps> = ({ productId, open, handleClose, pro
                                         ))}
                                     </Box>
                                     {/* Main Image displayed */}
+                                    <div className='mt-16'>
                                     <ImageWithZoom
                                         src={selectedImage}
                                         alt={productDetails.name}
                                         width={300} // Set to your desired width
                                         height={300} // Set to your desired height
+                                        vw={30}
                                     />
+                                    </div>
                                 </Box>
                             </Box>
                         </Grid>

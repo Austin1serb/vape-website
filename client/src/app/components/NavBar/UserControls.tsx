@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import Icon from '@/src/app/components/Icon';
+import Icon from '@/components/Icon';
 
 
 interface UserControlsProps {

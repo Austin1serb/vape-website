@@ -1,7 +1,6 @@
 import React from 'react'
 
 
-// TabPanel component
 function TabPanel(props: Readonly<{ [x: string]: any; children: any; value: any; index: any; }>) {
     const { children, value, index, ...other } = props;
 

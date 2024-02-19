@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 function validator(val: string | any[]) {
     return val.length > 0;
 }
+
 const ProductSchema = new mongoose.Schema({
     brand: {
         type: String,

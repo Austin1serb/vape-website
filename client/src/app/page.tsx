@@ -6,8 +6,6 @@ import ProductGrid from "./components/ProductGrid";
 import ProductGridSwiper from "./components/ProductGridSwiper";
 import BrandIconSlider from "./components/BrandIconSwiper";
 import BoxLinks from "./components/BoxLinks";
-import Footer from "./components/Footer";
-import { useEffect } from "react";
 import { NextPage } from "next";
 import SubscribeField from "./components/SubscribeField";
 
@@ -24,7 +22,6 @@ async function getData() {
   return res.json()
 }
 const Home: NextPage = async () => {
-  const res = await getData()
   
   const products = [
     { id: 1, name: 'MTRX 12000 Disposable', imageUrl: 'https://www.elementvape.com/media/catalog/product/cache/9c4ebe5b1008ad09d92e6b4f5ae41f93/g/e/geek_vape_-_t200_aegis_touch_-_kits_-_all_colors.png', price: 99.99, reviews: 4.8, link: '#' },
@@ -169,9 +166,6 @@ const Home: NextPage = async () => {
 
   return (
     <div>
-      <p>
-        {res.message}
-      </p>
 
       <TextSlider />
 

@@ -1,10 +1,10 @@
 // app/layout.tsx
 import { Montserrat } from "next/font/google";
 import React from 'react';
-import NavBar from "@/src/app/components/NavBar";
-import Footer from "@/src/app/components/Footer";
-import NicotineWarning from "@/src/app/components/NicotineWarning";
-import { ResponsiveProvider } from '@/src/app/contexts/ResponsiveContext';
+import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer";
+import NicotineWarning from "@/components/NicotineWarning";
+import { ResponsiveProvider } from '@/contexts/ResponsiveContext';
 import "./globals.css";
 import { Metadata } from "next";
 import { CartProvider } from "./contexts/useCart";

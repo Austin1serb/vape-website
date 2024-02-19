@@ -1,12 +1,5 @@
 my-nextjs-app/
 ├── node_modules/
-├── pages/
-│   ├── _app.tsx       # Global App component
-│   ├── index.tsx      # Home page
-│   ├── products/
-│   │   ├── [id].tsx   # Individual product page
-│   │   └── index.tsx  # Product listing page
-│   └── ...            # Other pages
 ├── public/
 │   └── ...            # Static files like images
 ├── src/
@@ -19,9 +12,11 @@ my-nextjs-app/
 │   │   └── ...
 │   ├── hooks/         # Custom React hooks
 │   │   └── ...
-│   └── utils/         # Utility functions
-│       └── ...
-│   
+│   ├── utils/         # Utility functions
+│   |   └── ...
+|   ├── auth
+│   |
+|   ├── page.tsx
 ├── .gitignore
 ├── package.json
 ├── README.md

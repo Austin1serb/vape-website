@@ -11,7 +11,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-right: 20%;
+    margin-right: 10%;
+
 }
 
 .imageContainer {
@@ -78,6 +79,8 @@
 }
 
 .quickviewTitle {
+    font-size: 22px;
+    font-weight: 500;
 }
 
 .quickviewDescription {
@@ -86,19 +89,22 @@
     word-spacing: 2px;
 }
 
+
 .quickviewPrice {
-    color: green;
-    font-weight: 100;
-    font-size: 18px;
+    color: var(--color-on-background);
+    font-weight: 600;
+    font-size: 22px;
     transform: translate(25px, -25px);
-    padding: -5px;
 }
 
 .quickviewCloseButton {
     color: #282F48;
-    transform: translate(15px);
+    transform: translate(50px, -30px);
 }
-
+.quickviewCloseButton svg:hover{
+    fill:var(--color-primary);
+    transition: all 0.2s;
+}
 .imageLens {
     min-width: 600px;
 }

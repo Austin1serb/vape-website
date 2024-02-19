@@ -10,7 +10,7 @@ const producdId='6556ba88b51ebf2c44347408'
 const products=[
     {_id: "6556ba88b51ebf2c44347408",
         brand: "Koi",
-        name: "Koi CBD Gummies | 60ct",
+        name: "Lost Vape Lightrise TB 18K Disposable",
         price: 59.99,
         specs: "Gummies / 10mg ea / 60 count",
         imgSource: [

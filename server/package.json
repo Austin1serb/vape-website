@@ -7,6 +7,9 @@
     "nodemon": "^3.0.2"
   },
   "scripts": {
-    "start":"nodemon server.js"
+    "start": "nodemon server.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.19"
   }
 }

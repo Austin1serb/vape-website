@@ -1,4 +1,4 @@
-import LoginReg from '@/src/app/components/LoginReg'
+import LoginReg from '@/components/LoginReg'
 import React from 'react'
 
 const index = () => {

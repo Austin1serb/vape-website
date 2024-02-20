@@ -1,6 +1,6 @@
 
 "use client"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     AppBar,
     Toolbar,
@@ -19,25 +19,117 @@ import {
     MenuItem,
     Button,
 } from '@mui/material';
-import AccountCircle from '@/Icons/Account.icon';
-import MenuIcon from '@/Icons/Menu.icon';
-//import AccountCircle from '@mui/icons-material/AccountCircle';
-//import MenuIcon from '@mui/icons-material/Menu';
 import ProductList from './ProductList';
 import UserList from './UserList';
 import OrderList from './OrderList';
 import SalesOverview from './SalesOverview';
 //import { useAuth } from '@/utils/useAuth';
 import Link  from 'next/link'
+import AccountIconLocal from '@/Icons/Account.icon';
+import MenuIcon from '@/Icons/MenuIcon';
 
-
+interface MenuItem {
+    icon: JSX.Element; 
+    text: string;
+    component: string;
+}
 const AdminDashboard = () => {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [selectedComponent, setSelectedComponent] = useState('AdminDashboard');
-    const [anchorEl, setAnchorEl] = useState(null);
+    const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+    const [selectedComponent, setSelectedComponent] = useState<string>('AdminDashboard');
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); 
     //const { isLoggedIn, logout, isAdmin } = useAuth();
+
+    
+
+
+    async function fetchData<T>(url: string, signal: AbortSignal): Promise<T> {
+        const response = await fetch(url, {
+            method: 'GET',
+            signal: signal,
+            credentials: 'include', // Include credentials in the request
+            headers: {
+                'Content-Type': 'application/json',
+
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch data from ${url}`);
+        }
+
+        return response.json();
+    };
+
+
+
+    useEffect(() => {
+        const controller = new AbortController();
+        const { signal } = controller;
+
+        const fetchAllData = async () => {
+            setLoading(true);
+            try {
+
+                // Fetch guest data
+                const guestDataResponse = await fetchData<Guest[]>('http://localhost:8000/api/guest', signal);
+                setGuestData(guestDataResponse);
+
+                // Fetch products
+                const productData = await fetchData<Product[]>('http://localhost:8000/api/product', signal);
+
+                setProducts(productData);
+                setTotalProducts(productData.length);
+
+                // Fetch orders
+                const orderData = await fetchData<Order[]>('http://localhost:8000/api/order', signal);
+                const sortedOrders = orderData.sort((a, b) => new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime()).slice(0, 5);
+                setRecentOrders(sortedOrders);
+                setTotalOrders(orderData.length);
+                setOrders(orderData);
+
+                setTotalSales(orderData.reduce((sum, order) => sum + order.totalAmount.grandTotal, 0));
+                setPendingOrders(orderData.filter(order => order.orderStatus === 'Pending').length);
+
+                // Fetch customer data
+                const customerData = await fetchData<Customer[]>('http://localhost:8000/api/customer', signal);
+
+                // Logic for admins and customers
+                const admins = customerData.filter(customer => customer.isAdmin);
+                const customers = customerData.filter(customer => !customer.isAdmin);
+                setTotalCustomers(customers.length);
+                setRecentCustomers(customers.sort((a, b) =>
+                    new Date(b.createdAt ? b.createdAt : new Date()).getTime() - new Date(a.createdAt ? a.createdAt : new Date()).getTime()
+                ).slice(0, 5));
+                setTotalAdmins(admins.length);
+                setRecentAdmins(admins.sort((a, b) =>
+                    new Date(b.createdAt ? b.createdAt : new Date()).getTime() - new Date(a.createdAt ? a.createdAt : new Date()).getTime()
+                ).slice(0, 5));
+
+                // Fetch top selling products
+                const data = await fetchData<SaleItem[]>('http://localhost:8000/api/order/best-sellers-six-months', signal);
+                const aggregatedData = aggregateSalesData(data);
+                const chartData = transformAndSortDataForChart(aggregatedData);
+                setSalesData(chartData);
+            } catch (error) {
+                if (error instanceof Error && error.name !== 'AbortError') {
+                    console.error('Error fetching data:', error);
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchAllData();
+
+        return () => {
+            controller.abort();
+        };
+    }, []);
+
+
+
     // Function to handle menu open
-    const handleMenuOpen = (event: { currentTarget: React.SetStateAction<null>; }) => {
+    const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
 
@@ -51,7 +143,7 @@ const AdminDashboard = () => {
         setSidebarOpen(!sidebarOpen);
     };
 
-    const handleSidebarItemClick = (component: React.SetStateAction<string>) => {
+    const handleSidebarItemClick = (component: string) => {
         setSelectedComponent(component);
         setSidebarOpen(false);
     };
@@ -63,7 +155,7 @@ const AdminDashboard = () => {
     };
     // Function to generate sidebar menu items
     const generateSidebarItems = () => {
-        const menuItems = [
+        const menuItems: MenuItem[] = [
             {
                 icon: <svg height='24' version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" enableBackground="new 0 0 48 48">
                     <polygon fill="#E8EAF6" points="42,39 6,39 6,23 24,6 42,23" />
@@ -159,7 +251,7 @@ const AdminDashboard = () => {
                         sx={{ color: 'white', transition: '0.3s color ease', '&:hover': { transition: '0.3s color ease', color: '#FE6F49' } }}
 
                     >
-                        <MenuIcon style={{ fontSize: 32 }} />
+                        <MenuIcon height={32} width={32} />
                     </IconButton>
                     <Typography variant="h1" component="h1" sx={{ fontSize: 'h6.fontSize' }}>Admin Dashboard</Typography>
                     <Box onClick={handleMenuOpen}>
@@ -169,7 +261,7 @@ const AdminDashboard = () => {
                             aria-label="account of current user"
                             sx={{ color: 'white', transition: '0.3s color ease', '&:hover': { transition: '0.3s color ease', color: '#FE6F49' } }}
                         >
-                            <AccountCircle style={{ fontSize: '32px' }} />
+                            <AccountIconLocal height={32} width={32} />
                         </IconButton>
                     </Box>
                     {/* The menu */}

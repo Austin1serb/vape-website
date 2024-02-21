@@ -1,8 +1,9 @@
 import { Button, Card, CardContent, Dialog, DialogContent, DialogTitle, Grid, IconButton, Typography } from '@mui/material';
 import React from 'react';
+import { Order } from '../types';
 
 interface Props {
-    order: any;
+    order: Order;
     open: boolean;
     onClose: () => void;
 }

@@ -69,7 +69,6 @@ const CategoryInput = ({ category, onAddCategory, onRemoveCategory, error }) => 
         >
             <FormLabel
                 name='category-input'
-
                 id="category-input"
 
                 component="legend"

@@ -13,6 +13,7 @@ import {
     TableRow,
     Paper,
 } from '@mui/material';
+import { Product } from '../types';
 
 const paperProps = {
     style: {
@@ -20,7 +21,12 @@ const paperProps = {
     },
 };
 
-const DetailsView = ({ open, product, onClose }) => {
+interface Props {
+    open: boolean;
+    product: Product;
+    onClose: () => void;
+}
+const DetailsView:React.FC<Props> = ({ open, product, onClose }) => {
     return (
         <Dialog open={open} onClose={onClose} PaperProps={paperProps}>
             <DialogTitle sx={{ backgroundColor: '#283047', color: 'white', borderRadius: '5px 5px 0px 0' }}>

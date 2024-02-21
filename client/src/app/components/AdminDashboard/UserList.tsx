@@ -1,26 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import { DataGrid, GridColDef, GridValueFormatterParams } from '@mui/x-data-grid';
 import EditCustomerModal from './models/EditCustomerModal';
+import dynamic from 'next/dynamic';
+import DataGridSkeleton from './DataGridSkeleton';
+import { GridColDef } from '@mui/x-data-grid';
+import { Customer, Guest } from '../types';
 
-interface Customer {
-    _id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    createdAt: string;
-    isAdmin?: boolean;
-}
+const DataGrid = dynamic(() => import('@mui/x-data-grid').then((mod) => mod.DataGrid), {
+    loading: () => <DataGridSkeleton />,
+    ssr: true,
+});
 
 interface UsersState {
     customers: Customer[];
-    guests: Customer[];
+    guests: Guest[];
 }
 
-const UserList: React.FC = () => {
+const UserList: React.FC<UsersState> = ({ customers, guests }) => {
     const [editCustomerModalOpen, setEditCustomerModalOpen] = useState<boolean>(false);
     const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
-    const [users, setUsers] = useState<UsersState>({ customers: [], guests: [] });
+    const [users, setUsers] = useState<UsersState>({ customers: customers, guests: guests });
     const [error, setError] = useState<string | null>(null);
     const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState<boolean>(false);
     const [userToDelete, setUserToDelete] = useState<string | null>(null);
@@ -36,31 +35,38 @@ const UserList: React.FC = () => {
         setDeleteConfirmationOpen(true);
     };
 
-    const confirmDeleteUser = () => {
+    const confirmDeleteUser = async () => {
+        if (!userToDelete || !userTypeToDelete) {
+            console.error("Missing user ID or type for deletion.");
+            return;
+        }
 
         const url = userTypeToDelete === 'customer'
             ? `http://localhost:8000/api/customer/${userToDelete}`
             : `http://localhost:8000/api/guest/${userToDelete}`;
 
-        fetchData(url, { method: 'DELETE' })
-            .then(() => {
-                setUsers(prevUsers => {
-                    const updatedType = userTypeToDelete === 'customer' ? 'customers' : 'guests';
-                    return {
-                        ...prevUsers,
-                        [updatedType]: prevUsers[updatedType].filter(user => user._id !== userToDelete)
-                    };
-                });
-                alert('User successfully deleted');
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                setError('An Error occured while deleting the user');
-            })
-            .finally(() => {
-                setDeleteConfirmationOpen(false);
+        try {
+            await fetchData(url, { method: 'DELETE' });
+            setUsers(prev => {
+                // Explicitly handle each case to ensure type safety
+                const updatedCustomers = userTypeToDelete === 'customer'
+                    ? prev.customers.filter((customer) => customer._id !== userToDelete)
+                    : prev.customers;
+                const updatedGuests = userTypeToDelete === 'guest'
+                    ? prev.guests.filter((guest) => guest._id !== userToDelete)
+                    : prev.guests;
+
+                return {
+                    customers: updatedCustomers,
+                    guests: updatedGuests,
+                };
             });
+        } catch (error) {
+            console.error("Error deleting user:", error);
+        }
     };
+
+
 
 
 
@@ -73,7 +79,7 @@ const UserList: React.FC = () => {
         try {
             const response = await fetch(url, {
                 ...options,
-                credentials: 'include', 
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
                     ...options.headers,
@@ -88,30 +94,9 @@ const UserList: React.FC = () => {
         } catch (error) {
             console.error('Fetch Error:', error);
             setError('An error occurred while fetching data');
-            throw error; // Rethrowing the error after setting the state might be a good idea if you want calling code to handle it as well
+            throw error;
         }
     }
-
-
-    // Combined fetch function for customers and guests
-    const fetchUsers = async () => {
-
-        try {
-            const [customers, guests] = await Promise.all([
-                fetchData('http://localhost:8000/api/customer'),
-                fetchData('http://localhost:8000/api/guest')
-            ]);
-
-            setUsers({ customers, guests });
-        } catch (error) {
-            console.error('Error fetching users:', error);
-
-        }
-    };
-
-    useEffect(() => {
-        fetchUsers();
-    }, []);
 
 
 
@@ -172,7 +157,7 @@ const UserList: React.FC = () => {
 
 
 
-    const updateCustomerInList = (updatedCustomer:Customer) => {
+    const updateCustomerInList = (updatedCustomer: Customer) => {
         setUsers(prevUsers => ({
             ...prevUsers,
             customers: prevUsers.customers.map(customer =>
@@ -206,6 +191,144 @@ const UserList: React.FC = () => {
         margin: '5px',
     }
 
+    const adminCols: GridColDef[] = [
+        {
+            field: 'fullName',
+            headerName: 'Full Name',
+            flex: 1,
+            renderCell: (params) => (
+                <div>{params.row.firstName} {params.row.lastName}</div>
+            )
+        },
+        { field: 'email', headerName: 'Email', flex: 1 },
+        { field: '_id', headerName: 'ID', flex: 1.25 },
+        { field: 'createdAt', headerName: 'Registration Date', flex: 0.75, valueFormatter: ({ value }) => new Date(value).toLocaleDateString(), },
+        {
+            field: 'actions',
+            headerName: 'Actions',
+            flex: 1.5,
+            renderCell: (params) => (
+                <div>
+                    <Button
+                        sx={buttonStyles}
+                        variant="outlined"
+                        color='secondary'
+                        onClick={() => handleEditCustomer(params.row)}
+
+
+                    >
+                        Edit
+                    </Button>
+                    <Button
+                        sx={buttonStyles}
+                        variant="outlined"
+                        color="error"
+                        onClick={() => handleRemoveFromAdmin(params.row._id)}
+                        disabled={admins.length <= 1}
+                    >
+                        Remove Admin
+                    </Button>
+
+
+                </div>
+            ),
+        },
+    ];
+
+
+    const customerCols: GridColDef[] = [
+        {
+            field: 'fullName',
+            headerName: 'Full Name',
+            flex: 1,
+            renderCell: (params) => (
+                <div>{params.row.firstName} {params.row.lastName}</div>
+            )
+        },
+        { field: 'email', headerName: 'Email', flex: 1 },
+        { field: '_id', headerName: 'ID', flex: 1.25 },
+        { field: 'createdAt', headerName: 'Registration Date', flex: 1, valueFormatter: ({ value }) => new Date(value).toLocaleDateString(), },
+        {
+            field: 'makeAdmin',
+            headerName: 'Make Admin',
+            flex: 1.5,
+            renderCell: (params) => (
+                !params.row.isAdmin && (
+                    <>
+                        <Button
+                            sx={buttonStyles}
+                            variant="outlined"
+                            color='secondary'
+                            onClick={() => handleEditCustomer(params.row)}
+
+                        >
+                            Edit
+                        </Button>
+                        <Button
+                            sx={buttonStyles}
+                            variant="outlined"
+                            color="primary"
+                            onClick={() => handleMakeAdmin(params.row._id)}
+                        >
+                            Make Admin
+                        </Button>
+                        <Button
+                            sx={buttonStyles}
+                            variant="outlined"
+                            color="error"
+                            onClick={() => handleDeleteUser(params.row._id, 'customer')}
+                        >
+                            Delete User
+                        </Button>
+                    </>
+
+                )
+            ),
+        },
+    ];
+
+
+
+    const guestCols: GridColDef[] = [
+        {
+            field: 'fullName',
+            headerName: 'Full Name',
+            flex: 1,
+            renderCell: (params) => (
+                <div>{params.row.firstName} {params.row.lastName}</div>
+            )
+        },
+        { field: 'email', headerName: 'Email', flex: 1 },
+        { field: '_id', headerName: 'ID', flex: 1.25 },
+        { field: 'createdAt', headerName: 'Registration Date', flex: 1, valueFormatter: ({ value }) => new Date(value).toLocaleDateString(), },
+        {
+            field: 'actions',
+            headerName: 'Actions',
+            flex: 1.5,
+            renderCell: (params) => (
+                <>
+                    <Button
+                        sx={buttonStyles}
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => handleViewGuestDetails(params.row)}
+                    >
+                        View Details
+                    </Button>
+                    <Button
+                        sx={buttonStyles}
+                        variant="outlined"
+                        color="error"
+                        onClick={() => handleDeleteUser(params.row._id, 'guest')}
+                    >
+                        Delete Guest
+                    </Button>
+                </>
+            ),
+        },
+
+
+    ];
     return (
         <div style={{ padding: 20, margin: 20 }}>
             <Dialog
@@ -231,49 +354,7 @@ const UserList: React.FC = () => {
             <DataGrid
 
                 rows={admins}
-                columns={[
-                    {
-                        field: 'fullName',
-                        headerName: 'Full Name',
-                        flex: 1,
-                        renderCell: (params) => (
-                            <div>{params.row.firstName} {params.row.lastName}</div>
-                        )
-                    },
-                    { field: 'email', headerName: 'Email', flex: 1 },
-                    { field: '_id', headerName: 'ID', flex: 1.25 },
-                    { field: 'createdAt', headerName: 'Registration Date', flex: 0.75, valueFormatter: ({ value }) => new Date(value).toLocaleDateString(), },
-                    {
-                        field: 'actions',
-                        headerName: 'Actions',
-                        flex: 1.5,
-                        renderCell: (params) => (
-                            <div>
-                                <Button
-                                    sx={buttonStyles}
-                                    variant="outlined"
-                                    color='secondary'
-                                    onClick={() => handleEditCustomer(params.row)}
-
-
-                                >
-                                    Edit
-                                </Button>
-                                <Button
-                                    sx={buttonStyles}
-                                    variant="outlined"
-                                    color="error"
-                                    onClick={() => handleRemoveFromAdmin(params.row._id)}
-                                    disabled={admins.length <= 1}
-                                >
-                                    Remove Admin
-                                </Button>
-
-
-                            </div>
-                        ),
-                    },
-                ]}
+                columns={adminCols}
                 autoHeight
                 disableRowSelectionOnClick
                 getRowId={(row) => row._id}
@@ -287,106 +368,18 @@ const UserList: React.FC = () => {
             <h2 style={{ margin: 10 }}>Customer List</h2>
             <DataGrid
                 rows={nonAdmins}
-                columns={[
-                    {
-                        field: 'fullName',
-                        headerName: 'Full Name',
-                        flex: 1,
-                        renderCell: (params) => (
-                            <div>{params.row.firstName} {params.row.lastName}</div>
-                        )
-                    },
-                    { field: 'email', headerName: 'Email', flex: 1 },
-                    { field: '_id', headerName: 'ID', flex: 1.25 },
-                    { field: 'createdAt', headerName: 'Registration Date', flex: 1, valueFormatter: ({ value }) => new Date(value).toLocaleDateString(), },
-                    {
-                        field: 'makeAdmin',
-                        headerName: 'Make Admin',
-                        flex: 1.5,
-                        renderCell: (params) => (
-                            !params.row.isAdmin && (
-                                <>
-                                    <Button
-                                        sx={buttonStyles}
-                                        variant="outlined"
-                                        color='secondary'
-                                        onClick={() => handleEditCustomer(params.row)}
-
-                                    >
-                                        Edit
-                                    </Button>
-                                    <Button
-                                        sx={buttonStyles}
-                                        variant="outlined"
-                                        color="primary"
-                                        onClick={() => handleMakeAdmin(params.row._id)}
-                                    >
-                                        Make Admin
-                                    </Button>
-                                    <Button
-                                        sx={buttonStyles}
-                                        variant="outlined"
-                                        color="error"
-                                        onClick={() => handleDeleteUser(params.row._id, 'customer')}
-                                    >
-                                        Delete User
-                                    </Button>
-                                </>
-
-                            )
-                        ),
-                    },
-                ]}
+                columns={customerCols}
                 autoHeight
-                disableSelectionOnClick
+                disableRowSelectionOnClick
                 getRowId={(row) => row._id}
             />
             <div>
                 <h2 style={{ margin: 10 }}>Guest User List</h2>
                 <DataGrid
                     rows={users.guests}
-                    columns={[
-                        {
-                            field: 'fullName',
-                            headerName: 'Full Name',
-                            flex: 1,
-                            renderCell: (params) => (
-                                <div>{params.row.firstName} {params.row.lastName}</div>
-                            )
-                        },
-                        { field: 'email', headerName: 'Email', flex: 1 },
-                        { field: '_id', headerName: 'ID', flex: 1.25 },
-                        { field: 'createdAt', headerName: 'Registration Date', flex: 1, valueFormatter: ({ value }) => new Date(value).toLocaleDateString(), },
-                        {
-                            field: 'actions',
-                            headerName: 'Actions',
-                            flex: 1.5,
-                            renderCell: (params) => (
-                                <>
-                                    <Button
-                                        sx={buttonStyles}
-                                        variant="outlined"
-                                        color="primary"
-                                        onClick={() => handleViewGuestDetails(params.row)}
-                                    >
-                                        View Details
-                                    </Button>
-                                    <Button
-                                        sx={buttonStyles}
-                                        variant="outlined"
-                                        color="error"
-                                        onClick={() => handleDeleteUser(params.row._id, 'guest')}
-                                    >
-                                        Delete Guest
-                                    </Button>
-                                </>
-                            ),
-                        },
-
-
-                    ]}
+                    columns={guestCols}
                     autoHeight
-                    disableSelectionOnClick
+                    disableRowSelectionOnClick
                     getRowId={(row) => row._id}
                 />
             </div>

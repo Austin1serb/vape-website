@@ -24,7 +24,7 @@ const importIcon = async (iconName: string): Promise<ImportedIconModule> => {
     }
 
     try {
-        const module = await import(`../icons/${iconName}.icon.tsx`);
+        const module = await import(`../Icons/${iconName}.icon.tsx`);
         iconCache[iconName] = module.default;
         return module as ImportedIconModule;
     } catch (error) {

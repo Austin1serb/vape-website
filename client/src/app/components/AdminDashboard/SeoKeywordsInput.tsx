@@ -8,8 +8,15 @@ import {
     Chip,
 } from '@mui/material';
 
-const SeoKeywordsInput = ({ seoKeywords, onAddKeyword, onRemoveKeyword }) => {
-    const [newKeyword, setNewKeyword] = useState('');
+
+interface SeoKeywordsInputProps {
+    seoKeywords: string[];
+    onAddKeyword: (keyword: string) => void;
+    onRemoveKeyword: (keyword: string) => void;
+  }
+  
+  const SeoKeywordsInput: React.FC<SeoKeywordsInputProps> = ({ seoKeywords, onAddKeyword, onRemoveKeyword }) => {
+    const [newKeyword, setNewKeyword] = useState<string>('');
 
     const handleAddKeyword = () => {
         if (newKeyword.trim() !== '') {

@@ -16,6 +16,8 @@
 
   /* Background, Surface, and Error */
   --color-background: #FFFFFF;
+  --color-dark-background:#191E2C;
+  --color-dark-surface:#282F48;
   --color-surface: #F5F5F5;
   --color-error: #B00020;
 
@@ -23,6 +25,7 @@
   --color-on-primary: #FFFFFF;
   --color-on-secondary: #000000;
   --color-on-background: #000000;
+  --color-on-dark-background:#F5F7FB;
   --color-on-surface: #000000;
   --color-on-error: #FFFFFF;
 
@@ -41,6 +44,8 @@
   --deep-purple-A200: #7C4DFF;
   --deep-purple-A400: #651FFF;
   --deep-purple-A700: #6200EA;
+
+ 
 }
 
 
@@ -48,8 +53,8 @@ body {
   /*font-size: 22px;*/
   font-size: clamp(1rem, 2vw, 3rem);
   font-weight: 400;
-  background-color: var(--color-background);
-  color: var(--color-on-background);
+  background-color: var(--color-dark-background);
+  color: var(--color-on-dark-background);
   min-width: 320px;
 
 }
@@ -123,9 +128,10 @@ body button{
   max-height: 50px;
 }
 
-/** {
-  max-width:100vw;
-}*/
+* {
+  /*max-width:100vw;*/
+  font-family: 'Montserrat';
+}
 
 .rating-stars:hover {
   transition: all 0.3s;
@@ -138,3 +144,32 @@ body button{
   transition: all 0.3s;
 
 }
+
+
+/* Scrollbar base styles */
+ ::-webkit-scrollbar {
+    width: 16px; /* Adjust the width of the scrollbar */
+    background-color: var(--color-dark-surface); /* Background of the scrollbar track */
+  }
+  
+  /* Scrollbar track */
+   ::-webkit-scrollbar-track {
+    border-radius: 8px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); /* Inner shadow for a 3D effect */
+    background-color: var(--color-dark-surface); /* Slightly lighter than the scrollbar base for contrast */
+  }
+  
+  /* Scrollbar thumb */
+   ::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 4px solid var(--color-dark-surface); /* Makes the thumb narrower than the track */
+    background-color: var(--color-primary); /* Use the vibrant primary color */
+    box-shadow: 0 0 6px var(--color-primary-variant); /* Outer glow for a 3D effect */
+  }
+  
+  /* Scrollbar thumb hover */
+   ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-primary-variant); /* Slightly darker shade for interactive feedback */
+    box-shadow: 0 0 8px var(--color-primary-variant); /* Enhanced outer glow on hover */
+  }
+  

@@ -1,13 +1,24 @@
 // ImageUpload.js
 
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import {
     FormControl, FormLabel, Box, Button,
     Typography, CircularProgress
 } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
-const ImageUpload = ({
+
+interface ImageUploadProps {
+    error: { [key: string]: string }; // Adjust based on the actual structure of your error object
+    loading: boolean;
+    selectedImage: File;
+    selectedImageData: string[]; // Array of image URLs
+    handleImage: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    setSelectedImageData: (newImageData: string[]) => void;
+}
+
+const ImageUpload: React.FC<ImageUploadProps> = ({
+
     error,
     loading,
     selectedImage,
@@ -16,13 +27,13 @@ const ImageUpload = ({
     setSelectedImageData
 }) => {
 
-    const handleRemoveImage = (indexToRemove) => {
+    const handleRemoveImage = (indexToRemove: number): void => {
         const newImages = selectedImageData.filter((_, index) => index !== indexToRemove);
         setSelectedImageData(newImages);
     };
 
 
-    const imageContainerStyles = {
+    const imageContainerStyles: CSSProperties = {
         display: 'inline-flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -82,6 +93,7 @@ const ImageUpload = ({
             component="fieldset"
         >
             <FormLabel component="legend"
+                htmlFor='image-upload'
                 sx={{
                     fontSize: 16,
                     pr: 0.5,
@@ -90,30 +102,26 @@ const ImageUpload = ({
                     color: error['imgSource'] ? theme => theme.palette.error.main : 'initial',
                 }}
             > Upload an image*</FormLabel>
+
+
             <Box>
-                <Button accept="image/*"
-
+                <label htmlFor="image-upload"> {/* This label acts as the button */}
+                    <Button
+                        variant="outlined"
+                        component="span"
+                        startIcon={<CloudUploadIcon />}
+                        disabled={loading || (selectedImageData && selectedImageData.length >= 5)}
+                    >
+                        {loading ? <CircularProgress size={24} /> : 'Add image'}
+                    </Button>
+                </label>
+                <VisuallyHiddenInput
+                    accept="image/*"
                     id="image-upload"
-                    component="label"
-                    variant="outlined"
-                    startIcon={<CloudUploadIcon />}
-
-                    // Apply MUI error color to button when there is an error
-                    sx={{
-                        my: 1
-                    }}
-                    color={error['imgSource'] ? 'error' : 'primary'}
-                    disabled={loading || (selectedImageData && selectedImageData.length >= 5)} // Disable button if 5 or more images are uploaded
-                >
-                    {loading ? ( // Display CircularProgress while loading
-                        <CircularProgress size={24} color="inherit" />
-                    ) : (
-                        'Add image'
-                    )}
-                    <VisuallyHiddenInput accept="image/*"
-                        id="image-upload" type="file" multiple onChange={handleImage}
-                    />
-                </Button>
+                    type="file"
+                    multiple
+                    onChange={handleImage}
+                />
                 {/* Displaying max limit message */}
                 {(selectedImageData && selectedImageData.length >= 5) &&
                     <Typography variant='caption' sx={{ ml: 1.2 }} color="textSecondary">

@@ -23,6 +23,12 @@ const config: Config = {
         'on-background': '#000000',
         'on-surface': '#000000',
         'on-error': '#FFFFFF',
+
+        "dark-background":"#191E2C",
+        'dark-surface':"#282F48",
+        "on-dark-background":"#F5F7FB",
+        "on-dark-surface":"#404860",
+
         'deep-purple-50': '#EDE7F6',
         'deep-purple-100': '#D1C4E9',
         'deep-purple-200': '#B39DDB',

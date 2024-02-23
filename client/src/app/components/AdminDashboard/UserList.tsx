@@ -188,7 +188,8 @@ const UserList: React.FC<UsersState> = ({ customers, guests }) => {
 
     const buttonStyles = {
         fontSize: '10px',
-        margin: '5px',
+    
+        margin:'5px'
     }
 
     const adminCols: GridColDef[] = [
@@ -202,13 +203,13 @@ const UserList: React.FC<UsersState> = ({ customers, guests }) => {
         },
         { field: 'email', headerName: 'Email', flex: 1 },
         { field: '_id', headerName: 'ID', flex: 1.25 },
-        { field: 'createdAt', headerName: 'Registration Date', flex: 0.75, valueFormatter: ({ value }) => new Date(value).toLocaleDateString(), },
+        { field: 'createdAt', headerName: 'Registration Date', flex: 1, valueFormatter: ({ value }) => new Date(value).toLocaleDateString(), },
         {
             field: 'actions',
             headerName: 'Actions',
             flex: 1.5,
             renderCell: (params) => (
-                <div>
+                <div className='flex justify-between w-full'>
                     <Button
                         sx={buttonStyles}
                         variant="outlined"
@@ -254,7 +255,7 @@ const UserList: React.FC<UsersState> = ({ customers, guests }) => {
             flex: 1.5,
             renderCell: (params) => (
                 !params.row.isAdmin && (
-                    <>
+                    <div className='flex justify-between w-full'>
                         <Button
                             sx={buttonStyles}
                             variant="outlined"
@@ -280,7 +281,7 @@ const UserList: React.FC<UsersState> = ({ customers, guests }) => {
                         >
                             Delete User
                         </Button>
-                    </>
+                    </div>
 
                 )
             ),
@@ -306,11 +307,11 @@ const UserList: React.FC<UsersState> = ({ customers, guests }) => {
             headerName: 'Actions',
             flex: 1.5,
             renderCell: (params) => (
-                <>
+                <div className='flex justify-between w-full'>
                     <Button
                         sx={buttonStyles}
                         variant="outlined"
-                        color="primary"
+                        color="secondary"
                         onClick={() => handleViewGuestDetails(params.row)}
                     >
                         View Details
@@ -323,7 +324,7 @@ const UserList: React.FC<UsersState> = ({ customers, guests }) => {
                     >
                         Delete Guest
                     </Button>
-                </>
+                </div>
             ),
         },
 

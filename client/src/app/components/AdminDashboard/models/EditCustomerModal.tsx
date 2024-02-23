@@ -1,8 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import { Modal, Box, Typography, TextField, Button, Grid } from '@mui/material';
+import { Customer } from '@/components/types';
 
-const EditCustomerModal = ({ open, onClose, customer, updateCustomerList, isViewOnly = false }) => {
-    const [formData, setFormData] = useState({
+
+interface EditCustomerModalProps {
+    open: boolean;
+    onClose: () => void;
+    customer: Customer;
+    updateCustomerList: (customer: Customer) => void;
+    isViewOnly?: boolean;
+}
+const EditCustomerModal: React.FC<EditCustomerModalProps> = ({ open, onClose, customer, updateCustomerList, isViewOnly = false }) => {
+    const [formData, setFormData] = useState<Customer>({
         firstName: '',
         lastName: '',
         email: '',
@@ -20,24 +29,17 @@ const EditCustomerModal = ({ open, onClose, customer, updateCustomerList, isView
         // Populate form data when the modal opens
         if (customer) {
             setFormData({
-                firstName: customer.firstName,
-                lastName: customer.lastName,
-                email: customer.email,
-                address: customer.address,
-                address2: customer.address2,
-                city: customer.city,
-                state: customer.state,
-                zip: customer.zip,
-                phone: customer.phone,
-                country: customer.country,
-                orders: customer.orders
-
+                ...customer
             });
         }
     }, [customer]);
 
-    const handleInputChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            [name]: value,
+        }));
     };
 
     const handleSubmit = () => {
@@ -197,27 +199,21 @@ const EditCustomerModal = ({ open, onClose, customer, updateCustomerList, isView
                     {/* Orders */}
                     <Grid item xs={6}>
                         <Typography
-                            label="Orders"
-                            name="orders"
-                            onChange={handleInputChange}
                         >
-                            Orders:  {customer.orders.length}
+                            Orders:  {customer.orders?.length}
                         </Typography>
                     </Grid>
                     {/* Date Created */}
                     <Grid item xs={6}>
                         <Typography
-                            label="Date Created"
-                            name="dateCreated"
-                            onChange={handleInputChange}
+
                         >
-                            Date Created:  {new Date(customer.createdAt).toLocaleDateString()}
+                            Date Created: {customer?.createdAt ? new Date(customer.createdAt).toLocaleDateString() : 'N/A'}
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
                         <Button
                             fullWidth
-
                             onClick={handleSubmit}
                             variant="outlined"
                             color="primary"

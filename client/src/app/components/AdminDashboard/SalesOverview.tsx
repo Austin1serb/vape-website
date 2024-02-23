@@ -4,8 +4,9 @@ import { axisClasses } from '@mui/x-charts';
 import OrderDetails from './OrderDetails';
 import { Product, Order, Guest, Customer } from '../types';
 import dynamic from 'next/dynamic';
-import BarChartSkeleton from './BarChartSkeleton';
+import BarChartSkeleton from './AdminSkeletons/BarChartSkeleton';
 import Legend from './Legend';
+import SalesOverviewSkeleton from './AdminSkeletons/SalesOverviewSkeleton';
 
 const DynamicBarChart = dynamic(
     () => import('@mui/x-charts/BarChart').then((mod) => mod.BarChart),
@@ -35,10 +36,10 @@ interface SalesOverviewProps {
     loading: boolean;
     orders: Order[];
     guestData: Guest[];
-  }
+}
 
-  
-  const SalesOverview: React.FC<SalesOverviewProps> = ({
+
+const SalesOverview: React.FC<SalesOverviewProps> = ({
     salesData,
     products,
     totalProducts,
@@ -53,18 +54,23 @@ interface SalesOverviewProps {
     loading,
     orders,
     guestData,
-  }) => {
-    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+}) => {
     const [currentOrderId, setCurrentOrderId] = useState<string | null>(null);
-
+    const [dialogOpen, setDialogOpen] = useState<boolean>(false);
     const totalGuestOrders = guestData.reduce((total, guest) => total + (guest.orders?.length ?? 0), 0);
 
 
     const handleOpenDialog = (orderId: React.SetStateAction<string | null>) => {
         setCurrentOrderId(orderId);
-        setIsDialogOpen(true);
+        setDialogOpen(true);
+
     };
-    
+    const handleCloseDialog = () => {
+        setCurrentOrderId(null);
+        setDialogOpen(false);
+        console.log(dialogOpen);
+    };
+
     const chartSetting = {
         yAxis: [
             {
@@ -72,17 +78,22 @@ interface SalesOverviewProps {
 
             },
         ],
-        width: 1000, // Adjust the width to fit your layout
+        width: 1056, // Adjust the width to fit your layout
         height: 500, // Adjust the height to fit your layout
         sx: {
             [`.${axisClasses.left} .${axisClasses.label}`]: {
-                transform: 'translate(50px, -190px) ',
+                transform: 'translate(45px, -30px) ',
                 //rotate 90 degress
             },
             // Styling for Y-axis labels
             [`.${axisClasses.bottom} .${axisClasses.tickLabel}`]: {
-                fontSize: '26px',
+
+               
+                strokeWidth: '.7px',
+
             },
+            
+
         },
 
     };
@@ -122,78 +133,79 @@ interface SalesOverviewProps {
 
     const chartSeries = generateChartSeries(salesData);
 
-
-
+    useEffect(() => {
+        console.log(recentOrders)
+    }, [recentOrders])
 
     if (loading) {
-        return <Box><CircularProgress /></Box>;
+        return <SalesOverviewSkeleton />;
     }
 
 
     return (
-        <Box sx={{ m: 5 }}>
+        <Box className=" m-5 rounded-lg pb-12">
             <Typography p={3} textAlign={'center'} variant='h4'>SALES OVERVIEW</Typography>
             <Grid container spacing={3}>
                 {/* Display summary widgets */}
                 <Grid item xs={6} md={4} lg={2}>
-                    <Card>
-                        <CardContent>
+                    <Card elevation={5} className="bg-dark-surface text-on-dark-background rounded-lg">
+                        <CardContent className="bg-dark-surface text-on-dark-background">
                             <Typography variant="body1" gutterBottom>Total Products:</Typography>
                             <Typography variant="body2">{totalProducts}</Typography>
                         </CardContent>
                     </Card>
                 </Grid>
                 <Grid item xs={6} md={4} lg={2}>
-                    <Card>
-                        <CardContent>
+                    <Card elevation={5} className="bg-dark-surface text-on-dark-background rounded-lg">
+                        <CardContent className="bg-dark-surface text-on-dark-background">
                             <Typography variant="body1" gutterBottom>Total Orders:</Typography>
                             <Typography variant="body2">{totalOrders}</Typography>
                         </CardContent>
                     </Card>
                 </Grid>
                 <Grid item xs={6} md={4} lg={2}>
-                    <Card>
-                        <CardContent>
+                    <Card elevation={5} className="bg-dark-surface text-on-dark-background rounded-lg">
+                        <CardContent className="bg-dark-surface text-on-dark-background">
                             <Typography variant="body1" gutterBottom>Total Sales:</Typography>
                             <Typography variant="body2">{totalSales.toFixed(2)}</Typography>
                         </CardContent>
                     </Card>
                 </Grid>
                 <Grid item xs={6} md={4} lg={2}>
-                    <Card>
-                        <CardContent>
+                    <Card elevation={5} className="bg-dark-surface text-on-dark-background rounded-lg">
+                        <CardContent className="bg-dark-surface text-on-dark-background">
                             <Typography variant="body1" gutterBottom>Pending Orders:</Typography>
                             <Typography variant="body2">{pendingOrders}</Typography>
                         </CardContent>
                     </Card>
                 </Grid>
                 <Grid item xs={6} md={4} lg={2}>
-                    <Card>
-                        <CardContent>
+                    <Card elevation={5} className="bg-dark-surface text-on-dark-background rounded-lg">
+                        <CardContent className="bg-dark-surface text-on-dark-background">
                             <Typography variant="body1" gutterBottom>Total Admins: </Typography>
                             <Typography variant="body2">{totalAdmins}</Typography>
                         </CardContent>
                     </Card>
                 </Grid>
                 <Grid item xs={6} md={4} lg={2}>
-                    <Card>
-                        <CardContent>
+                    <Card elevation={5} className="bg-dark-surface text-on-dark-background rounded-lg">
+                        <CardContent className="bg-dark-surface text-on-dark-background">
                             <Typography variant="body1" gutterBottom>Total Accounts:  </Typography>
                             <Typography variant="body2">{totalCustomers}</Typography>
                         </CardContent>
                     </Card>
                 </Grid>
                 <Grid item xs={12} md={4} lg={6} >
-                    <Card>
-                        <CardContent >
+                    <Card elevation={5} className="bg-dark-surface text-on-dark-background rounded-lg">
+                        <CardContent className="bg-dark-surface text-on-dark-background">
                             <Typography variant="body1" gutterBottom>Recent Customer Registrations: </Typography>
                             <Typography variant="body2"> {recentCustomers.map(customer => <li key={customer._id}>{customer.firstName} {customer.lastName} - {customer.email}</li>)}</Typography>
                         </CardContent>
                     </Card>
                 </Grid>
                 <Grid item xs={12} md={8} lg={6}>
-                    <Card>
-                        <CardContent>
+                    <Card elevation={5} className="bg-dark-surface text-on-dark-background rounded-lg">
+                        <CardContent className="bg-dark-surface text-on-dark-background">
                             <Typography variant="body1">Guest Information:</Typography>
                             {/* Display guest data */}
                             {/*{guestData.map(guest => (
@@ -214,46 +226,64 @@ interface SalesOverviewProps {
                 </Grid>
 
                 <Grid item xs={12} md={8} lg={12}>
-                    <Card>
-                        <CardContent>
+                    <Card elevation={5} className="bg-dark-surface text-on-dark-background rounded-lg">
+                        <CardContent className="bg-dark-surface text-on-dark-background">
                             <Typography variant="body1">Latest Orders:</Typography>
                             {/* Display recent orders */}
                             {recentOrders.map(order => (
-                                <Box key={order._id}>
-                                    <Typography component={Button} onClick={() => handleOpenDialog(order._id)} variant="body2">
-                                        Order ID: {order._id} • Order Status: <strong>{order.orderStatus}</strong>
-                                    </Typography>
-                                    {currentOrderId === order._id && (
-                                        <OrderDetails
-                                            order={order}
-                                            open={currentOrderId === order._id}
-                                            onClose={() => setCurrentOrderId(null)}
-                                        />
-                                    )}
-                                </Box>
+                                <Button
+                                    variant='outlined'
+                                    onClick={() => handleOpenDialog(order._id)}
+                                    color='secondary'
+                                    key={order.orderNumber}
+                                    className='m-2 p-2'
+                                >
+                                    Order ID: {order._id} • Order Status: <span className={
+                                        order.orderStatus === 'Pending' || order.orderStatus === 'Canceled' ? 'text-red-400' : 'text-green-300'
+                                    }>
+                                        {order.orderStatus}
+                                    </span>
+                                </Button>
                             ))}
+
+                            {recentOrders.filter(order => currentOrderId === order._id).map(order => (
+                                <OrderDetails
+                                    key={order._id}
+                                    order={order}
+                                    open={dialogOpen}
+                                    handleClose={handleCloseDialog}
+                                />
+                            ))}
+
                         </CardContent>
                     </Card>
                 </Grid>
 
+                <Grid item>
+                    <Box >
+                        <Typography p={3} textAlign={'center'} variant='h5'>Best Sellers Data</Typography>
+                        <Legend series={chartSeries} />
+                    </Box>
+                  
+                    <Card elevation={5}>
+                        <div className='bg-[#282F48] flex-grow'>
+                            <DynamicBarChart
+                                dataset={salesData}
+                                xAxis={[{ scaleType: 'band', dataKey: 'month' }]}
+                                slotProps={{
+                                    legend: {
+                                        hidden: true,
+                                    },
 
-                <Box style={{ marginTop: '40px', }}>
-                    <Typography p={3} textAlign={'center'} variant='h5'>Best Sellers Data</Typography>
-                    <Legend series={chartSeries} />
-                </Box>
+                                }}
 
-                <DynamicBarChart
-                    dataset={salesData}
-                    slotProps={{
-                        legend: {
-                            hidden: true,
-                        },
+                                series={chartSeries}
+                                {...chartSetting}
 
-                    }}
-                    series={chartSeries}
-                    {...chartSetting}
-                />
-
+                            />
+                        </div>
+                    </Card>
+                </Grid>
             </Grid>
         </Box>
     );

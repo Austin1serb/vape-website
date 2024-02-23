@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
-import { TextField, Select, MenuItem, Snackbar, FormControl, InputLabel, Box, CircularProgress, Typography, Card, CardContent, Button, SelectChangeEvent } from '@mui/material';
+import { TextField, Select, MenuItem, Snackbar, FormControl, InputLabel, Box, CircularProgress, Typography, Card, CardContent, Button, SelectChangeEvent, colors } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import OrderDetails from './OrderDetails';
 import { Order } from '../types';
+import DataGridSkeleton from './DataGridSkeleton';
 
 
 interface OrderListProps {
@@ -232,7 +233,7 @@ const OrderList: React.FC<OrderListProps> = ({ orders }) => {
                 >
                     <MenuItem value="Pending"  >
                         <div style={{ whiteSpace: 'nowrap', display: 'flex' }}>
-                            <svg color='blue' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M17 12c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm1.65 7.35L16.5 17.2V14h1v2.79l1.85 1.85-.7.71zM18 3h-3.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H6c-1.1 0-2 .9-2 2v15c0 1.1.9 2 2 2h6.11a6.743 6.743 0 0 1-1.42-2H6V5h2v3h8V5h2v5.08c.71.1 1.38.31 2 .6V5c0-1.1-.9-2-2-2zm-6 2c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z" /></svg>
+                            <svg className='fill-primary stroke' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M17 12c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm1.65 7.35L16.5 17.2V14h1v2.79l1.85 1.85-.7.71zM18 3h-3.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H6c-1.1 0-2 .9-2 2v15c0 1.1.9 2 2 2h6.11a6.743 6.743 0 0 1-1.42-2H6V5h2v3h8V5h2v5.08c.71.1 1.38.31 2 .6V5c0-1.1-.9-2-2-2zm-6 2c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z" /></svg>
                             Pending
                         </div>
                     </MenuItem>
@@ -279,30 +280,38 @@ const OrderList: React.FC<OrderListProps> = ({ orders }) => {
 
     if (loading) {
         return (
-            <Box display="flex" justifyContent="center" alignItems="center" height="80vh">
-                <CircularProgress />
-            </Box>
+            <div className="m-3 py-5">
+                <div className="w-1/5 h-12 bg-gray-500 rounded m-4"></div>
+                <div className="flex justify-between p-4 rounded bg-dark-surface text-on-dark-background ">
+
+                    <div className="w-3/4 h-12 bg-gray-500 rounded"></div>
+                    <div className="w-1/5 h-12 bg-gray-500 rounded"></div>
+                </div>
+                <DataGridSkeleton />
+            </div>
         );
     }
 
     return (
 
-        <Box sx={{ m: 3, py: 5 }}>
+        <div className="bg-dark text-on-dark-background m-4 py-4">
             <Typography variant="h4" gutterBottom>Order List </Typography>
 
-            <Card variant="outlined" sx={{ mb: 3 }}>
-                <CardContent sx={{ py: 2 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Card variant="outlined" className='mb-5 bg-dark-surface'>
+                <CardContent className="py-4 rounded-lg">
+                    <div className="flex items-center bg-dark rounded-lg">
                         <TextField
                             name='searchBar'
-                            sx={{ mr: 5, flexGrow: 1 }}
+                            
+                            color='secondary'
                             label="Search by keyword"
                             value={searchKeyword}
                             onChange={(e) => setSearchKeyword(e.target.value)}
+                            className='mr-8 flex-grow rounded-lg'
                         />
-                        <FormControl sx={{ width: '20%' }}>
-                            <InputLabel sx={{ backgroundColor: 'white', px: 1 }}>Order Status</InputLabel>
-                            <Select value={filterCriteria} onChange={(e) => setFilterCriteria(e.target.value)}
+                        <FormControl color='secondary'  sx={{ width: '20%' }}>
+                            <InputLabel className="bg-dark-surface px-2">Order Status</InputLabel>
+                            <Select color='secondary'  value={filterCriteria} onChange={(e) => setFilterCriteria(e.target.value)}
                                 defaultValue='All Orders'>
                                 <MenuItem value="">All Orders</MenuItem>
                                 <MenuItem value="Pending">Pending</MenuItem>
@@ -312,7 +321,7 @@ const OrderList: React.FC<OrderListProps> = ({ orders }) => {
                                 {/* Add more filter options based on order status */}
                             </Select>
                         </FormControl>
-                    </Box>
+                    </div>
                 </CardContent>
             </Card>
             <DataGrid
@@ -332,8 +341,8 @@ const OrderList: React.FC<OrderListProps> = ({ orders }) => {
                 filteredOrders.length === 0 && !loading && <Typography variant='h4' sx={{ textAlign: "center" }} >No orders found based on the current filter/search criteria.</Typography>
             }
             {selectedOrder && <OrderDetails order={selectedOrder} open={isDialogOpen}
-                onClose={handleCloseDialog} />}
-        </Box>
+                handleClose={handleCloseDialog} />}
+        </div>
 
     );
 };

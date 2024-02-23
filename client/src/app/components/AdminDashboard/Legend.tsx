@@ -1,3 +1,4 @@
+import { Card, CardContent } from '@mui/material';
 import React from 'react'
 
 interface ChartSeriesItem {
@@ -12,17 +13,20 @@ interface LegendProps {
 
 const Legend: React.FC<LegendProps> = ({ series }) => {
     return (
-        <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between', marginTop: '20px' }}>
+        <div className='flex items-center flex-wrap justify-between text-sm text-on-dark-background mb-4'>
+
             {series.map((serie, index) => (
-                <div key={index} style={{ margin: 15, display: 'flex', alignItems: 'center', }}>
-                    <div style={{
-                        width: 20,
-                        height: 20,
-                        backgroundColor: serie.color,
-                        marginRight: 5,
-                    }} />
+                <Card elevation={5} key={index} className=' bg-dark-surface m-2' sx={{borderRadius:2}}>
+                    <CardContent className=' bg-dark-surface flex items-center'>
+                    <div
+                        className="w-8 h-8 rounded-lg mr-5 bg-dark-surface"
+                        style={{
+                            backgroundColor: serie.color,
+                    
+                        }} />
                     <span>{serie.label}</span>
-                </div>
+                    </CardContent>
+                </Card>
             ))}
         </div>
     );

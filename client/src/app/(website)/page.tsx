@@ -1,13 +1,13 @@
-import AgeVerification from "./components/AgeVerification";
-import ImageSlider from "./components/ImageSlider";
-import TextSlider from "./components/TextSlider";
-import TwoBoxSection from "./components/TwoBoxSection";
-import ProductGrid from "./components/ProductGrid";
-import ProductGridSwiper from "./components/ProductGridSwiper";
-import BrandIconSlider from "./components/BrandIconSwiper";
-import BoxLinks from "./components/BoxLinks";
+import AgeVerification from "../components/AgeVerification";
+import ImageSlider from "../components/ImageSlider";
+import TextSlider from "../components/TextSlider";
+import TwoBoxSection from "../components/TwoBoxSection";
+import ProductGrid from "../components/ProductGrid";
+import ProductGridSwiper from "../components/ProductGridSwiper";
+import BrandIconSlider from "../components/BrandIconSwiper";
+import BoxLinks from "../components/BoxLinks";
 import { NextPage } from "next";
-import SubscribeField from "./components/SubscribeField";
+import SubscribeField from "../components/SubscribeField";
 
 
 async function getData() {

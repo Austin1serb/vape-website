@@ -3,7 +3,7 @@ import Icon from './Icon';
 import Link from 'next/link';
 import Image from 'next/image';
 
-interface Product {
+interface ProductItem {
   id: number;
   name: string;
   imageUrl: string;
@@ -12,7 +12,7 @@ interface Product {
 }
 
 interface ProductCardProps {
-  product: Product;
+  product: ProductItem;
   sm?: boolean;
 }
 
@@ -39,7 +39,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, sm }) => {
   return (
     <div className=" flex flex-col justify-center items-center p-2">
       <div className='group relative w-full h-full flex flex-col justify-center items-center bg-white p-2'>
-      {/*<div className="h-48 w-48 relative">
+        {/*<div className="h-48 w-48 relative">
         <Image
           src={product.imageUrl}
           fill

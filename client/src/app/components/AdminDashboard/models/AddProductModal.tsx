@@ -17,7 +17,7 @@ import {
 import CategoryInput from '../CategoryInput';
 import ImageUpload from './ImageUpload';
 import StrengthFeaturedControl from './StrengthFeaturedControl';
-import SEOSection from './SEOSection';
+import SEOSection from './SEOsection';
 import ShippingInput from './ShippingInput';
 
 const initialProductData = {
@@ -46,43 +46,84 @@ const initialProductData = {
         },
     },
 };
+interface ProductData {
+    _id?: string | number;
+    brand: string;
+    name: string;
+    price: string;
+    specs: string;
+    totalSold: number;
+    imgSource: Array<{ url: string, publicId?: string }>;
+    category: string[];
+    description: string;
+    strength: string;
+    isFeatured: boolean;
+    flavor: string;
+    seo: {
+        title: string;
+        description: string;
+    };
+    seoKeywords: string[];
+    shipping: {
+        weight: number | string;
+        dimensions: {
+            length: number;
+            width: number;
+            height: number;
+        };
+    };
+}
+interface ErrorState {
+    [key: string]: string; // Assumes error state is a map of field names to error messages
+}
+
+interface Props {
+    open: boolean;
+    onClose: () => void;
+    onAddProduct: (productData: ProductData) => void;
+    selectedProduct?: ProductData;
+    onUpdateProduct: (productData: ProductData) => void;
+}
+
+interface SnackbarState {
+    isOpen: boolean;
+    message: string;
+}
 
 
+const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selectedProduct, onUpdateProduct, }) => {
+    const [productData, setProductData] = useState<ProductData>(selectedProduct || initialProductData);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<ErrorState>({});
+    const [selectedImage, setSelectedImage] = useState<File[]>([]);
+    const [selectedImageData, setSelectedImageData] = useState<string[]>([]);
+    const [selectedStrength, setSelectedStrength] = useState<string>('low');
+    const [isNewImageSelected, setIsNewImageSelected] = useState<boolean>(false);
+    const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
+    const [snackbarMessage, setSnackbarMessage] = useState<string>('');
 
-const AddProductModal = ({ open, onClose, onAddProduct, selectedProduct, onUpdateProduct, }) => {
-    const [productData, setProductData] = useState(selectedProduct || initialProductData);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState({});
-    const [selectedImage, setSelectedImage] = useState([]);
-    const [selectedImageData, setSelectedImageData] = useState([]);
-    const [selectedStrength, setSelectedStrength] = useState('low');
-    const [isNewImageSelected, setIsNewImageSelected] = useState(false);
-    const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
-    const [snackbarMessage, setSnackbarMessage] = useState('');
-
-    const openSnackbar = (errorData) => {
-        // Extract the first error message from errorData object
+    const openSnackbar = (errorData: ErrorState): void => {
         const firstError = Object.values(errorData)[0];
         setSnackbarMessage(firstError);
         setIsSnackbarOpen(true);
     };
 
 
-    const handleStrengthChange = (event) => {
-        const newStrength = event.target.value;
+    const handleStrengthChange = (event: React.ChangeEvent<{ value: unknown }>): void => {
+        const newStrength = event.target.value as 'low' | 'medium' | 'high'; // Assuming these are your valid strength values
         setSelectedStrength(newStrength);
-        setProductData({ ...productData, strength: newStrength });
+        setProductData(prevData => ({ ...prevData, strength: newStrength }));
     };
 
 
-    const handleAddKeyword = (newKeyword) => {
+    const handleAddKeyword = (newKeyword: string) => {
         setProductData({
             ...productData,
             seoKeywords: [...productData.seoKeywords, newKeyword],
         });
     };
 
-    const handleRemoveKeyword = (keyword) => {
+    const handleRemoveKeyword = (keyword: string) => {
         const updatedKeywords = productData.seoKeywords.filter((kw) => kw !== keyword);
         setProductData({
             ...productData,
@@ -142,7 +183,7 @@ const AddProductModal = ({ open, onClose, onAddProduct, selectedProduct, onUpdat
 
 
 
-    const handleChange = (event) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = event.target;
 
         if (name.startsWith('seo.')) {
@@ -180,7 +221,10 @@ const AddProductModal = ({ open, onClose, onAddProduct, selectedProduct, onUpdat
             }
         } else if (name === 'category') {
             const formattedCategory = value.toLowerCase().replace(/\s/g, '');
-            setProductData({ ...productData, [name]: formattedCategory });
+            setProductData(prevData => ({
+                ...prevData,
+                category: [...prevData.category, formattedCategory] // Adds the new formatted category to the array
+            }));
         } else if (name === 'isFeatured') {
             // Convert the value to a boolean
             const isFeatured = value === 'true';
@@ -233,7 +277,7 @@ const AddProductModal = ({ open, onClose, onAddProduct, selectedProduct, onUpdat
     const formatImagesForUpdate = () => {
         if (Array.isArray(selectedImageData) && selectedImageData.length) {
             return selectedImageData.map(url => {
-                const existingImageInfo = selectedProduct.imgSource.find(img => img.url === url);
+                const existingImageInfo = selectedProduct?.imgSource.find(img => img.url === url);
                 return {
                     url,
                     publicId: existingImageInfo ? existingImageInfo.publicId : undefined
@@ -248,7 +292,7 @@ const AddProductModal = ({ open, onClose, onAddProduct, selectedProduct, onUpdat
         }
     };
 
-    const makeApiCall = async (url, method, data) => {
+    const makeApiCall = async (url: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE', data?: object): Promise<Response> => {
         return fetch(url, {
             method,
             headers: HEADERS,
@@ -257,7 +301,7 @@ const AddProductModal = ({ open, onClose, onAddProduct, selectedProduct, onUpdat
         });
     };
 
-    const handleApiResponse = async (response) => {
+    const handleApiResponse = async (response: Response) => {
         if (response.ok) {
             const product = await response.json();
             if (selectedProduct) {
@@ -279,19 +323,24 @@ const AddProductModal = ({ open, onClose, onAddProduct, selectedProduct, onUpdat
 
 
     // receive file from form
-    const handleImage = (e) => {
-        const files = Array.from(e.target.files); // Convert the FileList to an array
-        files.forEach(file => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onloadend = () => {
-                // Add the new image URL to selectedImageData
-                setSelectedImageData(prevImages => [...prevImages, reader.result]);
-            };
-        });
-        setSelectedImage(files);
-        setIsNewImageSelected(true);
+    const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            const files = Array.from(e.target.files); // Convert the FileList to an array
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onloadend = () => {
+                    // Ensure reader.result is a string before adding it
+                    if (typeof reader.result === 'string') {
+                        setSelectedImageData(prevImages => [...prevImages, reader.result as string]);
+                    }
+                };
+            });
+            setSelectedImage(files);
+            setIsNewImageSelected(true);
+        }
     };
+
 
 
 
@@ -307,7 +356,7 @@ const AddProductModal = ({ open, onClose, onAddProduct, selectedProduct, onUpdat
 
 
     // Function to handle adding a new category
-    const handleAddCategory = (newCategory) => {
+    const handleAddCategory = (newCategory: string): void => {
         setProductData({
             ...productData,
             category: [...productData.category, newCategory],
@@ -315,7 +364,7 @@ const AddProductModal = ({ open, onClose, onAddProduct, selectedProduct, onUpdat
     };
 
     // Function to handle removing a category
-    const handleRemoveCategory = (category) => {
+    const handleRemoveCategory = (category: string): void => {
         setProductData({
             ...productData,
             category: productData.category.filter((c) => c !== category),
@@ -407,7 +456,11 @@ const AddProductModal = ({ open, onClose, onAddProduct, selectedProduct, onUpdat
                         value={productData.price}
                         onChange={handleChange}
                         autoComplete='false'
-                        onWheel={(e) => e.target.blur()}
+                        onWheel={(e) => {
+                            if (e.target instanceof HTMLInputElement) {
+                                e.target.blur();
+                            }
+                        }}
                     />
                     {/* Specs */}
                     <TextField

@@ -89,7 +89,9 @@ export interface ProductOrdered {
     price: number;
     quantity: number;
     img: string;
+    imageUrl?:string;
     _id: string;
+    reviews?:string
 }
 
 export interface ShippingMethod {
@@ -114,11 +116,11 @@ export interface TotalAmount {
 }
 
 export interface Customer {
-    _id: string;
+    _id?: string;
     firstName: string;
     lastName: string;
     email: string;
-    isVerified: boolean;
+    isVerified?: boolean;
     isAdmin?: boolean;
     password?: string;
     orders?: string[];

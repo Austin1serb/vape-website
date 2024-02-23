@@ -3,7 +3,16 @@
 import React from 'react';
 import { FormControl, FormLabel, Box, TextField } from '@mui/material';
 
-const ShippingInput = ({ weight, length, width, height, handleChange }) => {
+
+interface ShippingInputProps {
+    weight: number|string;
+    length: number|string;
+    width: number|string;
+    height: number|string;
+    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const ShippingInput: React.FC<ShippingInputProps> = ({ weight, length, width, height, handleChange }) => {
     return (
         <FormControl
 
@@ -56,7 +65,11 @@ const ShippingInput = ({ weight, length, width, height, handleChange }) => {
                     fullWidth
                     value={weight}
                     onChange={handleChange}
-                    onWheel={(e) => e.target.blur()}
+                    onWheel={(e) => {
+                        if (e.target instanceof HTMLInputElement) {
+                            e.target.blur();
+                        }
+                    }}
                 />
                 <TextField
                     sx={{ my: 2 }}
@@ -66,7 +79,11 @@ const ShippingInput = ({ weight, length, width, height, handleChange }) => {
                     fullWidth
                     value={length}
                     onChange={handleChange}
-                    onWheel={(e) => e.target.blur()}
+                    onWheel={(e) => {
+                        if (e.target instanceof HTMLInputElement) {
+                            e.target.blur();
+                        }
+                    }}
                 />
                 <TextField
                     sx={{ my: 2 }}
@@ -76,7 +93,11 @@ const ShippingInput = ({ weight, length, width, height, handleChange }) => {
                     fullWidth
                     value={width}
                     onChange={handleChange}
-                    onWheel={(e) => e.target.blur()}
+                    onWheel={(e) => {
+                        if (e.target instanceof HTMLInputElement) {
+                            e.target.blur();
+                        }
+                    }}
                 />
                 <TextField
                     sx={{ my: 2 }}
@@ -86,7 +107,11 @@ const ShippingInput = ({ weight, length, width, height, handleChange }) => {
                     fullWidth
                     value={height}
                     onChange={handleChange}
-                    onWheel={(e) => e.target.blur()}
+                    onWheel={(e) => {
+                        if (e.target instanceof HTMLInputElement) {
+                            e.target.blur();
+                        }
+                    }}
                 />
             </Box>
         </FormControl>

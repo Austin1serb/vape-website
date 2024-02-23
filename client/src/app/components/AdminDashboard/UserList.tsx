@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import EditCustomerModal from './models/EditCustomerModal';
 import dynamic from 'next/dynamic';
-import DataGridSkeleton from './DataGridSkeleton';
+import DataGridSkeleton from './AdminSkeletons/DataGridSkeleton';
 import { GridColDef } from '@mui/x-data-grid';
 import { Customer, Guest } from '../types';
 
@@ -389,7 +389,7 @@ const UserList: React.FC<UsersState> = ({ customers, guests }) => {
                 <EditCustomerModal
                     open={editCustomerModalOpen}
                     onClose={() => setEditCustomerModalOpen(false)}
-                    customer={selectedCustomer}
+                    customer={selectedCustomer!}
                     updateCustomerList={updateCustomerInList}
                     isViewOnly={viewMode} // Add this line
                 />

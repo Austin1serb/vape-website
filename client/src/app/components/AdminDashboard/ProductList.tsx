@@ -3,30 +3,23 @@ import { Typography, Button, Box, CircularProgress } from '@mui/material';
 import AddProductModal from './models/AddProductModal';
 import { DataGrid, GridColDef, GridToolbar, GridValueFormatterParams } from '@mui/x-data-grid';
 import DetailsView from './DetailsView';
+import Image from 'next/image';
+import { Product } from '../types';
 
 const API_URL = 'http://localhost:8000/api/product/';
-interface Product {
-    _id: string;
-    name: string;
-    category: string;
-    specs: string;
-    imgSource: { url: string }[];
-    totalSold: number;
-    price: number;
-    createdAt: string;
-}
-interface Error {
+
+interface ErrorState {
     message: string;
 }
-const ProductList = () => {
+const ProductList: React.FC = () => {
     const [detailsViewOpen, setDetailsViewOpen] = useState<boolean>(false);
     const [selectedProductForDetails, setSelectedProductForDetails] = useState<Product | null>(null);
     const [products, setProducts] = useState<Product[]>([]);
-    const [isAddProductModalOpen, setAddProductModalOpen] = useState<boolean>(false);
-    const [isEditModalOpen, setEditModalOpen] = useState<boolean>(false);
+    const [isAddProductModalOpen, setIsAddProductModalOpen] = useState<boolean>(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [error, setError] = useState<Error | null>(null);
+    const [error, setError] = useState<ErrorState | null>(null);
 
     const formatDate = (dateString: string): string => {
         if (dateString) {
@@ -66,26 +59,26 @@ const ProductList = () => {
     }, []);
 
     const handleOpenAddProductModal = () => {
-        setAddProductModalOpen(true);
+        setIsAddProductModalOpen(true);
     };
 
     const handleCloseAddProductModal = () => {
-        setAddProductModalOpen(false);
+        setIsAddProductModalOpen(false);
     };
     const handleCloseEditProductModal = () => {
-        setAddProductModalOpen(false);
-        setEditModalOpen(false);
+        setIsAddProductModalOpen(false);
+        setIsEditModalOpen(false);
         setSelectedProduct(null); // Reset selectedProduct when the edit modal is closed
     };
 
-    const handleAddProduct = (newProductData: Product) => {
+    const handleAddProduct = (newProduct: Product) => {
         // You can update the 'products' state with the new product data here
-        setProducts([...products, newProductData]);
+        setProducts([...products, newProduct]);
         handleCloseAddProductModal();
     };
     const handleEditProduct = (product: React.SetStateAction<Product | null>) => {
         setSelectedProduct(product);
-        setEditModalOpen(true);
+        setIsEditModalOpen(true);
     };
     const handleOpenDetailsView = (product: React.SetStateAction<Product | null>) => {
         setSelectedProductForDetails(product);
@@ -139,12 +132,15 @@ const ProductList = () => {
             headerName: 'Image',
             flex: 0.5,
             renderCell: (params) => (
-                <img
+                <div className='relative h-12 w-12'>
+                <Image
                     src={params.value[0]?.url || '/default-product-image.jpg'} // Fallback to a default image if no URL
+                    fill
                     alt="Product"
-                    style={{ width: '50px', height: '50px' }}
-                    loading="lazy"
+                    sizes='5vw'
+                    quality={30}
                 />
+                </div>
             ),
         },
         { field: 'name', headerName: 'Name', flex: 1 },
@@ -213,15 +209,10 @@ const ProductList = () => {
                 <CircularProgress />
             ) : (
                 <DataGrid
-                    sx={{}}
-                    
-
+                 
                     rows={products.map(product => ({
                         ...product,
-
-                        createdAt: formatDate(product.createdAt), // Format the date
-
-
+                        createdAt: formatDate(product.createdAt!), // Format the date
                     }))}
 
                     //rows={products}
@@ -245,7 +236,7 @@ const ProductList = () => {
             {detailsViewOpen && (
                 <DetailsView
                     open={detailsViewOpen}
-                    product={selectedProductForDetails}
+                    product={selectedProductForDetails!}
                     onClose={() => setDetailsViewOpen(false)}
                 />
             )}

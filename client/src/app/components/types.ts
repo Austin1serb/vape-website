@@ -1,24 +1,36 @@
 // types.ts
 
+export interface Shipping {
+    weight: number |string;
+    dimensions: {
+        length: number |string;
+        width: number |string;
+        height: number |string;
+    };
+};
 export interface Product {
-    _id: string;
+    _id?: string | number;
     brand: string;
-    totalSold: number;
     name: string;
     price: number;
     specs: string;
-    imgSource: ImageSource[];
+    totalSold: number;
+    imgSource: Array<{ url: string, publicId?: string }>;
     category: string[];
-    flavor: string;
     description: string;
-    strength: 'low' | 'medium' | 'high'; // Adjust based on actual values
+    strength: string;
     isFeatured: boolean;
+    flavor: string;
+    seo: {
+        title: string;
+        description: string;
+    };
     seoKeywords: string[];
-    seo: SEO;
     shipping: Shipping;
-    createdAt: string;
-    updatedAt: string;
-    __v: number;
+    createdAt?: string;
+    updatedAt?: string | undefined;
+    __v?: number;
+    quantity?: number;
 }
 
 export interface Guest {
@@ -50,16 +62,6 @@ export interface SEO {
     description: string;
 }
 
-export interface Shipping {
-    dimensions: Dimensions;
-    weight: number;
-}
-
-export interface Dimensions {
-    length: number;
-    width: number;
-    height: number;
-}
 
 export interface Order {
     _id: string;
@@ -84,14 +86,14 @@ export interface Order {
 }
 
 export interface ProductOrdered {
-    productId: string|number;
+    productId: string | number;
     name: string;
     price: number;
     quantity: number;
     img: string;
-    imageUrl?:string;
+    imageUrl?: string;
     _id: string;
-    reviews?:string
+    reviews?: string
 }
 
 export interface ShippingMethod {

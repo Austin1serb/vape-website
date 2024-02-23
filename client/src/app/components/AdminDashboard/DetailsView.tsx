@@ -5,7 +5,6 @@ import {
     DialogContent,
     Button,
     Typography,
-    Box,
     Table,
     TableBody,
     TableCell,
@@ -112,13 +111,13 @@ const DetailsView:React.FC<Props> = ({ open, product, onClose }) => {
                                 <TableCell>
                                     <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>SEO Title:</Typography>
                                 </TableCell>
-                                <TableCell>{product.seo.title}</TableCell>
+                                <TableCell>{product.seo?.title}</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell>
                                     <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>SEO Description:</Typography>
                                 </TableCell>
-                                <TableCell>{product.seo.description}</TableCell>
+                                <TableCell>{product.seo?.description}</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell>
@@ -130,38 +129,38 @@ const DetailsView:React.FC<Props> = ({ open, product, onClose }) => {
                                 <TableCell>
                                     <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Shipping Weight:</Typography>
                                 </TableCell>
-                                <TableCell>{product.shipping.weight} oz</TableCell>
+                                <TableCell>{product.shipping?.weight} oz</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell>
                                     <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Shipping Height:</Typography>
                                 </TableCell>
-                                <TableCell>{product.shipping.dimensions.height} in</TableCell>
+                                <TableCell>{product.shipping?.dimensions.height} in</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell>
                                     <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Shipping Width:</Typography>
                                 </TableCell>
-                                <TableCell>{product.shipping.dimensions.width} in</TableCell>
+                                <TableCell>{product.shipping?.dimensions.width} in</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell>
                                     <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Shipping Length:</Typography>
                                 </TableCell>
-                                <TableCell>{product.shipping.dimensions.length} in</TableCell>
+                                <TableCell>{product.shipping?.dimensions.length} in</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell>
                                     <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Date Added:</Typography>
                                 </TableCell>
-                                <TableCell>{new Date(product.createdAt).toLocaleString()}</TableCell>
+                                <TableCell>{new Date(product.createdAt!).toLocaleString()}</TableCell>
                             </TableRow>
                             {/* Add more rows for additional fields as needed */}
                         </TableBody>
                     </Table>
                 </TableContainer>
             </DialogContent>
-            <Box sx={{}}>
+            <div>
                 <Button
                     onClick={onClose}
                     variant="outlined"
@@ -170,7 +169,7 @@ const DetailsView:React.FC<Props> = ({ open, product, onClose }) => {
                 >
                     Close
                 </Button>
-            </Box>
+            </div>
         </Dialog>
     );
 };

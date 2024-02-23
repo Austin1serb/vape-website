@@ -19,11 +19,12 @@ import ImageUpload from './ImageUpload';
 import StrengthFeaturedControl from './StrengthFeaturedControl';
 import SEOSection from './SEOsection';
 import ShippingInput from './ShippingInput';
+import { Product } from '@/components/types';
 
 const initialProductData = {
     brand: '',
     name: '',
-    price: '',
+    price: 0.00,
     specs: '',
     totalSold: 0,
     imgSource: [],
@@ -46,33 +47,7 @@ const initialProductData = {
         },
     },
 };
-interface ProductData {
-    _id?: string | number;
-    brand: string;
-    name: string;
-    price: string;
-    specs: string;
-    totalSold: number;
-    imgSource: Array<{ url: string, publicId?: string }>;
-    category: string[];
-    description: string;
-    strength: string;
-    isFeatured: boolean;
-    flavor: string;
-    seo: {
-        title: string;
-        description: string;
-    };
-    seoKeywords: string[];
-    shipping: {
-        weight: number | string;
-        dimensions: {
-            length: number;
-            width: number;
-            height: number;
-        };
-    };
-}
+
 interface ErrorState {
     [key: string]: string; // Assumes error state is a map of field names to error messages
 }
@@ -80,19 +55,14 @@ interface ErrorState {
 interface Props {
     open: boolean;
     onClose: () => void;
-    onAddProduct: (productData: ProductData) => void;
-    selectedProduct?: ProductData;
-    onUpdateProduct: (productData: ProductData) => void;
-}
-
-interface SnackbarState {
-    isOpen: boolean;
-    message: string;
+    onAddProduct: (productData: Product) => void;
+    selectedProduct?: Product | null;
+    onUpdateProduct: (productData: Product) => void;
 }
 
 
 const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selectedProduct, onUpdateProduct, }) => {
-    const [productData, setProductData] = useState<ProductData>(selectedProduct || initialProductData);
+    const [productData, setProductData] = useState<Product>(selectedProduct || initialProductData);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<ErrorState>({});
     const [selectedImage, setSelectedImage] = useState<File[]>([]);
@@ -124,7 +94,7 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
     };
 
     const handleRemoveKeyword = (keyword: string) => {
-        const updatedKeywords = productData.seoKeywords.filter((kw) => kw !== keyword);
+        const updatedKeywords = productData.seoKeywords?.filter((kw) => kw !== keyword);
         setProductData({
             ...productData,
             seoKeywords: updatedKeywords,
@@ -164,11 +134,12 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
     useEffect(() => {
         if (selectedProduct) {
             setProductData(selectedProduct);
-            setSelectedStrength(selectedProduct.strength);
+            setSelectedStrength(selectedProduct.strength!);
 
             // Check if selectedProduct has an image source
             if (selectedProduct.imgSource && selectedProduct.imgSource.length > 0) {
                 setSelectedImageData(selectedProduct.imgSource.map(imageObj => imageObj.url));
+
             } else {
                 setSelectedImageData([]);
             }
@@ -337,11 +308,10 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
                 };
             });
             setSelectedImage(files);
+
             setIsNewImageSelected(true);
         }
     };
-
-
 
 
 
@@ -560,10 +530,10 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
 
                     {/* SHIPPING INPUT */}
                     <ShippingInput
-                        weight={weight}
-                        length={length}
-                        width={width}
-                        height={height}
+                        weight={weight as number}
+                        length={length as number}
+                        width={width as number}
+                        height={height as number}
                         handleChange={handleChange}
                     />
 

@@ -4,7 +4,7 @@ import { TextField, Select, MenuItem, Snackbar, FormControl, InputLabel, Box, Ci
 import Tooltip from '@mui/material/Tooltip';
 import OrderDetails from './OrderDetails';
 import { Order } from '../types';
-import DataGridSkeleton from './DataGridSkeleton';
+import DataGridSkeleton from './AdminSkeletons/DataGridSkeleton';
 
 
 interface OrderListProps {

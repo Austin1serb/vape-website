@@ -5,8 +5,17 @@ import {
     Box, FormControl, FormLabel, RadioGroup,
     FormControlLabel, Radio, Typography
 } from '@mui/material';
+import { Product } from '@/components/types';
 
-const StrengthFeaturedControl = ({
+interface StrengthFeaturedControlProps {
+    selectedStrength: string;
+    handleStrengthChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    productData: Product;
+    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    error: any;
+}
+
+const StrengthFeaturedControl:React.FC <StrengthFeaturedControlProps> = ({
     selectedStrength,
     handleStrengthChange,
     productData,

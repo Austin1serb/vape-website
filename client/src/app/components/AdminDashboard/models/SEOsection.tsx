@@ -3,9 +3,18 @@
 import React from 'react';
 import { FormControl, FormLabel, Box, TextField } from '@mui/material';
 import SeoKeywordsInput from '../SeoKeywordsInput'; 
+import { Product } from '@/components/types';
 
 
-const SEOSection = ({ productData, handleChange, handleAddKeyword, handleRemoveKeyword }) => {
+interface SEOsectionProps {
+    productData: Product;
+    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    handleAddKeyword: (keyword: string) => void;
+    handleRemoveKeyword: (keyword: string) => void;
+}
+
+
+const SEOSection:React.FC<SEOsectionProps>= ({ productData, handleChange, handleAddKeyword, handleRemoveKeyword }) => {
     return (
         <FormControl
 

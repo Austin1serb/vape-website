@@ -9,7 +9,13 @@ import {
     Typography,
 } from '@mui/material';
 
-const CategoryInput = ({ category, onAddCategory, onRemoveCategory, error }) => {
+interface CategoryInputProps {
+    category: string[];
+    onAddCategory: (category: string) => void;
+    onRemoveCategory: (category: string) => void;
+    error?: string|null;
+}
+const CategoryInput:React.FC<CategoryInputProps> = ({ category, onAddCategory, onRemoveCategory, error }) => {
     const [newCategory, setNewCategory] = useState('');
     const [localError, setLocalError] = useState(error);
 
@@ -68,9 +74,7 @@ const CategoryInput = ({ category, onAddCategory, onRemoveCategory, error }) => 
             component="fieldset"
         >
             <FormLabel
-                name='category-input'
                 id="category-input"
-
                 component="legend"
                 className="form-label-sx"
                 sx={{

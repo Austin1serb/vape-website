@@ -11,14 +11,16 @@ import { styled } from '@mui/material/styles';
 interface ImageUploadProps {
     error: { [key: string]: string }; // Adjust based on the actual structure of your error object
     loading: boolean;
-    selectedImage: File;
+    selectedImage?: File[];
     selectedImageData: string[]; // Array of image URLs
     handleImage: (event: React.ChangeEvent<HTMLInputElement>) => void;
     setSelectedImageData: (newImageData: string[]) => void;
+    //Type 'File[]' is missing the following properties from type 'File': lastModified, name, webkitRelativePath, size, and 4 more.ts(2740)
+//ImageUpload.tsx(14, 5): The expected type comes from property 'selectedImage' which is declared here on type 'IntrinsicAttributes & ImageUploadProps'
+
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({
-
     error,
     loading,
     selectedImage,
@@ -130,7 +132,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                 }
                 {selectedImage ? (
                     <Typography variant="body2" color="textSecondary">
-                        Selected image(s): {selectedImage.name}
+                        Selected image(s): {selectedImage[0]?.name}
                     </Typography>
                 ) : (
                     <Box>

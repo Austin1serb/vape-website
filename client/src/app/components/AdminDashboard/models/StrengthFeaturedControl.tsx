@@ -15,7 +15,7 @@ interface StrengthFeaturedControlProps {
     error: any;
 }
 
-const StrengthFeaturedControl:React.FC <StrengthFeaturedControlProps> = ({
+const StrengthFeaturedControl: React.FC<StrengthFeaturedControlProps> = ({
     selectedStrength,
     handleStrengthChange,
     productData,
@@ -36,31 +36,18 @@ const StrengthFeaturedControl:React.FC <StrengthFeaturedControlProps> = ({
                 pb: 1,
                 border: 1,
                 borderRadius: 1,
-                borderColor: '#CACACA',
-                '&:hover': {
-                    borderColor: 'black',
-                    '& .form-label-sx': {
-                        color: '#1776D1',
 
-                        transition: 'color 0.4s, ',
-
-                    },
-                },
-                ' &:not(:hover)': {
-                    '& .form-label-sx': {
-                        color: 'initial', // Return the text color to its original state
-
-                        transition: 'color 0.4s, ',
-                    },
-                },
-            }} component="fieldset">
+            }}
+                component="fieldset"
+                className='border-gray-500'
+            >
                 <FormLabel
                     sx={{
                         fontSize: 16,
                         pr: 0.5,
                         pl: .5,
                     }}
-                    className='form-label-sx'
+                    className='form-label-sx text-blue-500'
                     component="legend"
                 >Strength</FormLabel>
                 <RadioGroup
@@ -100,36 +87,17 @@ const StrengthFeaturedControl:React.FC <StrengthFeaturedControlProps> = ({
                         pb: 1,
                         border: 1,
                         borderRadius: 1,
-                        borderColor: '#CACACA',
-                        '&:hover': {
-                            borderColor: 'black',
-                            '& .form-label-sx': {
-                                color: '#1776D1',
-
-                                transition: 'color 0.4s',
-
-                            },
-                        },
-                        ' &:not(:hover)': {
-                            '& .form-label-sx': {
-                                color: 'initial', // Return the text color to its original state
-
-                                transition: 'color 0.4s',
-
-                            },
-                        },
                     }}
                     component="fieldset"
+                    className='border-gray-500'
                 >
                     <FormLabel sx={{
                         fontSize: 16,
-
                         pl: .5,
-
-
                     }}
-                        className='form-label-sx' component="legend">Feature on Home page?</FormLabel>
+                        className='form-label-sx text-blue-500' component="legend">Feature on Home page?</FormLabel>
                     <RadioGroup
+                        color='success'
                         row
                         aria-label="isFeatured"
                         name="isFeatured"
@@ -140,6 +108,7 @@ const StrengthFeaturedControl:React.FC <StrengthFeaturedControlProps> = ({
                             value={Boolean(true)}
                             control={<Radio />}
                             label="Yes"
+                            color='secondary'
                         />
                         <FormControlLabel
                             value={Boolean(false)}

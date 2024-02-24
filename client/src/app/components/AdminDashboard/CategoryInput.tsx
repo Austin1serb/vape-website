@@ -45,6 +45,7 @@ const CategoryInput:React.FC<CategoryInputProps> = ({ category, onAddCategory, o
 
     return (
         <FormControl
+        className='transition-all duration-300 border-gray-500'
             sx={{
 
                 width: '97%',
@@ -53,32 +54,20 @@ const CategoryInput:React.FC<CategoryInputProps> = ({ category, onAddCategory, o
                 pr: 1,
                 border: 1,
                 borderRadius: 1,
-                borderColor: localError ? (theme) => theme.palette.error.main : 'black',
-                '&:hover': {
-                    borderColor: localError ? (theme) => theme.palette.error.main : '#1776D1',
-                    '& .form-label-sx': {
-                        color: localError ? (theme) => theme.palette.error.main : '#1776D1',
-
-                        transition: 'color 0.4s, ',
-                    },
-                },
-                '&:not(:hover)': {
-                    '& .form-label-sx': {
-                        color: localError ? (theme) => theme.palette.error.main : 'initial',
-
-                        transition: 'color 0.4s, ',
-                    },
-                },
+                color:'gray',
+                borderColor: localError ? (theme) => theme.palette.error.main : '#686D6E',
             }}
             name='category-input'
             component="fieldset"
+            variant="outlined"
         >
             <FormLabel
                 id="category-input"
                 component="legend"
-                className="form-label-sx"
+                className="form-label-sx text-blue-500"
                 sx={{
                     fontSize: 16,
+                    color:'gray'
                 }}
             >
                 Add product categories.*

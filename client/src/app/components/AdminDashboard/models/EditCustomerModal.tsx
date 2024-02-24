@@ -1,6 +1,22 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import { Modal, Box, Typography, TextField, Button, Grid } from '@mui/material';
+import { Modal, Box, Typography, TextField, Button, Grid, InputAdornment, Tooltip, Switch, Dialog, DialogContent, DialogTitle, Snackbar, CircularProgress } from '@mui/material';
 import { Customer } from '@/components/types';
+import { EmailOutlined } from '@mui/icons-material';
+
+//error interface object
+
+interface Error {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    address?: string;
+    city?: string;
+    state?: string;
+    zip?: string;
+    phone?: string;
+    country?: string;
+    message?: string;
+}
 
 
 interface EditCustomerModalProps {
@@ -11,6 +27,19 @@ interface EditCustomerModalProps {
     isViewOnly?: boolean;
 }
 const EditCustomerModal: React.FC<EditCustomerModalProps> = ({ open, onClose, customer, updateCustomerList, isViewOnly = false }) => {
+    const [changeEmail, setChangeEmail] = useState<boolean>(false)
+    const [errors, setErrors] = useState<Error>({});
+    const [loading, setLoading] = useState<boolean>(false);
+
+    const handleChangeEmail = () => {
+        setChangeEmail(!changeEmail)
+    }
+    const handleClose = ()=>{
+        onClose()
+        setLoading(false)
+        setErrors({})
+    }
+
     const [formData, setFormData] = useState<Customer>({
         firstName: '',
         lastName: '',
@@ -41,31 +70,47 @@ const EditCustomerModal: React.FC<EditCustomerModalProps> = ({ open, onClose, cu
             [name]: value,
         }));
     };
-
-    const handleSubmit = () => {
-        fetch(`http://localhost:8000/api/customer/${customer._id}`, {
-            method: 'PUT',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-        })
-            .then((response) => response.json())
-            .then((updatedCustomer) => {
-                updateCustomerList(updatedCustomer);
-                onClose(); // Close the modal
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                // Handle errors (e.g., show a notification)
+    const handleSubmit = async () => {
+        setLoading(true);
+        setErrors({});
+        try {
+            const response = await fetch(`http://localhost:8000/api/customer/${customer._id}`, {
+                method: 'PUT',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
             });
+
+            if (!response.ok) {
+                // This will catch any response that is not 2xx status code
+                const errorData = await response.json();
+                console.error('Error:', errorData.message || 'An error occurred');
+                setErrors(errorData);
+
+                setLoading(false);
+
+                return;
+            }
+
+            const updatedCustomer = await response.json();
+            updateCustomerList(updatedCustomer);
+            onClose(); // Close the modal
+        } catch (error) {
+            console.error('Error:', error);
+            // Handle errors (e.g., show a notification)
+            // Optionally, return or throw the error to be handled by the caller
+        }
+        finally { setLoading(false); }
     };
 
+
     return (
-        <Modal open={open} onClose={onClose}>
-            <Box sx={{ ...modalStyle }}>
-                <Typography variant="h6">Edit Customer</Typography>
+        <Dialog open={open} onClose={onClose} >
+
+            <DialogTitle className='bg-primary-variant text-center uppercase h-18'>Edit Customer</DialogTitle>
+            <DialogContent sx={{ borderRadius: 3 }} className='bg-dark-background border-primary-variant border-4'>
                 <Grid container spacing={2}>
 
                     <Grid item xs={12} sm={6}>
@@ -79,6 +124,9 @@ const EditCustomerModal: React.FC<EditCustomerModalProps> = ({ open, onClose, cu
                             fullWidth
                             margin="normal"
                             disabled={isViewOnly}
+                            error={!!errors.message}
+                            helperText={errors.message}
+                            color={errors.firstName ? 'error' : 'primary'}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
@@ -91,6 +139,9 @@ const EditCustomerModal: React.FC<EditCustomerModalProps> = ({ open, onClose, cu
                             fullWidth
                             margin="normal"
                             disabled={isViewOnly}
+                            error={!!errors.lastName}
+                            helperText={errors.lastName}
+                            color={errors.lastName ? 'error' : 'primary'}
                         />
                     </Grid>
                     <Grid item xs={12} >
@@ -102,7 +153,23 @@ const EditCustomerModal: React.FC<EditCustomerModalProps> = ({ open, onClose, cu
                             onChange={handleInputChange}
                             fullWidth
                             margin="normal"
-                            disabled={isViewOnly}
+                            disabled={isViewOnly || !changeEmail}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <EmailOutlined color='secondary' />
+                                    </InputAdornment>
+                                ),
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <Switch color='secondary' checked={changeEmail} onChange={handleChangeEmail} />
+                                    </InputAdornment>
+                                ),
+                            }}
+                            helperText="This will change the email associated with the account."
+                            error={!!errors.email}
+                            color={errors.email ? 'error' : 'primary'}
+
                         />
                     </Grid>
                     {/* Address Line 1 */}
@@ -110,7 +177,7 @@ const EditCustomerModal: React.FC<EditCustomerModalProps> = ({ open, onClose, cu
                         <TextField
                             label="Address"
                             fullWidth
-                            name="address1"
+                            name="address"
                             autoComplete="address-line1"
                             value={formData.address || ''}
                             onChange={handleInputChange}
@@ -218,15 +285,19 @@ const EditCustomerModal: React.FC<EditCustomerModalProps> = ({ open, onClose, cu
                             variant="outlined"
                             color="primary"
                             sx={{ mt: 2 }}
-                            disabled={isViewOnly}
+                            disabled={isViewOnly||loading}
+                  
                         >
-                            Save Changes
+                            {loading ? <CircularProgress /> : 'Save Changes'}
+                            
                         </Button>
                     </Grid>
                     <Grid item xs={6} >
                         <Button
                             fullWidth
-                            onClick={onClose}
+                            onClick={
+                              handleClose
+                            }
                             variant="outlined"
                             color="secondary"
                             sx={{ mt: 2 }}
@@ -235,22 +306,19 @@ const EditCustomerModal: React.FC<EditCustomerModalProps> = ({ open, onClose, cu
                         </Button>
                     </Grid>
                 </Grid>
-            </Box>
-        </Modal>
+            </DialogContent>
+            {/* snackbar error message */}
+            {/*<Snackbar
+                open={!!errors.message}
+                autoHideDuration={6000}
+                onClose={() => setErrors({ message: '' })}
+                message={errors.message}
+            />*/}
+
+        </Dialog>
     );
 };
 
-const modalStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '50%',
-    bgcolor: 'background.paper',
-    boxShadow: 24,
-    p: 4,
-    borderRadius: '10px',
 
-};
 
 export default EditCustomerModal;

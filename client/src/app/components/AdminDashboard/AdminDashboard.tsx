@@ -15,14 +15,11 @@ import {
     Paper,
 
     List,
-    ListItem,
-    ListItemText,
+
     IconButton,
     Box,
-    ListItemIcon,
     Menu,
     MenuItem,
-    Button,
     Divider,
     AppBar,
 } from '@mui/material';
@@ -39,6 +36,7 @@ import { SaleItem, aggregateSalesData, transformAndSortDataForChart } from './Fe
 import { ThemeProvider, createTheme, alpha, Theme, CSSObject, styled, useTheme, } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import GenerateSidebarItems from './models/GenerateSideBarItems';
+import { deepPurple } from '@mui/material/colors';
 
 const violetBase = '#7F00FF';
 const violetMain = alpha(violetBase, 0.7);
@@ -51,28 +49,57 @@ const violet = {
 const darkTheme = createTheme({
     palette: {
         mode: 'dark',
+        secondary:deepPurple
+
     },
     typography: {
         fontFamily: "Montserrat, Arial"
     },
-    components: {
-        MuiButton: {
-            styleOverrides: {
-                outlinedSecondary: {
+    //components: {
+        
+    //    MuiSwitch: {
+    //        styleOverrides: {
+    //            // Target the thumb of the switch when it is checked + secondary
+    //            thumb: {
+    //                // When the switch is in the "checked" state
+    //                '&.Mui-checked': {
+    //                    color: violet.main, // Change thumb color
+    //                },
+    //            },
+    //            // Target the track of the switch when it is checked + secondary
+    //            track: {
+    //                // When the switch is in the "checked" state
+    //                '&.Mui-checked': {
+    //                    backgroundColor: violet.dark, // Change track color
+    //                },
+    //                // When the switch is in the "checked" + "disabled" state
+    //                '&.Mui-checked + &.Mui-disabled': {
+    //                    opacity: 0.5, // Adjust opacity (if needed)
+    //                },
+    //            },
+    //            // Target the switch when it is in the secondary color
+    //            switchBase: {
+    //                '&.Mui-checked': {
+    //                    // Change color when switch is checked (affects the thumb)
+    //                    color: violet.main,
+    //                    // Change the track color when the switch is checked
+    //                    '+ .MuiSwitch-track': {
+    //                        backgroundColor: violet.dark,
+    //                    },
 
-                    borderColor: violet.main, // Ensure the border uses the main color
-                    borderWidth: 1.5,
-
-                    '&:hover': {
-                        backgroundColor: alpha(violet.light, 0.2), // Brighter background on hover
-                        borderColor: alpha(violet.light, 1), // Brighter border on hover
-                        color: alpha(violet.contrastText, 1), // Brighter text on hover
-                        borderWidth: 1.5,
-                    },
-                },
-            },
-        },
-    },
+    //                },
+    //            }
+    //        }
+    //    },
+    //    MuiSvgIcon: {
+    //        styleOverrides: {
+    //            colorSecondary: {
+    //                color: violet.main
+    //            }
+    //        }
+    //    },
+       
+    //},
 
 });
 
@@ -81,7 +108,8 @@ const drawerWidth = 275;
 
 const openedMixin = (theme: Theme): CSSObject => ({
     width: drawerWidth,
-    border:'none',
+    border: 'none',
+    boxShadow: '20px 0 20px -10px rgba(0, 0, 0, 0.5)',
     transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
@@ -95,7 +123,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
         duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: 'hidden',
-    border:'none',
+    border: 'none',
     width: `calc(${theme.spacing(7)} + 1px)`,
     [theme.breakpoints.up('sm')]: {
         width: `calc(${theme.spacing(8)} + 1px)`,
@@ -105,7 +133,6 @@ const CustomDrawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== '
     ({ theme, open }) => ({
         width: drawerWidth,
         flexShrink: 0,
-        border:0,
         whiteSpace: 'nowrap',
         boxSizing: 'border-box',
         ...(open && {
@@ -250,6 +277,7 @@ const AdminDashboard = () => {
                 const aggregatedData = aggregateSalesData(data);
                 const chartData = transformAndSortDataForChart(aggregatedData);
                 setSalesData(chartData);
+                console.log('salesData: ', salesData)
             } catch (error) {
                 if (error instanceof Error && error.name !== 'AbortError') {
                     console.error('Error fetching data:', error);
@@ -293,7 +321,7 @@ const AdminDashboard = () => {
     const handleLogout = () => {
         //logout();
     };
-    
+
     const menuId = 'primary-search-account-menu';
 
 
@@ -303,7 +331,7 @@ const AdminDashboard = () => {
             <div className=" text-on-dark-background bg-dark-background ">
                 <CssBaseline />
                 <AppBar position="fixed"  >
-                    <Toolbar sx={{ backgroundColor: 'var(--color-primary-variant)', justifyContent: 'space-between',  }} >
+                    <Toolbar sx={{ backgroundColor: 'var(--color-primary-variant)', justifyContent: 'space-between', }} >
                         <IconButton
                             edge="start"
                             color="inherit"
@@ -411,17 +439,16 @@ const AdminDashboard = () => {
                 <CustomDrawer variant="permanent" anchor="left" open={sidebarOpen} onClose={handleSidebarToggle}
 
                 >
-                    <DrawerHeader sx={{backgroundColor:'var(--color-primary-variant)'}} className='h-[70px]' >
+                    <DrawerHeader sx={{ backgroundColor: 'var(--color-primary-variant)' }} className='h-[70px]' >
                         <IconButton onClick={handleSidebarToggle}>
-                            {!sidebarOpen === true ? <ChevronRightIcon sx={{fontSize:20}}/> : <ChevronLeftIcon />}
+                            {!sidebarOpen === true ? <ChevronRightIcon sx={{ fontSize: 30 }} /> : <ChevronLeftIcon sx={{ fontSize: 30 }} />}
                         </IconButton>
                     </DrawerHeader>
                     <Divider />
-                    <List className="bg-dark-surface text-on-dark-background h-full">
-                       
-                        <GenerateSidebarItems 
-                        sideBarOpen={sidebarOpen} 
-                        handleSidebarItemClick={handleSidebarItemClick} />
+                    <List className="bg-dark-surface text-on-dark-background h-full shadow-lg">
+                        <GenerateSidebarItems
+                            sideBarOpen={sidebarOpen}
+                            handleSidebarItemClick={handleSidebarItemClick} />
                     </List>
                 </CustomDrawer>
             </div>

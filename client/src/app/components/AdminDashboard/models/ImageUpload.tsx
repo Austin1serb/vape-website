@@ -72,27 +72,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                 pr: 1,
                 border: 1,
                 borderRadius: 1,
-                // Apply MUI error color to border when there is an error
-                borderColor: error['imgSource'] ? theme => theme.palette.error.main : 'black',
-                '&:hover': {
-                    borderColor: error['imgSource'] ? theme => theme.palette.error.main : '#1776D1',
-                    '& .MuiFormLabel-root': {
-                        // Apply MUI error color to title when there is an error
-                        color: error['imgSource'] ? theme => theme.palette.error.main : '#1776D1',
+                borderColor: error.imgSource ? 'red' : '#686D6E',
 
-                        transition: 'color 0.4s, ',
-                    },
-                },
-                ' &:not(:hover)': {
-                    '& .MuiFormLabel-root': {
-                        // Apply MUI error color to title when there is an error
-                        color: error['imgSource'] ? theme => theme.palette.error.main : 'initial',
-
-                        transition: 'color 0.4s, ',
-                    },
-                },
+               
             }}
             component="fieldset"
+          
         >
             <FormLabel component="legend"
                 htmlFor='image-upload'
@@ -101,8 +86,9 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                     pr: 0.5,
                     pl: .5,
                     // Apply MUI error color to title when there is an error
-                    color: error['imgSource'] ? theme => theme.palette.error.main : 'initial',
+                    color: error['imgSource'] ? theme => theme.palette.error.main : 'white',
                 }}
+                className='form-label-sx text-blue-500'
             > Upload an image*</FormLabel>
 
 

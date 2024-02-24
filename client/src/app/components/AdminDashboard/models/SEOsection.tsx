@@ -17,37 +17,22 @@ interface SEOsectionProps {
 const SEOSection:React.FC<SEOsectionProps>= ({ productData, handleChange, handleAddKeyword, handleRemoveKeyword }) => {
     return (
         <FormControl
-
+        color='secondary'
             sx={{
                 width: '97%',
                 my: 2,
                 pl: 1,
                 py: 1,
                 pr: 1,
-                border: 1,
+                border: .5,
                 borderRadius: 1,
-                borderColor: '#CACACA',
-                '&:hover': {
-                    borderColor: 'black',
-                    '& .form-label-sx': {
-                        color: '#1776D1',
-
-                        transition: 'color 0.4s, ',
-
-                    },
-                },
-                ' &:not(:hover)': {
-                    '& .form-label-sx': {
-                        color: 'initial', // Return the text color to its original state
-
-                        transition: 'color 0.4s, ',
-                    },
-                },
+                
             }}
             component="fieldset"
+            className='border-gray-500'
         >
             <FormLabel
-                className='form-label-sx'
+                className='form-label-sx text-blue-500'
                 component="legend">   Search Engine Optimization (Optional)</FormLabel>
             <Box sx={{}} >
                 {/*<Typography variant="body2" sx={{ mt: 2, ml: '25%' }}>

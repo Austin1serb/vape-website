@@ -10,6 +10,8 @@
   --color-primary: #6200EE;
   --color-primary-variant: #3700B3;
 
+  --color-blue:#2196f3;
+
   /* Secondary colors */
   --color-secondary: #03DAC6;
   --color-secondary-variant: #018786;
@@ -56,18 +58,19 @@ body {
   background-color: var(--color-dark-background);
   color: var(--color-on-dark-background);
   min-width: 320px;
+  margin-left: 65px;
 
 }
-body button{
-  cursor: pointer;
-}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
 }
 
-
+* button{
+  background-color: #018786;
+}
 
 
 /* slider */
@@ -173,3 +176,28 @@ body button{
     box-shadow: 0 0 8px var(--color-primary-variant); /* Enhanced outer glow on hover */
   }
   
+/* FIX MUI AND TAILWIND STYLE CONFLICTS */
+  button.MuiButton-containedPrimary {
+    @apply bg-blue-500;
+    @apply text-white;
+  }
+  button.MuiButton-containedSecondary {
+    @apply bg-deep-purple-A400;
+  }
+  button.MuiButton-containedSecondary:hover {
+    @apply bg-deep-purple-A200;
+  }
+  button.MuiButton-containedSuccess {
+    @apply bg-cyan-700;
+    @apply  text-white;
+  }
+  button.MuiButton-containedSuccess:hover {
+    @apply bg-cyan-500;
+
+  }
+  button.MuiButton-containedError {
+    @apply bg-red-600;
+  }
+  button.MuiButton-containedError:hover {
+    @apply bg-red-400;
+  }

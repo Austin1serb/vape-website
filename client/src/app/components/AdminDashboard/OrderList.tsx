@@ -206,12 +206,12 @@ const OrderList: React.FC<OrderListProps> = ({ orders }) => {
 
                     <Button
                         sx={{ fontSize: 10, p: 1 }}
-                        variant="outlined"
+                        variant="contained"
                         onClick={() => handleDetailsClick(params.row)}
                     >
                         Details
                     </Button>
-                    <Button sx={{ fontSize: 10, m: 1, p: 1 }} variant="outlined" color="secondary" onClick={() => handleDeleteOrder(params.row._id)}>
+                    <Button sx={{ fontSize: 10, m: 1, p: 1 }} variant="contained" color="secondary" onClick={() => handleDeleteOrder(params.row._id)}>
                         Delete
                     </Button>
                 </Box>

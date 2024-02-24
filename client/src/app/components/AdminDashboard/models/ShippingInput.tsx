@@ -24,31 +24,17 @@ const ShippingInput: React.FC<ShippingInputProps> = ({ weight, length, width, he
                 pr: 1,
                 border: 1,
                 borderRadius: 1,
-                borderColor: '#CACACA',
-                '&:hover': {
-                    borderColor: 'black',
-                    '& .form-label-sx': {
-                        color: '#1776D1',
-
-                        transition: 'color 0.4s, ',
-
-                    },
-                },
-                ' &:not(:hover)': {
-                    '& .form-label-sx': {
-                        color: 'initial', // Return the text color to its original state
-
-                        transition: 'color 0.4s',
-                    },
-                },
+                
+               
             }}
             component="fieldset"
+            className='border-gray-500'
         >
             <FormLabel
                 className="form-label-sx"
                 sx={{
                     fontSize: 16,
-
+                    color:'var(--color-blue)'
                 }}
                 component="legend">Shipping Details (Optional).</FormLabel>
             <Box sx={{

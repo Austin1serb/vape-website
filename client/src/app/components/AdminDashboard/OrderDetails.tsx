@@ -12,7 +12,7 @@ interface Props {
 
 const OrderDetails: React.FC<Props> = ({ order, open, handleClose }) => {
     return (
-        <Dialog open={open} maxWidth="lg" fullWidth >
+        <Dialog open={open} onClose={handleClose} maxWidth="lg" fullWidth >
             <DialogTitle className='bg-primary-variant text-center relative uppercase h-18'>
                 Order Details
                 <IconButton color='secondary' className="cart-close-icon absolute right-4 top-1" onClick={handleClose} >
@@ -20,7 +20,7 @@ const OrderDetails: React.FC<Props> = ({ order, open, handleClose }) => {
                     <svg xmlns="http://www.w3.org/2000/svg" fill='white' height="40" width="40"><path d="m10.458 31.458-1.916-1.916 9.5-9.542-9.5-9.542 1.916-1.916 9.542 9.5 9.542-9.5 1.916 1.916-9.5 9.542 9.5 9.542-1.916 1.916-9.542-9.5Z"  /></svg>
                 </IconButton>
             </DialogTitle>
-            <DialogContent sx={{borderRadius:2}} className="bg-dark-background border-primary-variant border-4" dividers>
+            <DialogContent className="bg-dark-background border-primary-variant border-4" dividers>
                 <Grid container spacing={2} alignItems="stretch">
                     {/* First Row */}
                     <Grid item xs={12} md={4}>
@@ -84,7 +84,7 @@ const OrderDetails: React.FC<Props> = ({ order, open, handleClose }) => {
 
 
                     <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'end' }}>
-                        <Button variant='outlined' color='primary' onClick={handleClose}>Close</Button>
+                        <Button variant='contained' color='primary' onClick={handleClose}>Close</Button>
                     </Grid>
                 </Grid>
             </DialogContent>

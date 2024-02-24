@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Card, CardContent, CircularProgress, Grid, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, Grid, Typography } from '@mui/material';
 import { axisClasses } from '@mui/x-charts';
 import OrderDetails from './OrderDetails';
 import { Product, Order, Guest, Customer } from '../types';
@@ -68,7 +68,7 @@ const SalesOverview: React.FC<SalesOverviewProps> = ({
     const handleCloseDialog = () => {
         setCurrentOrderId(null);
         setDialogOpen(false);
-        console.log(dialogOpen);
+    
     };
 
     const chartSetting = {
@@ -88,11 +88,11 @@ const SalesOverview: React.FC<SalesOverviewProps> = ({
             // Styling for Y-axis labels
             [`.${axisClasses.bottom} .${axisClasses.tickLabel}`]: {
 
-               
+
                 strokeWidth: '.7px',
 
             },
-            
+
 
         },
 
@@ -134,8 +134,9 @@ const SalesOverview: React.FC<SalesOverviewProps> = ({
     const chartSeries = generateChartSeries(salesData);
 
     useEffect(() => {
-        console.log(recentOrders)
-    }, [recentOrders])
+       
+        console.log(chartSeries)
+    }, [salesData])
 
     if (loading) {
         return <SalesOverviewSkeleton />;
@@ -232,7 +233,7 @@ const SalesOverview: React.FC<SalesOverviewProps> = ({
                             {/* Display recent orders */}
                             {recentOrders.map(order => (
                                 <Button
-                                    variant='outlined'
+                                    variant='contained'
                                     onClick={() => handleOpenDialog(order._id)}
                                     color='secondary'
                                     key={order.orderNumber}
@@ -264,9 +265,9 @@ const SalesOverview: React.FC<SalesOverviewProps> = ({
                         <Typography p={3} textAlign={'center'} variant='h5'>Best Sellers Data</Typography>
                         <Legend series={chartSeries} />
                     </Box>
-                  
+
                     <Card elevation={5}>
-                        <div className='bg-[#282F48] flex-grow'>
+                        <div className='bg-dark-surface flex-grow'>
                             <DynamicBarChart
                                 dataset={salesData}
                                 xAxis={[{ scaleType: 'band', dataKey: 'month' }]}

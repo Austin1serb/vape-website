@@ -6,6 +6,7 @@ const config: Config = {
     "./src/app/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+
   theme: {
     extend: {
 
@@ -43,6 +44,9 @@ const config: Config = {
         'deep-purple-A200': '#7C4DFF',
         'deep-purple-A400': '#651FFF',
         'deep-purple-A700': '#6200EA',
+        'indigo-A700':'#304ffe',
+        'teal-A700':'#00bfa5',
+
 
 
 

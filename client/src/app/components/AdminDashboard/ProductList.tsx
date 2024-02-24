@@ -139,6 +139,7 @@ const ProductList: React.FC = () => {
                     alt="Product"
                     sizes='5vw'
                     quality={30}
+                    className='rounded-sm bg-background object-contain'
                 />
                 </div>
             ),
@@ -164,11 +165,12 @@ const ProductList: React.FC = () => {
             headerName: 'Actions',
             flex: 1.75,
             sortable: false,
+            
             renderCell: (params) => (
                 <Box sx={{ ml: -1 }}>
                     <Button
                         sx={{ fontSize: 8, mr: 1 }}
-                        variant="outlined"
+                        variant="contained"
                         color="success"
                         onClick={() => handleOpenDetailsView(params.row)}
                     >
@@ -176,7 +178,7 @@ const ProductList: React.FC = () => {
                     </Button>
                     <Button
                         sx={{ fontSize: 8, mr: 1 }}
-                        variant="outlined"
+                        variant="contained"
                         color="primary"
                         onClick={() => handleEditProduct(params.row)}
                     >
@@ -184,7 +186,7 @@ const ProductList: React.FC = () => {
                     </Button>
                     <Button
                         sx={{ fontSize: 8 }}
-                        variant="outlined"
+                        variant="contained"
                         color="secondary"
                         onClick={() => handleDeleteProduct(params.row._id)}
                     >
@@ -201,7 +203,7 @@ const ProductList: React.FC = () => {
         <Box sx={{ p: 2, m: 2 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', py: 2 }} >
                 <Typography variant="h6">Product Management</Typography>
-                <Button variant="outlined" color="success" onClick={handleOpenAddProductModal}>
+                <Button variant="contained" color="success" onClick={handleOpenAddProductModal}>
                     Add Product
                 </Button>
             </Box>

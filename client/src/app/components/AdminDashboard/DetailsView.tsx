@@ -13,6 +13,7 @@ import {
     Paper,
 } from '@mui/material';
 import { Product } from '../types';
+import Image from 'next/image';
 
 const paperProps = {
     style: {
@@ -25,14 +26,14 @@ interface Props {
     product: Product;
     onClose: () => void;
 }
-const DetailsView:React.FC<Props> = ({ open, product, onClose }) => {
+const DetailsView: React.FC<Props> = ({ open, product, onClose }) => {
     return (
-        <Dialog open={open} onClose={onClose} PaperProps={paperProps}>
-            <DialogTitle sx={{ backgroundColor: '#283047', color: 'white', borderRadius: '5px 5px 0px 0' }}>
+        <Dialog open={open} onClose={onClose} PaperProps={paperProps} className=''>
+            <DialogTitle className='bg-primary-variant text-center uppercase h-18'>
                 Product Details
             </DialogTitle>
-            <DialogContent sx={{ backgroundColor: 'f5f5f5' }}>
-                <TableContainer component={Paper}>
+            <DialogContent  className='bg-dark-background border-primary-variant border-4'>
+                <TableContainer component={Paper} className='bg-dark-background p-4 mt-4 rounded-lg border-primary-variant border-4'>
                     <Table>
                         <TableBody>
                             <TableRow>
@@ -46,8 +47,11 @@ const DetailsView:React.FC<Props> = ({ open, product, onClose }) => {
                                     <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Images:</Typography>
                                 </TableCell>
                                 <TableCell>    {product.imgSource && product.imgSource.map((image, index) => (
-                                    <img key={index} src={image.url}
-                                        alt={`${product.name} ${index}`} style={{ width: '100px', height: '100px', marginBottom: '1rem' }} loading='lazy' />
+                                    <div className='h-32 w-32 relative mb-2'>
+                                        <Image key={index} src={image.url}
+                                            fill sizes='10vw'
+                                            alt={`${product.name} ${index}`} className='rounded bg-background ' />
+                                    </div>
                                 ))}
 
 
@@ -160,16 +164,17 @@ const DetailsView:React.FC<Props> = ({ open, product, onClose }) => {
                     </Table>
                 </TableContainer>
             </DialogContent>
-            <div>
+            <DialogTitle className='bg-primary-variant text-center uppercase h-18'>
                 <Button
                     onClick={onClose}
-                    variant="outlined"
+                    variant="contained"
                     color="primary"
-                    sx={{ m: 2, marginLeft: 'auto', display: 'flex' }}
+                    fullWidth
+
                 >
                     Close
                 </Button>
-            </div>
+            </DialogTitle>
         </Dialog>
     );
 };

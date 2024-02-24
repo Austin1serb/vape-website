@@ -212,7 +212,7 @@ const UserList: React.FC<UsersState> = ({ customers, guests }) => {
                 <div className='flex justify-between w-full'>
                     <Button
                         sx={buttonStyles}
-                        variant="outlined"
+                        variant="contained"
                         color='secondary'
                         onClick={() => handleEditCustomer(params.row)}
 
@@ -222,7 +222,7 @@ const UserList: React.FC<UsersState> = ({ customers, guests }) => {
                     </Button>
                     <Button
                         sx={buttonStyles}
-                        variant="outlined"
+                        variant="contained"
                         color="error"
                         onClick={() => handleRemoveFromAdmin(params.row._id)}
                         disabled={admins.length <= 1}
@@ -258,7 +258,7 @@ const UserList: React.FC<UsersState> = ({ customers, guests }) => {
                     <div className='flex justify-between w-full'>
                         <Button
                             sx={buttonStyles}
-                            variant="outlined"
+                            variant="contained"
                             color='secondary'
                             onClick={() => handleEditCustomer(params.row)}
 
@@ -267,7 +267,7 @@ const UserList: React.FC<UsersState> = ({ customers, guests }) => {
                         </Button>
                         <Button
                             sx={buttonStyles}
-                            variant="outlined"
+                            variant="contained"
                             color="primary"
                             onClick={() => handleMakeAdmin(params.row._id)}
                         >
@@ -275,7 +275,7 @@ const UserList: React.FC<UsersState> = ({ customers, guests }) => {
                         </Button>
                         <Button
                             sx={buttonStyles}
-                            variant="outlined"
+                            variant="contained"
                             color="error"
                             onClick={() => handleDeleteUser(params.row._id, 'customer')}
                         >
@@ -310,7 +310,7 @@ const UserList: React.FC<UsersState> = ({ customers, guests }) => {
                 <div className='flex justify-between w-full'>
                     <Button
                         sx={buttonStyles}
-                        variant="outlined"
+                        variant="contained"
                         color="secondary"
                         onClick={() => handleViewGuestDetails(params.row)}
                     >
@@ -318,7 +318,7 @@ const UserList: React.FC<UsersState> = ({ customers, guests }) => {
                     </Button>
                     <Button
                         sx={buttonStyles}
-                        variant="outlined"
+                        variant="contained"
                         color="error"
                         onClick={() => handleDeleteUser(params.row._id, 'guest')}
                     >

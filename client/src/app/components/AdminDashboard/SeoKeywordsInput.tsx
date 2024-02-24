@@ -37,32 +37,16 @@ interface SeoKeywordsInputProps {
                 py: 1,
                 pr: 1,
                 border: 1,
-                borderRadius: 1,
-                borderColor: '#CACACA',
-                '&:hover': {
-                    borderColor: 'black',
-                    '& .form-label-sx1': {
-                        color: '#1776D1',
-
-                        transition: 'color 0.4s, ',
-
-                    },
-                },
-                ' &:not(:hover)': {
-                    '& .form-label-sx1': {
-                        color: 'initial', // Return the text color to its original state
-
-                        transition: 'color 0.4s,',
-                    },
-                },
+                
             }}
             component="fieldset"
+            className='border-gray-500'
         >
             <FormLabel
                 className="form-label-sx1"
                 sx={{
                     fontSize: 16,
-
+                    color:'var(--color-blue)'
                 }}
                 component="legend">Add SEO keywords.</FormLabel>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -75,7 +59,7 @@ interface SeoKeywordsInputProps {
                 />
                 <Button
                     sx={{ fontSize: 10, m: 2 }}
-                    variant="outlined"
+                    variant="contained"
                     color="primary"
                     onClick={handleAddKeyword}
                 >

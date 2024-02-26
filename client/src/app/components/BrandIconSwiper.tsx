@@ -23,7 +23,7 @@ const BrandIconSlider: React.FC<Props> = ({ brandIcons }) => {
 
 
     return (
-        <div className="mx-auto p-4 relative">
+        <div className="mx-auto p-4 px-16 relative">
             <Swiper
                 modules={[Navigation, Autoplay, Grid]}
                 spaceBetween={30}

@@ -71,7 +71,7 @@ const ImageWithZoom: React.FC<ImageWithZoomProps> = ({ src, alt, width, height, 
                 fill
                 sizes={`(max-width: 768px) 50vw,  ${vw}vw`}
                 style={imageStyles}
-                onLoadingComplete={handleImageLoaded}
+                onLoad={handleImageLoaded}
                 className={isLoaded ? '' : 'animate-pulse'}
                 onMouseLeave={()=>setIsZoomed(false)}
             />

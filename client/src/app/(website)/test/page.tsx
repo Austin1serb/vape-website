@@ -1,7 +1,8 @@
 "use client"
-import React, { useState } from 'react'
-import ProductPage from '../components/ProductPage'
-import QuickView from '../components/QuickViewComponent/QuickView'
+import React, { Suspense, useState } from 'react'
+import ProductPage from '../../components/ProductPage'
+import QuickView from '../../components/QuickViewComponent/QuickView'
+import QuickViewSkeleton from '@/components/QuickViewComponent/QuickViewSkeleton'
 
 
 
@@ -49,7 +50,9 @@ const page = () => {
     const [quickViewOpen, setQuickViewOpen] = useState<boolean>(true);
 
   return (
+    <Suspense fallback={<QuickViewSkeleton/>}>
     <QuickView productId={producdId} open={quickViewOpen} handleClose={() => setQuickViewOpen(false)} products={products}/>
+    </Suspense>
   )
 }
 

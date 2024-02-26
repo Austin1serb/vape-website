@@ -16,7 +16,7 @@ const ImageBox: React.FC<Props> = ({ src, alt, text }) => (
 
         />
         <div className="absolute inset-2 bg-black bg-opacity-50 flex flex-col justify-center items-center text-center group-hover:bg-opacity-20 transition duration-300 ">
-            <p className="text-white text-xxl backdrop-blur-md shadow-xl p-2  m-4">{text}</p>
+            <p className="text-white text-xxl backdrop-blur-md shadow-xl p-2  m-4 rounded ">{text}</p>
             <button className="absolute bottom-20 p-2 border text-white rounded backdrop-blur-md shadow-xl hover:bg-primary hover:opacity-80 transition-all duration-300">Learn More</button>
         </div>
     </div>

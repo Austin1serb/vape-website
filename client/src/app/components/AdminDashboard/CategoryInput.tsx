@@ -67,12 +67,12 @@ const CategoryInput:React.FC<CategoryInputProps> = ({ category, onAddCategory, o
                 className="form-label-sx text-blue-500"
                 sx={{
                     fontSize: 16,
-                    color:'gray'
+                    color:'var(--color-blue)'
                 }}
             >
                 Add product categories.*
             </FormLabel>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', }}>
                 <TextField
                     name='categories'
                     spellCheck={true}
@@ -104,7 +104,7 @@ const CategoryInput:React.FC<CategoryInputProps> = ({ category, onAddCategory, o
                         key={index}
                         label={category}
                         onDelete={() => onRemoveCategory(category)}
-                        color="secondary"
+                        color="primary"
                         variant="outlined"
                     />
                 ))}

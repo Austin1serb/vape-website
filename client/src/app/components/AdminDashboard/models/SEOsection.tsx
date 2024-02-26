@@ -26,15 +26,19 @@ const SEOSection:React.FC<SEOsectionProps>= ({ productData, handleChange, handle
                 pr: 1,
                 border: .5,
                 borderRadius: 1,
+                borderColor:'gray'
                 
             }}
             component="fieldset"
-            className='border-gray-500'
+         
         >
             <FormLabel
-                className='form-label-sx text-blue-500'
+            sx={{
+                color:'var(--color-blue)'
+            }}
+                className='form-label-sx'
                 component="legend">   Search Engine Optimization (Optional)</FormLabel>
-            <Box sx={{}} >
+            <Box  >
                 {/*<Typography variant="body2" sx={{ mt: 2, ml: '25%' }}>
                             Search Engine Optimization (Optional)
                         </Typography>*/}

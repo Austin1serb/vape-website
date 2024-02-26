@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from 'react';
-import Icon from './Icon';
-import { useResponsive } from '../contexts/ResponsiveContext';
+import Icon from '../Icon';
+import { useResponsive } from '@/contexts/ResponsiveContext';
 
 
 interface Props {
@@ -30,12 +30,12 @@ const CollapsibleSection: React.FC<Props> = ({ title, children, isMobile }) => {
             </button>
 
             {isMobile ? (
-                <>
-                    <div className={`overflow-hidden transition-height duration-300 ${isOpen ? 'max-h-96' : 'max-h-0'}`}>
+                <div className={isOpen?'pt-8 ':' transition-all duration-500'}>
+                    <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-96' : 'max-h-0'}`}>
                         {children}
                     </div>
                     <hr className="mt-2 bg-on-background" />
-                </>
+                </div>
             ) : (
                 <div>{children}</div>
             )}
@@ -48,11 +48,11 @@ const FooterTop: React.FC = () => {
     const { isMobile } = useResponsive();
 
     return (
-        <footer className="text-sm  pt-8 px-4">
-            <div className="max-w-6xl mx-auto grid grid-cols-1  lg:grid-cols-4 gap-6">
+        <div className="text-sm pt-8 px-4 w-full">
+            <div className="max-w-7xl mx-auto grid grid-cols-1  lg:grid-cols-4 gap-6">
                 <CollapsibleSection isMobile={isMobile} title="FOLLOW US">
                     <h5 className={`text-on-background text-lg font-bold mb-2 ${isMobile ? 'hidden' : 'flex'}`}>FOLLOW US</h5>
-                    <p className="social flex justify-around">
+                    <p className="social flex justify-between">
                         <a href="https://www.instagram.com/elementvape" className="instagram" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">
                             <Icon name='Instagram' width={35} height={35} className="instagram hover:fill-secondary transition-all duration-300" aria-hidden="true"></Icon>
                         </a>
@@ -193,7 +193,7 @@ const FooterTop: React.FC = () => {
             <div className="text-center mt-8">
                 <p className="text-xs text-gray-400">Not for Sale for Minors - Products sold on this site may contain nicotine which is a highly addictive substance. California Proposition 65 - WARNING: This product can expose you to chemicals including nicotine, which is known to the State of California to cause birth defects or other reproductive harm. For more information, go to <a className='text-primary hover:text-secondary-variant transition duration-300' href="https://www.p65warnings.ca.gov">Proposition 65 Warnings Website. </a> Products sold on this site is intended for adult smokers. You must be of legal smoking age in your territory to purchase products. Please consult your physician before use. E-Juice on our site may contain Propylene Glycol and/or Vegetable Glycerin, Nicotine and Flavorings. Our products may be poisonous if orally ingested. FDA DISCLAIMER: The statements made regarding these products have not been evaluated by the Food and Drug Administration. The efficacy of these products has not been confirmed by FDA-approved research. These products are not intended to diagnose, treat, cure or prevent any disease. All information presented here is not meant as a substitute for or alternative to information from health care practitioners. For their protection, please keep out of reach of children and pets. Read our terms and conditions page before purchasing our products. Use All Products On This Site At Your Own Risk!</p>
             </div>
-        </footer>
+        </div>
     );
 };
 

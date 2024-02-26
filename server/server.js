@@ -1,32 +1,68 @@
-const express = require('express');
-const app = express();
-const cors = require('cors');
 require('dotenv').config();
 require('./config/mongoose.config');
-const router = express.Router(); // Create a router
-const port = process.env.PORT || 8000; // Use 8000 as the default port
-const frontEndDomain = process.env.FRONTEND_DOMAIN;
+const jwt = require('jsonwebtoken');
+const cors = require('cors')
+const express = require('express');
+const app = express();
+const port = process.env.PORT;
+const cookieParser = require('cookie-parser');
+const helmet = require('helmet');
+const bodyParser = require('body-parser');
+const frontEndDomain = process.env.FRONTEND_DOMAIN
 
-// Middleware
-app.use(cors(), express.json({ limit: '50mb' }), express.urlencoded({ limit: '50mb', extended: true }));
+app.use(
+    cors({
+        origin: frontEndDomain,
+        credentials: true,
+    }),
 
-// Define an API route using the router
-router.get('/data', (req, res) => {
-    try {
-        // Fetch data from your database or any source
-        const data = { message: "Hello from the API!" };
+    express.json({ limit: "50mb" }),
+    express.urlencoded({ limit: "50mb", extended: true }),
+    (cookieParser()),
+);
 
-        // Send the data as a JSON response
-        res.json(data);
-    } catch (error) {
-        console.error('Error handling /api/data route:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'", 'https://maps.googleapis.com', 'https://web.squarecdn.com'],
+            styleSrc: ["'self'", 'https://fonts.googleapis.com', "'unsafe-inline'"],
+            fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+            imgSrc: ["'self'", 'https://res.cloudinary.com'],
+            connectSrc: ["'self'", 'https://connect.squareup.com', 'http://localhost:8000'],
+            frameSrc: ["'self'"],
+            objectSrc: ["'none'"],
+            // Add other directives as needed
+        },
+    },
+}));
 
-// Mount the router at the base path '/api'
-app.use('/api', router);
 
-app.listen(port, () => {
-    console.log(`Server is running on port: ${port}`);
-});
+const productRoutes = require('./routes/products.routes');
+const orderRoutes = require('./routes/orders.routes');
+const guestRoutes = require('./routes/guest.routes')
+const userRoutes = require('./routes/users.routes');
+const shippoRoutes = require('./routes/shippo.routes');
+const { uploadToCloudinary } = require('./services/cloudinary');
+const suggestionsRoutes = require('./routes/suggestions.routes');
+//const paymentRoutes = require('./routes/payment.routes');
+const passwordResetRoutes = require('./routes/passwordReset.routes')
+const contactRouter = require('./routes/contact.routes');
+
+
+app.use('/api', passwordResetRoutes);
+app.use("/api/", suggestionsRoutes);
+//app.use('/api/payment', paymentRoutes);
+app.use("/api/product", productRoutes);
+app.use("/api/order", orderRoutes);
+app.use('/api/guest', guestRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/upload", uploadToCloudinary);
+app.use('/api/shippo', shippoRoutes);
+app.use(bodyParser.json());
+app.use('/api/contact', contactRouter);
+
+
+
+
+app.listen(port, () => console.log(`Listening on port: ${port}`));

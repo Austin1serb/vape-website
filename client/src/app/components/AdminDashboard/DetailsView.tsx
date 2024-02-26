@@ -33,7 +33,7 @@ const DetailsView: React.FC<Props> = ({ open, product, onClose }) => {
                 Product Details
             </DialogTitle>
             <DialogContent  className='bg-dark-background border-primary-variant border-4'>
-                <TableContainer component={Paper} className='bg-dark-background p-4 mt-4 rounded-lg border-primary-variant border-4'>
+                <div  className='bg-dark-surface p-4 mt-4 rounded-lg'>
                     <Table>
                         <TableBody>
                             <TableRow>
@@ -162,7 +162,7 @@ const DetailsView: React.FC<Props> = ({ open, product, onClose }) => {
                             {/* Add more rows for additional fields as needed */}
                         </TableBody>
                     </Table>
-                </TableContainer>
+                </div>
             </DialogContent>
             <DialogTitle className='bg-primary-variant text-center uppercase h-18'>
                 <Button

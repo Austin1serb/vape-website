@@ -6,7 +6,6 @@ import Image from 'next/image';
 import ImageWithZoom from './ImageWithZoom';
 import ProductDetails from './ProductDetails';
 import { Product } from '../types';
-import QuickViewSkeleton from './QuickViewSkeleton';
 
 
 const modalStyle = {
@@ -77,9 +76,6 @@ const QuickView: React.FC<QuickViewProps> = ({ productId, open, handleClose, pro
 
     return (
         <>
-            <div className={productDetails || !open ? 'hidden' : ''}>
-                <QuickViewSkeleton />
-            </div>
 
             {productDetails && (
                 <Modal open={open} onClose={handleClose} >

@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Button, Box, CircularProgress } from '@mui/material';
+import { Typography, Button, Box } from '@mui/material';
 import AddProductModal from './models/AddProductModal';
-import { DataGrid, GridColDef, GridToolbar, GridValueFormatterParams } from '@mui/x-data-grid';
+import { GridColDef, GridToolbar, GridValueFormatterParams } from '@mui/x-data-grid';
 import DetailsView from './DetailsView';
 import Image from 'next/image';
 import { Product } from '../types';
+import dynamic from 'next/dynamic';
+import DataGridSkeleton from './AdminSkeletons/DataGridSkeleton';
+
+const DataGrid = dynamic(() => import('@mui/x-data-grid').then((mod) => mod.DataGrid), {
+    loading: () => <DataGridSkeleton />,
+    ssr: true,
+});
 
 const API_URL = 'http://localhost:8000/api/product/';
 
@@ -133,14 +140,14 @@ const ProductList: React.FC = () => {
             flex: 0.5,
             renderCell: (params) => (
                 <div className='relative h-12 w-12'>
-                <Image
-                    src={params.value[0]?.url || '/default-product-image.jpg'} // Fallback to a default image if no URL
-                    fill
-                    alt="Product"
-                    sizes='5vw'
-                    quality={30}
-                    className='rounded-sm bg-background object-contain'
-                />
+                    <Image
+                        src={params.value[0]?.url || '/default-product-image.jpg'} // Fallback to a default image if no URL
+                        fill
+                        alt="Product"
+                        sizes='5vw'
+                        quality={30}
+                        className='rounded-sm bg-background object-contain'
+                    />
                 </div>
             ),
         },
@@ -165,7 +172,7 @@ const ProductList: React.FC = () => {
             headerName: 'Actions',
             flex: 1.75,
             sortable: false,
-            
+
             renderCell: (params) => (
                 <Box sx={{ ml: -1 }}>
                     <Button
@@ -199,7 +206,7 @@ const ProductList: React.FC = () => {
 
 
     return (
-        
+
         <Box sx={{ p: 2, m: 2 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', py: 2 }} >
                 <Typography variant="h6">Product Management</Typography>
@@ -207,24 +214,22 @@ const ProductList: React.FC = () => {
                     Add Product
                 </Button>
             </Box>
-            {isLoading ? (
-                <CircularProgress />
-            ) : (
-                <DataGrid
-                 
-                    rows={products.map(product => ({
-                        ...product,
-                        createdAt: formatDate(product.createdAt!), // Format the date
-                    }))}
 
-                    //rows={products}
-                    columns={columns}
-                    autoHeight
-                    disableRowSelectionOnClick
-                    getRowId={(row) => row._id}
-                    components={{ Toolbar: GridToolbar }}
-                />
-            )}
+            <DataGrid
+
+                rows={products.map(product => ({
+                    ...product,
+                    createdAt: formatDate(product.createdAt!), // Format the date
+                }))}
+
+                //rows={products}
+                columns={columns}
+                autoHeight
+                disableRowSelectionOnClick
+                getRowId={(row) => row._id}
+                components={{ Toolbar: GridToolbar }}
+            />
+
             <AddProductModal
                 open={isAddProductModalOpen || isEditModalOpen}
                 onClose={handleCloseEditProductModal}

@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
-function validator(val: string | any[]) {
+function arrayLimit(val) {
     return val.length > 0;
 }
-
 const ProductSchema = new mongoose.Schema({
     brand: {
         type: String,
@@ -40,14 +39,17 @@ const ProductSchema = new mongoose.Schema({
                 required: [true, 'Please provide product image url.']
             },
         }],
-        validate: [validator, 'Product must have at least one image.']
+        validate: [arrayLimit, 'Product must have at least one image.']
     },
     category: {
         type: [String],
         required: true,
-        validate: 
-            [validator, 'Please specify at least one category for the product'],
-        
+        validate: {
+            validator: function (value) {
+                return value.length > 0; // Custom validation function to check if the array is not empty
+            },
+            message: 'Please specify at least one category for the product',
+        },
     },
     flavor: {
         type: String,
@@ -112,6 +114,8 @@ const ProductSchema = new mongoose.Schema({
     },
     seoKeywords: {
         type: [String],
+        required: [true, 'Please provide product seo keywords.']
+
     },
     shipping: {
         weight: Number,

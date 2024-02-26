@@ -13,16 +13,16 @@ import SubscribeField from "../components/SubscribeField";
 async function getData() {
   const res = await fetch('http://localhost:8000/api/data');
 
- 
+
   if (!res.ok) {
     // This will activate the closest `error.js` Error Boundary
     throw new Error('Failed to fetch data')
   }
- 
+
   return res.json()
 }
 const Home: NextPage = async () => {
-  
+
   const products = [
     { id: 1, name: 'MTRX 12000 Disposable', imageUrl: 'https://www.elementvape.com/media/catalog/product/cache/9c4ebe5b1008ad09d92e6b4f5ae41f93/g/e/geek_vape_-_t200_aegis_touch_-_kits_-_all_colors.png', price: 99.99, reviews: 4.8, link: '#' },
     { id: 2, name: 'Innokin Klypse Pod System', imageUrl: 'https://www.elementvape.com/media/catalog/product/cache/9c4ebe5b1008ad09d92e6b4f5ae41f93/o/x/oxbar_magic_maze_pro_10000_disposable_-_pod_juice_default.png', price: 89.99, reviews: 5, link: '#' },
@@ -41,7 +41,7 @@ const Home: NextPage = async () => {
     { id: 3, name: 'Lost Mary MT15000 Disposable', imageUrl: 'https://www.elementvape.com/media/catalog/product/m/t/mtrx_12000_disposable_-_default_1.png', price: 79.99, reviews: 3, link: '#' },
   ];
   const imageData = [
-    
+
     {
       url: 'https://i.imgur.com/itLlTYC.jpeg',
       link: '/path-to-destination-1',
@@ -167,29 +167,33 @@ const Home: NextPage = async () => {
   return (
     <div>
 
-      <TextSlider />
+      <div className="mx-auto max-w-7xl">
+        <TextSlider />
 
-      <ImageSlider imageData={imageData} />
-      <TwoBoxSection
-        text1={'Premium E-Liquids'}
-        text2={"Best Vape of 2023"}
-        imgUrl1={"https://www.elementvape.com/media/homepage_banners/homepage2024/13_-_Front_Page_Category_Banner_-_Disposables_-_767X343.jpg"}
-        imgUrl2={"https://www.elementvape.com/media/homepage_banners/homepage_2023/Front_Page_Banner_-_Best_Vape_Holiday_2023.jpg"}
-      />
-      <h2 className="text-center text-3xl font-bold uppercase">
-        Trending
-      </h2>
-      <ProductGridSwiper products={featuredProducts} id={1} sm={true} />
-      {/*<AgeVerification onVerify={function (value: boolean=false): void {
+        <ImageSlider imageData={imageData} />
+        <TwoBoxSection
+          text1={'Premium E-Liquids'}
+          text2={"Best Vape of 2023"}
+          imgUrl1={"https://www.elementvape.com/media/homepage_banners/homepage2024/13_-_Front_Page_Category_Banner_-_Disposables_-_767X343.jpg"}
+          imgUrl2={"https://www.elementvape.com/media/homepage_banners/homepage_2023/Front_Page_Banner_-_Best_Vape_Holiday_2023.jpg"}
+        />
+        <h2 className="text-center text-3xl font-bold uppercase">
+          Trending
+        </h2>
+        <ProductGridSwiper products={featuredProducts} id={1} sm={true} />
+        {/*<AgeVerification onVerify={function (value: boolean=false): void {
         throw new Error("Function not implemented.");
       } }/>*/}
+      </div>
       <div className="bg-gray-100 rounded-none py-12">
         <h2 className="text-center text-3xl font-normal p-4 uppercase rounded-none">
           New Arrivals
         </h2>
-        <ProductGridSwiper products={products} id={2} sm={false} />
+        <div className="mx-auto max-w-7xl">
+          <ProductGridSwiper products={products} id={2} sm={false} />
+        </div>
       </div>
-      <div className="p-8">
+      <div className="py-8 mx-auto max-w-7xl">
         <TwoBoxSection
           text1={'New Disposables'}
           text2={"New Mods"}
@@ -201,7 +205,9 @@ const Home: NextPage = async () => {
         <h2 className="text-center text-3xl font-normal p-4 uppercase">
           Best sellers
         </h2>
-        <ProductGrid products={products} sm={false} />
+        <div className="mx-auto max-w-7xl">
+          <ProductGrid products={products} sm={false} />
+        </div>
       </div>
       <div className="mt-8 pt-8" >
         <h2 className="text-center text-3xl font-normal p-4 uppercase">
@@ -212,8 +218,8 @@ const Home: NextPage = async () => {
       <div>
         <BoxLinks />
       </div>
-      <SubscribeField/>
-  
+      <SubscribeField />
+
 
     </div>
   );

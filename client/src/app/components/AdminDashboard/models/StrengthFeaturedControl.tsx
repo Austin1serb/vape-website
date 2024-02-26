@@ -36,18 +36,19 @@ const StrengthFeaturedControl: React.FC<StrengthFeaturedControlProps> = ({
                 pb: 1,
                 border: 1,
                 borderRadius: 1,
-
+                borderColor: 'gray'
             }}
                 component="fieldset"
-                className='border-gray-500'
+
             >
                 <FormLabel
                     sx={{
                         fontSize: 16,
                         pr: 0.5,
                         pl: .5,
+                        color:'var(--color-blue)'
                     }}
-                    className='form-label-sx text-blue-500'
+                    className='form-label-sx'
                     component="legend"
                 >Strength</FormLabel>
                 <RadioGroup
@@ -87,15 +88,20 @@ const StrengthFeaturedControl: React.FC<StrengthFeaturedControlProps> = ({
                         pb: 1,
                         border: 1,
                         borderRadius: 1,
+                        borderColor: 'gray'
                     }}
                     component="fieldset"
-                    className='border-gray-500'
+
                 >
                     <FormLabel sx={{
                         fontSize: 16,
                         pl: .5,
+                        color:'var(--color-blue)'
+
                     }}
-                        className='form-label-sx text-blue-500' component="legend">Feature on Home page?</FormLabel>
+                        className='form-label-sx text-blue-500 ' component="legend">
+
+                        Feature on Home page?</FormLabel>
                     <RadioGroup
                         color='success'
                         row

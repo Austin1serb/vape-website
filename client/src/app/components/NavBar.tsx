@@ -5,6 +5,11 @@ import { useState } from 'react';
 import Icon from '@/components/Icon';
 import Cart from './Cart';
 
+interface NavLink{
+    href:string;
+    label:string;
+}
+
 
 
 const navLinks: NavLink[] = [
@@ -19,12 +24,12 @@ const navLinks: NavLink[] = [
 
 ];
 
-const NavBar = () => {
+const NavBar:React.FC = () => {
     const [isMobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
     const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
 
     return (
-        <nav className="bg-white">
+        <nav className="bg-white mx-auto max-w-7xl">
             {/* Desktop Menu */}
             <div className="hidden md:flex justify-between items-center h-28 ">
                 <div className="flex-1" />
@@ -39,7 +44,7 @@ const NavBar = () => {
                     <Link href="/account">
                         <Icon name='Account' width={'40'} height={'40'} className='accountIcon mr-4 hover:text-primary-variant hover:scale-110 transition duration-300' />
                     </Link>
-                    <button aria-label='button' onClick={()=>setDrawerOpen(true)}>
+                    <button aria-label='button' onClick={() => setDrawerOpen(true)}>
                         <Icon name='Cart' width={'40'} height={'40'} className='cartIcon mr-4 hover:text-primary-variant hover:scale-110 transition duration-300' />
                     </button>
                 </div>
@@ -70,14 +75,14 @@ const NavBar = () => {
                     className="w-12 h-10 flex flex-col justify-center items-center gap-1.5 relative hover:shadow-md transition-shadow duration-300 ease-in-out"
 
                 >
-                    
+
                 </button>
                 <Icon name='Herba' width={'375'} height={'175'} className='herbaIcon h-full w-full fill-primary' />
                 <div className="flex items-center justify-end flex-1 gap-4">
                     <Link href="/account">
                         <Icon name='Account' width={'40'} height={'40'} className='accountIcon hover:text-primary-variant hover:scale-110 transition duration-300' />
                     </Link>
-                    <button aria-label='button' onClick={()=>setDrawerOpen(true)}>
+                    <button aria-label='button' onClick={() => setDrawerOpen(true)}>
                         <Icon name='Cart' width={'40'} height={'40'} className='cartIcon hover:text-primary-variant hover:scale-110 transition duration-300' />
                     </button>
                 </div>
@@ -96,7 +101,7 @@ const NavBar = () => {
                     ))}
                 </ul>
             )}
-            
+
             <Cart drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
         </nav>
     );

@@ -86,7 +86,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                     pr: 0.5,
                     pl: .5,
                     // Apply MUI error color to title when there is an error
-                    color: error['imgSource'] ? theme => theme.palette.error.main : 'white',
+                    color: error['imgSource'] ? theme => theme.palette.error.main : 'var(--color-blue)',
                 }}
                 className='form-label-sx text-blue-500'
             > Upload an image*</FormLabel>

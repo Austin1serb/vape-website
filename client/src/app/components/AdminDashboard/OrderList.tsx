@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
-import { TextField, Select, MenuItem, Snackbar, FormControl, InputLabel, Box, CircularProgress, Typography, Card, CardContent, Button, SelectChangeEvent, colors } from '@mui/material';
+import { TextField, Select, MenuItem, Snackbar, FormControl, InputLabel, Box, Typography, CardContent, Button, SelectChangeEvent } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import OrderDetails from './OrderDetails';
 import { Order } from '../types';
-import DataGridSkeleton from './AdminSkeletons/DataGridSkeleton';
 
 
 interface OrderListProps {
@@ -233,7 +232,8 @@ const OrderList: React.FC<OrderListProps> = ({ orders }) => {
                 >
                     <MenuItem value="Pending"  >
                         <div style={{ whiteSpace: 'nowrap', display: 'flex' }}>
-                            <svg className='fill-primary stroke' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M17 12c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm1.65 7.35L16.5 17.2V14h1v2.79l1.85 1.85-.7.71zM18 3h-3.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H6c-1.1 0-2 .9-2 2v15c0 1.1.9 2 2 2h6.11a6.743 6.743 0 0 1-1.42-2H6V5h2v3h8V5h2v5.08c.71.1 1.38.31 2 .6V5c0-1.1-.9-2-2-2zm-6 2c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z" /></svg>
+                        <svg  stroke-width="0" version="1" viewBox="0 0 48 48" enable-background="new 0 0 48 48" height="1.5em" width="1.5em" xmlns="http://www.w3.org/2000/svg"><path fill="#CFD8DC" d="M12,40V20h32v20c0,2.2-1.8,4-4,4H16C13.8,44,12,42.2,12,40z"></path><path fill="#78909C" d="M44,16v6H12v-6c0-2.2,1.8-4,4-4h24C42.2,12,44,13.8,44,16z"></path><g fill="#37474F"><circle cx="37" cy="16" r="3"></circle><circle cx="20" cy="16" r="3"></circle></g><g fill="#B0BEC5"><path d="M37,10c-1.1,0-2,0.9-2,2v4c0,1.1,0.9,2,2,2s2-0.9,2-2v-4C39,10.9,38.1,10,37,10z"></path><path d="M20,10c-1.1,0-2,0.9-2,2v4c0,1.1,0.9,2,2,2s2-0.9,2-2v-4C22,10.9,21.1,10,20,10z"></path></g><rect x="32" y="34" fill="#90A4AE" width="4" height="4"></rect><rect x="26" y="34" fill="#90A4AE" width="4" height="4"></rect><rect x="20" y="34" fill="#90A4AE" width="4" height="4"></rect><rect x="32" y="28" fill="#90A4AE" width="4" height="4"></rect><rect x="26" y="28" fill="#90A4AE" width="4" height="4"></rect><rect x="20" y="28" fill="#90A4AE" width="4" height="4"></rect><circle fill="#F44336" cx="16" cy="15" r="12"></circle><circle fill="#eee" cx="16" cy="15" r="9"></circle><rect x="15" y="8" width="2" height="7"></rect><rect x="16.9" y="14.2" transform="matrix(-.707 .707 -.707 -.707 42.506 16.192)" width="1.9" height="5.4"></rect><circle cx="16" cy="15" r="1.5"></circle></svg>
+
                             Pending
                         </div>
                     </MenuItem>
@@ -241,8 +241,8 @@ const OrderList: React.FC<OrderListProps> = ({ orders }) => {
                         <div style={{ whiteSpace: 'nowrap', display: 'flex' }}>
 
                             <svg height='24' version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" enableBackground="new 0 0 48 48">
-                                <path fill="#8BC34A" d="M43,36H29V14h10.6c0.9,0,1.6,0.6,1.9,1.4L45,26v8C45,35.1,44.1,36,43,36z" />
-                                <path fill="#388E3C" d="M29,36H5c-1.1,0-2-0.9-2-2V9c0-1.1,0.9-2,2-2h22c1.1,0,2,0.9,2,2V36z" />
+                                <path fill="#0FA0E0" d="M43,36H29V14h10.6c0.9,0,1.6,0.6,1.9,1.4L45,26v8C45,35.1,44.1,36,43,36z" />
+                                <path fill="#0F75E0" d="M29,36H5c-1.1,0-2-0.9-2-2V9c0-1.1,0.9-2,2-2h22c1.1,0,2,0.9,2,2V36z" />
                                 <g fill="#37474F">
                                     <circle cx="37" cy="36" r="5" />
                                     <circle cx="13" cy="36" r="5" />
@@ -278,37 +278,38 @@ const OrderList: React.FC<OrderListProps> = ({ orders }) => {
     ];
 
 
-    if (loading) {
-        return (
-            <div className="m-3 py-5">
-                <div className="w-1/5 h-12 bg-gray-500 rounded m-4"></div>
-                <div className="flex justify-between p-4 rounded bg-dark-surface text-on-dark-background ">
+    //if (loading) {
+    //    return (
+    //        <div className="m-3 py-5">
+    //            <div className="w-1/5 h-12 bg-gray-500 rounded m-4"></div>
+    //            <div className="flex justify-between p-4 rounded bg-dark-surface text-on-dark-background ">
 
-                    <div className="w-3/4 h-12 bg-gray-500 rounded"></div>
-                    <div className="w-1/5 h-12 bg-gray-500 rounded"></div>
-                </div>
-                <DataGridSkeleton />
-            </div>
-        );
-    }
+    //                <div className="w-3/4 h-12 bg-gray-500 rounded"></div>
+    //                <div className="w-1/5 h-12 bg-gray-500 rounded"></div>
+    //            </div>
+    //            <DataGridSkeleton />
+    //        </div>
+    //    );
+    //}
 
     return (
 
         <div className="bg-dark text-on-dark-background m-4 py-4">
             <Typography variant="h4" gutterBottom>Order List </Typography>
 
-            <Card variant="outlined" className='mb-5 bg-dark-surface'>
-                <CardContent className="py-4 rounded-lg">
-                    <div className="flex items-center bg-dark rounded-lg">
+            <div className='mb-5 bg-dark-surface rounded-lg'>
+                <CardContent className="py-4 rounded-lg bg-dark-surface">
+                    <div className="flex items-center justify-between bg-dark-surface rounded-lg">
+                        <div className='w-full mr-8'>
                         <TextField
+                            fullWidth
                             name='searchBar'
-                            
                             color='secondary'
                             label="Search by keyword"
                             value={searchKeyword}
                             onChange={(e) => setSearchKeyword(e.target.value)}
-                            className='mr-8 flex-grow rounded-lg'
                         />
+                        </div>
                         <FormControl color='secondary'  sx={{ width: '20%' }}>
                             <InputLabel className="bg-dark-surface px-2">Order Status</InputLabel>
                             <Select color='secondary'  value={filterCriteria} onChange={(e) => setFilterCriteria(e.target.value)}
@@ -323,7 +324,7 @@ const OrderList: React.FC<OrderListProps> = ({ orders }) => {
                         </FormControl>
                     </div>
                 </CardContent>
-            </Card>
+            </div>
             <DataGrid
                 getRowId={(row) => row._id}
                 rows={filteredOrders}

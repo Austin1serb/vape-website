@@ -1,8 +1,9 @@
+
 import React from 'react';
 
 const BarChartSkeleton: React.FC = () => {
     return (
-        <div className="animate-pulse flex flex-col w-[full] h-[500px]  p-4 space-y-4  bg-dark-surface text-on-dark-background ">
+        <div className="animate-pulse flex flex-col w-full h-[500px]  p-4 space-y-4  bg-dark-surface text-on-dark-background ">
             {/* Main Chart Area */}
             <div className="flex-grow relative">
                 {/* Simulate X and Y Axis Lines */}

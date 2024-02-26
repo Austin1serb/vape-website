@@ -1,10 +1,9 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import { Modal, Box, Typography, TextField, Button, Grid, InputAdornment, Tooltip, Switch, Dialog, DialogContent, DialogTitle, Snackbar, CircularProgress } from '@mui/material';
+import { Typography, TextField, Button, Grid, InputAdornment, Switch, Dialog, DialogContent, DialogTitle, CircularProgress } from '@mui/material';
 import { Customer } from '@/components/types';
-import { EmailOutlined } from '@mui/icons-material';
-
-//error interface object
-
+import { EmailOutlined,  } from '@mui/icons-material';
+import PhoneIcon from '@mui/icons-material/Phone';
+import HomeIcon from '@mui/icons-material/Home';
 interface Error {
     firstName?: string;
     lastName?: string;
@@ -34,7 +33,7 @@ const EditCustomerModal: React.FC<EditCustomerModalProps> = ({ open, onClose, cu
     const handleChangeEmail = () => {
         setChangeEmail(!changeEmail)
     }
-    const handleClose = ()=>{
+    const handleClose = () => {
         onClose()
         setLoading(false)
         setErrors({})
@@ -166,7 +165,7 @@ const EditCustomerModal: React.FC<EditCustomerModalProps> = ({ open, onClose, cu
                                     </InputAdornment>
                                 ),
                             }}
-                            helperText="This will change the email associated with the account."
+                            helperText="This will change the email used to login."
                             error={!!errors.email}
                             color={errors.email ? 'error' : 'primary'}
 
@@ -182,11 +181,18 @@ const EditCustomerModal: React.FC<EditCustomerModalProps> = ({ open, onClose, cu
                             value={formData.address || ''}
                             onChange={handleInputChange}
                             disabled={isViewOnly}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <HomeIcon color='secondary' />
+                                    </InputAdornment>
+                                ),
+                            }}
                         />
                     </Grid>
 
                     {/* Address Line 2 */}
-                    <Grid item xs={12}>
+                    <Grid item xs={12} sm={6}>
                         <TextField
                             label="Address Line 2"
                             fullWidth
@@ -225,7 +231,7 @@ const EditCustomerModal: React.FC<EditCustomerModalProps> = ({ open, onClose, cu
                     </Grid>
 
                     {/* Zip Code */}
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={6} sm={6}>
                         <TextField
                             label="Zip"
                             fullWidth
@@ -238,7 +244,7 @@ const EditCustomerModal: React.FC<EditCustomerModalProps> = ({ open, onClose, cu
                     </Grid>
 
                     {/* Phone Number */}
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12} sm={12} >
                         <TextField
                             label="Phone"
                             fullWidth
@@ -248,6 +254,13 @@ const EditCustomerModal: React.FC<EditCustomerModalProps> = ({ open, onClose, cu
                             value={formData.phone || ''}
                             onChange={handleInputChange}
                             disabled={isViewOnly}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <PhoneIcon color='secondary' />
+                                    </InputAdornment>
+                                ),
+                            }}
                         />
                     </Grid>
 
@@ -273,30 +286,16 @@ const EditCustomerModal: React.FC<EditCustomerModalProps> = ({ open, onClose, cu
                     {/* Date Created */}
                     <Grid item xs={6}>
                         <Typography
-
+                            className='text-green-500'
                         >
                             Date Created: {customer?.createdAt ? new Date(customer.createdAt).toLocaleDateString() : 'N/A'}
                         </Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Button
-                            fullWidth
-                            onClick={handleSubmit}
-                            variant="outlined"
-                            color="primary"
-                            sx={{ mt: 2 }}
-                            disabled={isViewOnly||loading}
-                  
-                        >
-                            {loading ? <CircularProgress /> : 'Save Changes'}
-                            
-                        </Button>
                     </Grid>
                     <Grid item xs={6} >
                         <Button
                             fullWidth
                             onClick={
-                              handleClose
+                                handleClose
                             }
                             variant="outlined"
                             color="secondary"
@@ -305,6 +304,21 @@ const EditCustomerModal: React.FC<EditCustomerModalProps> = ({ open, onClose, cu
                             Cancel
                         </Button>
                     </Grid>
+                    <Grid item xs={6}>
+                        <Button
+                            fullWidth
+                            onClick={handleSubmit}
+                            variant="outlined"
+                            color="primary"
+                            sx={{ mt: 2 }}
+                            disabled={isViewOnly || loading}
+
+                        >
+                            {loading ? <CircularProgress /> : 'Save Changes'}
+
+                        </Button>
+                    </Grid>
+                   
                 </Grid>
             </DialogContent>
             {/* snackbar error message */}
@@ -315,7 +329,7 @@ const EditCustomerModal: React.FC<EditCustomerModalProps> = ({ open, onClose, cu
                 message={errors.message}
             />*/}
 
-        </Dialog>
+        </Dialog >
     );
 };
 

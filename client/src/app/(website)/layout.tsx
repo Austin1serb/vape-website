@@ -2,12 +2,13 @@
 import { Montserrat } from "next/font/google";
 import React from 'react';
 import NavBar from "@/components/NavBar";
-import Footer from "@/components/Footer";
+import Footer from "@/components/Footer/Footer";
 import NicotineWarning from "@/components/NicotineWarning";
 import { ResponsiveProvider } from '@/contexts/ResponsiveContext';
 import "./globals.css";
 import { Metadata } from "next";
 import { CartProvider } from "../contexts/useCart";
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 
 const poppins = Montserrat({ weight: ["100", '200', '400', '500', '700'], subsets: ['latin'] });
 
@@ -30,6 +31,7 @@ export default function RootLayout({
         {/* Your Metadata configuration will be applied here */}
       </head>
       <body>
+      <AppRouterCacheProvider >
         <ResponsiveProvider>
           <NicotineWarning />
           <CartProvider>
@@ -39,6 +41,7 @@ export default function RootLayout({
           <Footer />
           </CartProvider>
         </ResponsiveProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );

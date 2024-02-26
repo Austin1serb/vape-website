@@ -7,15 +7,16 @@ import {
     FormLabel,
     Chip,
 } from '@mui/material';
+import { BorderColor } from '@mui/icons-material';
 
 
 interface SeoKeywordsInputProps {
     seoKeywords: string[];
     onAddKeyword: (keyword: string) => void;
     onRemoveKeyword: (keyword: string) => void;
-  }
-  
-  const SeoKeywordsInput: React.FC<SeoKeywordsInputProps> = ({ seoKeywords, onAddKeyword, onRemoveKeyword }) => {
+}
+
+const SeoKeywordsInput: React.FC<SeoKeywordsInputProps> = ({ seoKeywords, onAddKeyword, onRemoveKeyword }) => {
     const [newKeyword, setNewKeyword] = useState<string>('');
 
     const handleAddKeyword = () => {
@@ -37,16 +38,17 @@ interface SeoKeywordsInputProps {
                 py: 1,
                 pr: 1,
                 border: 1,
-                
+                borderRadius: 1,
+                BorderColor: 'gray',
             }}
             component="fieldset"
-            className='border-gray-500'
+
         >
             <FormLabel
                 className="form-label-sx1"
                 sx={{
                     fontSize: 16,
-                    color:'var(--color-blue)'
+                    color: 'var(--color-blue)'
                 }}
                 component="legend">Add SEO keywords.</FormLabel>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -59,7 +61,7 @@ interface SeoKeywordsInputProps {
                 />
                 <Button
                     sx={{ fontSize: 10, m: 2 }}
-                    variant="contained"
+                    variant="outlined"
                     color="primary"
                     onClick={handleAddKeyword}
                 >
@@ -67,7 +69,7 @@ interface SeoKeywordsInputProps {
                 </Button>
             </Box>
             <Box>
-                {seoKeywords.map((seoKeyword, index:number ) => (
+                {seoKeywords.map((seoKeyword, index: number) => (
                     <Chip
                         sx={{
                             m: 1,
@@ -79,7 +81,7 @@ interface SeoKeywordsInputProps {
                         key={index}
                         label={seoKeyword}
                         onDelete={() => onRemoveKeyword(seoKeyword)}
-                        color="secondary"
+                        color="primary"
                         variant="outlined"
                     />
                 ))}

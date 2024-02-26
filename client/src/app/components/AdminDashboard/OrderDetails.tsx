@@ -13,14 +13,18 @@ interface Props {
 const OrderDetails: React.FC<Props> = ({ order, open, handleClose }) => {
     return (
         <Dialog open={open} onClose={handleClose} maxWidth="lg" fullWidth >
-            <DialogTitle className='bg-primary-variant text-center relative uppercase h-18'>
-                Order Details
-                <IconButton color='secondary' className="cart-close-icon absolute right-4 top-1" onClick={handleClose} >
+            <DialogTitle className='bg-primary-variant text-center  uppercase h-18 flex justify-between items-center'>
+                <div></div>
+                <div>
+                    Order Details
+                </div>
+
+                <IconButton color='secondary' className="cart-close-icon group " onClick={handleClose} >
                     {/* CLOSE ICON */}
-                    <svg xmlns="http://www.w3.org/2000/svg" fill='white' height="40" width="40"><path d="m10.458 31.458-1.916-1.916 9.5-9.542-9.5-9.542 1.916-1.916 9.542 9.5 9.542-9.5 1.916 1.916-9.5 9.542 9.5 9.542-1.916 1.916-9.542-9.5Z"  /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" className='fill-white group-hover:fill-blue-500 transition-all duration-200' height="40" width="40"><path d="m10.458 31.458-1.916-1.916 9.5-9.542-9.5-9.542 1.916-1.916 9.542 9.5 9.542-9.5 1.916 1.916-9.5 9.542 9.5 9.542-1.916 1.916-9.542-9.5Z" /></svg>
                 </IconButton>
             </DialogTitle>
-            <DialogContent className="bg-dark-background border-primary-variant border-4" dividers>
+            <DialogContent sx={{borderRadius:1, borderBottom:2, borderColor:'var(--color-primary-variant)'}}  className="bg-dark-background border-primary-variant border-4 rounded" dividers>
                 <Grid container spacing={2} alignItems="stretch">
                     {/* First Row */}
                     <Grid item xs={12} md={4}>
@@ -76,8 +80,8 @@ const OrderDetails: React.FC<Props> = ({ order, open, handleClose }) => {
                     {/* Third Row - Products Ordered */}
                     {order.products.map((product, index) => (
                         <Grid item xs={12} sm={6} md={12} lg={12} key={index}>
-                            <Suspense fallback={<AdminProductCardSkeleton/>}>
-                            <AdminProductCard product={product} />
+                            <Suspense fallback={<AdminProductCardSkeleton />}>
+                                <AdminProductCard product={product} />
                             </Suspense>
                         </Grid>
                     ))}

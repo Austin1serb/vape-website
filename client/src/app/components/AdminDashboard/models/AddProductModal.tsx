@@ -3,12 +3,9 @@ import React, { useEffect, useState } from 'react';
 import {
     Button,
     Dialog,
-    DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
-    TextField,
-
     CircularProgress,
     Snackbar,
     Alert,
@@ -351,8 +348,8 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
     const paperProps = {
         style: {
             borderRadius: '5px',
-
-            border: error.errors ? '1px solid red' : 'none'
+            border: error.errors ? '1px solid red' : '',
+            width:'100%'
         },
     };
 
@@ -370,7 +367,7 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
                     {snackbarMessage}
                 </Alert>
             </Snackbar>
-            <Dialog open={open} PaperProps={paperProps}>
+            <Dialog open={open} PaperProps={paperProps} fullWidth>
 
 
                 <DialogTitle
@@ -446,7 +443,7 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
 
                     {/* Add more fields as needed */}
                 </DialogContent>
-                <DialogActions className='bg-primary-variant flex justify-between py-2'>
+                <div className='bg-primary-variant flex justify-between py-2, p-4 shadow'>
                     <Button onClick={clearForm} variant='contained' color="secondary">
                         Clear Form
                     </Button>
@@ -456,7 +453,7 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
                     <Button onClick={handleAddProduct} variant='contained' color="primary">
                         {loading ? <CircularProgress /> : buttonOptions}
                     </Button>
-                </DialogActions>
+                </div>
 
             </Dialog >
         </>

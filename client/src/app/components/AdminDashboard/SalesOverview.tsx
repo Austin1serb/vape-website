@@ -1,17 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { Box, Button, Card, CardContent, Grid, Typography } from '@mui/material';
 import { axisClasses } from '@mui/x-charts';
 import OrderDetails from './OrderDetails';
 import { Product, Order, Guest, Customer } from '../types';
-import dynamic from 'next/dynamic';
-import BarChartSkeleton from './AdminSkeletons/BarChartSkeleton';
-import Legend from './Legend';
-import SalesOverviewSkeleton from './AdminSkeletons/SalesOverviewSkeleton';
 
-const DynamicBarChart = dynamic(
-    () => import('@mui/x-charts/BarChart').then((mod) => mod.BarChart),
-    { ssr: false, loading: () => <BarChartSkeleton /> }
-);
+import Legend from './Legend';
+import BarChartSkeleton from './AdminSkeletons/BarChartSkeleton';
+import DynamicBarChart from './models/DynamicBarChart';
+
 
 
 interface SalesData {
@@ -68,7 +64,7 @@ const SalesOverview: React.FC<SalesOverviewProps> = ({
     const handleCloseDialog = () => {
         setCurrentOrderId(null);
         setDialogOpen(false);
-    
+
     };
 
     const chartSetting = {
@@ -134,17 +130,12 @@ const SalesOverview: React.FC<SalesOverviewProps> = ({
     const chartSeries = generateChartSeries(salesData);
 
     useEffect(() => {
-       
+
         console.log(chartSeries)
     }, [salesData])
 
-    if (loading) {
-        return <SalesOverviewSkeleton />;
-    }
-
-
     return (
-        <Box className=" m-5 rounded-lg pb-12">
+        <Box className="m-5 rounded-lg pb-12">
             <Typography p={3} textAlign={'center'} variant='h4'>SALES OVERVIEW</Typography>
             <Grid container spacing={3}>
                 {/* Display summary widgets */}
@@ -226,26 +217,30 @@ const SalesOverview: React.FC<SalesOverviewProps> = ({
                     </Card>
                 </Grid>
 
-                <Grid item xs={12} md={8} lg={12}>
-                    <Card elevation={5} className="bg-dark-surface text-on-dark-background rounded-lg">
-                        <CardContent className="bg-dark-surface text-on-dark-background">
+                <Grid item xs={12} md={12} lg={12} >
+                    <Card elevation={5} sx={{ width: '100%' }} className="bg-dark-surface text-on-dark-background rounded-lg w-full">
+                        <CardContent sx={{ width: '100%' }} className="bg-dark-surface text-on-dark-background w-full">
                             <Typography variant="body1">Latest Orders:</Typography>
                             {/* Display recent orders */}
-                            {recentOrders.map(order => (
-                                <Button
-                                    variant='contained'
-                                    onClick={() => handleOpenDialog(order._id)}
-                                    color='secondary'
-                                    key={order.orderNumber}
-                                    className='m-2 p-2'
-                                >
-                                    Order ID: {order._id} • Order Status: <span className={
-                                        order.orderStatus === 'Pending' || order.orderStatus === 'Canceled' ? 'text-red-400' : 'text-green-300'
-                                    }>
-                                        {order.orderStatus}
-                                    </span>
-                                </Button>
-                            ))}
+                            <div className='flex flex-wrap justify-left '>
+                                {recentOrders.map(order => (
+                                    <div className='lg:w-1/2 p-2 w-full' key={order.orderNumber}> {/* Adjust padding as needed */}
+                                        <Button
+                                            variant='contained'
+                                            onClick={() => handleOpenDialog(order._id)}
+                                            color='secondary'
+                                            fullWidth
+                                            className='whitespace-nowrap overflow-hidden'
+                                        >
+                                            Order ID: {order._id} • Order Status: <span className={
+                                                order.orderStatus === 'Pending' || order.orderStatus === 'Canceled' ? 'text-red-400 ' : 'text-green-300'
+                                            }>
+                                                {order.orderStatus}
+                                            </span>
+                                        </Button>
+                                    </div>
+                                ))}
+                            </div>
 
                             {recentOrders.filter(order => currentOrderId === order._id).map(order => (
                                 <OrderDetails
@@ -268,20 +263,13 @@ const SalesOverview: React.FC<SalesOverviewProps> = ({
 
                     <Card elevation={5}>
                         <div className='bg-dark-surface flex-grow'>
-                            <DynamicBarChart
-                                dataset={salesData}
-                                xAxis={[{ scaleType: 'band', dataKey: 'month' }]}
-                                slotProps={{
-                                    legend: {
-                                        hidden: true,
-                                    },
-
-                                }}
-
-                                series={chartSeries}
-                                {...chartSetting}
-
-                            />
+                            <Suspense fallback={<BarChartSkeleton />}>
+                                <DynamicBarChart
+                                    salesData={salesData}
+                                    chartSeries={chartSeries}
+                                    chartSetting={chartSetting}
+                                />
+                            </Suspense>
                         </div>
                     </Card>
                 </Grid>

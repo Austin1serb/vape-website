@@ -34,7 +34,7 @@ const GenerateSidebarItems: React.FC<GenerateSidebarItemsProps> = ({ sideBarOpen
             </svg>, text: 'Home', component: 'AdminDashboard'
         },
         {
-            icon: <svg height='24' version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" enableBackground="new 0 0 48 48">
+            icon: <svg height='24' width='24' version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" enableBackground="new 0 0 48 48">
                 <g fill="#3F51B5">
                     <polygon points="17.8,18.1 10.4,25.4 6.2,21.3 4,23.5 10.4,29.9 20,20.3" />
                     <polygon points="17.8,5.1 10.4,12.4 6.2,8.3 4,10.5 10.4,16.9 20,7.3" />
@@ -87,21 +87,26 @@ const GenerateSidebarItems: React.FC<GenerateSidebarItemsProps> = ({ sideBarOpen
     ];
 
     return menuItems.map((item, index) => (
-        <ListItem
+        <div
             key={index}
-            className={`bg-dark-surface text-on-dark-background my-4 ${!sideBarOpen ? 'justify-center' : ''}`}
+            className={`bg-dark-surface text-on-dark-background my-4  ${!sideBarOpen ? 'justify-start' : ''}`}
             onClick={() => handleSidebarItemClick(item.component)}
         >
 
             {sideBarOpen ? (
-                <Button variant='outlined' color='secondary' className="bg-dark-surface text-on-dark-background w-full py-4">
-                    <ListItemIcon>{item.icon}</ListItemIcon>
-                    <ListItemText primary={item.text} />
+                <div className='mx-2'>
+                <Button fullWidth variant='outlined' color='secondary' className="bg-dark-surface text-on-dark-background  py-4 mx-auto">
+                    <div className="bg-dark-surface text-on-dark-background w-full py-4 flex flex-nowrap justify-between mx-2">
+                    <div className='w-6 h-6'>{item.icon}</div>
+                <ListItemText primary={item.text} />
+                    </div>
                 </Button>
+                </div>
             ) : (
-                <IconButton color='inherit' className='group hover:grayscale grayscale-0'>
+                <div className='mt-8'>
+                <IconButton  className='group hover:grayscale grayscale-0'>
                     <div className='flex items-center flex-col h-12 w-12  transition-all duration-200'>
-                        <div>
+                        <div className='w-6 h-6'>
                             {item.icon}
                         </div>
 
@@ -110,8 +115,9 @@ const GenerateSidebarItems: React.FC<GenerateSidebarItemsProps> = ({ sideBarOpen
                         </div>
                     </div>
                 </IconButton>
+                </div>
             )}
-        </ListItem>
+        </div>
     ));
 };
 export default GenerateSidebarItems;

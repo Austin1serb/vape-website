@@ -37,22 +37,23 @@ app.use(helmet({
     },
 }));
 
-
+const { uploadToCloudinary } = require('./services/cloudinary');
 const productRoutes = require('./routes/products.routes');
 const orderRoutes = require('./routes/orders.routes');
 const guestRoutes = require('./routes/guest.routes')
 const userRoutes = require('./routes/users.routes');
 const shippoRoutes = require('./routes/shippo.routes');
-const { uploadToCloudinary } = require('./services/cloudinary');
 const suggestionsRoutes = require('./routes/suggestions.routes');
 //const paymentRoutes = require('./routes/payment.routes');
 const passwordResetRoutes = require('./routes/passwordReset.routes')
 const contactRouter = require('./routes/contact.routes');
+const brandRouter = require('./routes/brands.routes');
 
 
 app.use('/api', passwordResetRoutes);
 app.use("/api/", suggestionsRoutes);
 //app.use('/api/payment', paymentRoutes);
+app.use('/api/brand', brandRouter);
 app.use("/api/product", productRoutes);
 app.use("/api/order", orderRoutes);
 app.use('/api/guest', guestRoutes);

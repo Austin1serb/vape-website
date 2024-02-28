@@ -122,6 +122,7 @@ const StrengthFeaturedControl: React.FC<StrengthFeaturedControlProps> = ({
                             label="No"
                         />
                     </RadioGroup>
+                    
                 </FormControl>
             </Box>
         </Box>

@@ -1,5 +1,7 @@
 const Products = require('../models/products.model');
-const { uploadToCloudinary, deleteFromCloudinary } = require('../services/cloudinary');
+const Brand = require('../models/brand.model'); // Ensure this path matches your Brand model
+const { deleteFromCloudinary } = require('../services/cloudinary');
+const { processImages, removeDeletedImages, handleErrors } = require('../utilities/fetchFunctions');
 
 const createOneProd = async (req, res) => {
 
@@ -21,11 +23,20 @@ const extractProductData = (body) => {
     const { brand, name, price, specs, imgSource, category, description, strength, reorderPoint, seo, seoKeywords, shipping, isFeatured, flavor, totalSold } = body;
     return { brand, name, price, specs, imgSource, category, description, strength, reorderPoint, seo, seoKeywords, shipping, isFeatured, flavor, totalSold };
 };
-
 const updateProduct = async (req, res, productData) => {
     const originalProduct = await Products.findById(req.params.id);
     if (!originalProduct) {
         return res.status(404).json({ message: 'Product not found' });
+    }
+
+    // Resolve the brand reference if it's being changed
+    if (productData.brand && productData.brand !== originalProduct.brand.toString()) {
+        const brand = await Brand.findOne({ name: productData.brand });
+        if (brand) {
+            productData.brand = brand._id;
+        } else {
+            return res.status(404).json({ message: 'Brand not found' });
+        }
     }
 
     productData.imgSource = await processImages(productData.imgSource, originalProduct);
@@ -40,7 +51,18 @@ const updateProduct = async (req, res, productData) => {
     }
 };
 
+
 const createProduct = async (res, productData) => {
+    // Resolve the brand reference
+    if (productData.brand) {
+        const brand = await Brand.findOne({ name: productData.brand });
+        if (brand) {
+            productData.brand = brand._id; // Set the brand field to the ObjectId
+        } else {
+            return res.status(404).json({ message: 'Brand not found' });
+        }
+    }
+
     productData.imgSource = await processImages(productData.imgSource);
     const newProduct = await Products.create(productData);
 
@@ -49,43 +71,6 @@ const createProduct = async (res, productData) => {
     } else {
         res.status(400).json({ message: 'Product could not be created' });
     }
-};
-
-const processImages = async (images, originalProduct = null) => {
-    let imageData = [];
-    if (images && Array.isArray(images) && images.length > 0) {
-        for (let image of images) {
-            if (image.url && image.url.includes('cloudinary.com')) {
-                imageData.push(image);
-            } else {
-                const results = await uploadToCloudinary(image.url, "product_images");
-                imageData.push(results);
-            }
-        }
-    }
-    return imageData;
-};
-
-const removeDeletedImages = async (newImages, originalProduct) => {
-    const originalUrls = originalProduct.imgSource.map(img => img.url);
-    const removedUrls = originalUrls.filter(url => !newImages.some(img => img.url === url));
-
-    for (const url of removedUrls) {
-        const publicId = originalProduct.imgSource.find(img => img.url === url).publicId;
-        await deleteFromCloudinary(publicId);
-    }
-};
-
-const handleErrors = (error, res) => {
-    console.error(error);
-    if (error.name === 'ValidationError') {
-        const errors = Object.keys(error.errors).reduce((acc, field) => {
-            acc[field] = error.errors[field].message;
-            return acc;
-        }, {});
-        return res.status(400).json(errors);
-    }
-    res.status(500).json({ message: 'An unexpected error occurred' });
 };
 
 
@@ -207,8 +192,6 @@ module.exports = {
             } else if (filter) {
                 query.$and.push({ category: new RegExp(filter, 'i') });
             }
-
-
             const totalProducts = await Products.countDocuments(query);
             const products = await Products.find(query).limit(pageSize).skip(skip);
 

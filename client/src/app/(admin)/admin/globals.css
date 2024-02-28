@@ -10,7 +10,7 @@
   --color-primary: #6200EE;
   --color-primary-variant: #3700B3;
 
-  --color-blue:#2196f3;
+  --color-blue: #2196f3;
 
   /* Secondary colors */
   --color-secondary: #03DAC6;
@@ -18,8 +18,8 @@
 
   /* Background, Surface, and Error */
   --color-background: #FFFFFF;
-  --color-dark-background:#191E2C;
-  --color-dark-surface:#282F48;
+  --color-dark-background: #191E2C;
+  --color-dark-surface: #282F48;
   --color-surface: #F5F5F5;
   --color-error: #B00020;
 
@@ -27,7 +27,7 @@
   --color-on-primary: #FFFFFF;
   --color-on-secondary: #000000;
   --color-on-background: #000000;
-  --color-on-dark-background:#F5F7FB;
+  --color-on-dark-background: #F5F7FB;
   --color-on-surface: #000000;
   --color-on-error: #FFFFFF;
 
@@ -47,7 +47,7 @@
   --deep-purple-A400: #651FFF;
   --deep-purple-A700: #6200EA;
 
- 
+
 }
 
 
@@ -81,7 +81,7 @@ body {
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     padding: 5px;
-   
+
   }
 }
 
@@ -139,61 +139,77 @@ body {
 }
 
 .rating-stars {
-  fill:var(--color-primary-variant);
+  fill: var(--color-primary-variant);
   transition: all 0.3s;
 
 }
 
 
 /* Scrollbar base styles */
- ::-webkit-scrollbar {
-    width: 16px; /* Adjust the width of the scrollbar */
-    background-color: var(--color-dark-surface); /* Background of the scrollbar track */
-  }
-  
-  /* Scrollbar track */
-   ::-webkit-scrollbar-track {
-    border-radius: 8px;
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); /* Inner shadow for a 3D effect */
-    background-color: var(--color-dark-surface); /* Slightly lighter than the scrollbar base for contrast */
-  }
-  
-  /* Scrollbar thumb */
-   ::-webkit-scrollbar-thumb {
-    border-radius: 8px;
-    border: 4px solid var(--color-dark-surface); /* Makes the thumb narrower than the track */
-    background-color: var(--color-primary); /* Use the vibrant primary color */
-    box-shadow: 0 0 6px var(--color-primary-variant); /* Outer glow for a 3D effect */
-  }
-  
-  /* Scrollbar thumb hover */
-   ::-webkit-scrollbar-thumb:hover {
-    background-color: var(--color-primary-variant); /* Slightly darker shade for interactive feedback */
-    box-shadow: 0 0 8px var(--color-primary-variant); /* Enhanced outer glow on hover */
-  }
-  
-/* FIX MUI AND TAILWIND STYLE CONFLICTS */
-  button.MuiButton-containedPrimary {
-    @apply bg-blue-500;
-    @apply text-white;
-  }
-  button.MuiButton-containedSecondary {
-    @apply bg-deep-purple-A400;
-  }
-  button.MuiButton-containedSecondary:hover {
-    @apply bg-deep-purple-A200;
-  }
-  button.MuiButton-containedSuccess {
-    @apply bg-cyan-700;
-    @apply  text-white;
-  }
-  button.MuiButton-containedSuccess:hover {
-    @apply bg-cyan-500;
+::-webkit-scrollbar {
+  width: 16px;
+  /* Adjust the width of the scrollbar */
+  background-color: var(--color-dark-surface);
+  /* Background of the scrollbar track */
+}
 
-  }
-  button.MuiButton-containedError {
-    @apply bg-red-600;
-  }
-  button.MuiButton-containedError:hover {
-    @apply bg-red-400;
-  }
+/* Scrollbar track */
+::-webkit-scrollbar-track {
+  border-radius: 8px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  /* Inner shadow for a 3D effect */
+  background-color: var(--color-dark-surface);
+  /* Slightly lighter than the scrollbar base for contrast */
+}
+
+/* Scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  border: 4px solid var(--color-dark-surface);
+  /* Makes the thumb narrower than the track */
+  background-color: var(--color-primary);
+  /* Use the vibrant primary color */
+  box-shadow: 0 0 6px var(--color-primary-variant);
+  /* Outer glow for a 3D effect */
+}
+
+/* Scrollbar thumb hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-primary-variant);
+  /* Slightly darker shade for interactive feedback */
+  box-shadow: 0 0 8px var(--color-primary-variant);
+  /* Enhanced outer glow on hover */
+}
+
+/* FIX MUI AND TAILWIND STYLE CONFLICTS */
+button.MuiButton-containedPrimary {
+  @apply bg-blue-500;
+  @apply text-white;
+}
+
+button.MuiButton-containedSecondary {
+  @apply bg-deep-purple-A400;
+}
+
+button.MuiButton-containedSecondary:hover {
+  @apply bg-deep-purple-A200;
+}
+
+button.MuiButton-containedSuccess {
+  @apply bg-cyan-700;
+  @apply text-white;
+}
+
+button.MuiButton-containedSuccess:hover {
+  @apply bg-cyan-500;
+
+}
+
+button.MuiButton-containedError {
+  @apply bg-red-600;
+}
+
+button.MuiButton-containedError:hover {
+  @apply bg-red-400;
+}
+

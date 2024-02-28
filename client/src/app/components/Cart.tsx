@@ -164,10 +164,10 @@ const Cart: React.FC<Props> = ({ setDrawerOpen, drawerOpen }) => {
 
                             {cart.length > 0 && (
                                 <>
-                                    <Button component={Link} href='/checkout/1' onClick={handleProceedToCheckout} variant="outlined" sx={{ width: { xs: '75%', sm: '90%', md: '90%' }, letterSpacing: 2, color: 'white', borderRadius: 0, backgroundColor: '#283047', mb: { xs: 5, sm: 3 }, height: 56.5, "&:hover": { backgroundColor: '#FE6F49', border: 'none', }, textAlign: 'center',borderRadius:'5px' }}>Place your order</Button>
+                                    <Button component={Link} href='/checkout/1' onClick={handleProceedToCheckout} variant="outlined" sx={{ width: { xs: '75%', sm: '90%', md: '90%' }, letterSpacing: 2, color: 'white', backgroundColor: '#283047', mb: { xs: 5, sm: 3 }, height: 56.5, "&:hover": { backgroundColor: '#FE6F49', border: 'none', }, textAlign: 'center', borderRadius:'5px' }}>Place your order</Button>
                                     <Button onClick={() => {
                                         setDrawerOpen(false); // Close the drawer
-                                    }} variant="outlined" sx={{ mb: 1, width: { xs: '75%', sm: '90%', md: '90%' }, letterSpacing: 2, color: '#283047', borderRadius: 0, backgroundColor: 'white', borderColor: '#283047', borderWidth: 1.5, height: 55, '&:hover': { backgroundColor: 'var(--color-primary-variant)', color: 'white' },borderRadius:'5px' }}>Continue Shopping</Button>
+                                    }} variant="outlined" sx={{ mb: 1, width: { xs: '75%', sm: '90%', md: '90%' }, letterSpacing: 2, color: '#283047', backgroundColor: 'white', borderColor: '#283047', borderWidth: 1.5, height: 55, '&:hover': { backgroundColor: 'var(--color-primary-variant)', color: 'white' },borderRadius:'5px' }}>Continue Shopping</Button>
                                 </>
                             )}
 

@@ -1,13 +1,24 @@
 // types.ts
 
 export interface Shipping {
-    weight: number |string;
+    weight: number | string;
     dimensions: {
-        length: number |string;
-        width: number |string;
-        height: number |string;
+        length: number | string;
+        width: number | string;
+        height: number | string;
     };
 };
+export interface Brand {
+    _id?: string;
+    name: string;
+    imgSource: ImageSource[];
+    description?: string; 
+    rating?: number; 
+    tags: string[];
+    isActive: boolean;
+    createdAt?: Date;
+    updatedAt?: Date;
+}
 export interface Product {
     _id?: string | number;
     brand: string;
@@ -52,9 +63,9 @@ export interface Guest {
 }
 
 export interface ImageSource {
-    publicId: string;
+    publicId?: string;
     url: string;
-    _id: string;
+    _id?: string;
 }
 
 export interface SEO {

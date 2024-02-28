@@ -13,9 +13,9 @@ interface CategoryInputProps {
     category: string[];
     onAddCategory: (category: string) => void;
     onRemoveCategory: (category: string) => void;
-    error?: string|null;
+    error?: string | null;
 }
-const CategoryInput:React.FC<CategoryInputProps> = ({ category, onAddCategory, onRemoveCategory, error }) => {
+const CategoryInput: React.FC<CategoryInputProps> = ({ category, onAddCategory, onRemoveCategory, error }) => {
     const [newCategory, setNewCategory] = useState('');
     const [localError, setLocalError] = useState(error);
 
@@ -45,7 +45,7 @@ const CategoryInput:React.FC<CategoryInputProps> = ({ category, onAddCategory, o
 
     return (
         <FormControl
-        className='transition-all duration-300 border-gray-500'
+            className='transition-all duration-300 border-gray-500'
             sx={{
 
                 width: '97%',
@@ -54,7 +54,7 @@ const CategoryInput:React.FC<CategoryInputProps> = ({ category, onAddCategory, o
                 pr: 1,
                 border: 1,
                 borderRadius: 1,
-                color:'gray',
+                color: 'gray',
                 borderColor: localError ? (theme) => theme.palette.error.main : '#686D6E',
             }}
             name='category-input'
@@ -67,13 +67,15 @@ const CategoryInput:React.FC<CategoryInputProps> = ({ category, onAddCategory, o
                 className="form-label-sx text-blue-500"
                 sx={{
                     fontSize: 16,
-                    color:'var(--color-blue)'
+                    color: 'var(--color-blue)'
                 }}
             >
                 Add product categories.*
             </FormLabel>
             <Box sx={{ display: 'flex', alignItems: 'center', }}>
                 <TextField
+                    variant='filled'
+                    color='secondary'
                     name='categories'
                     spellCheck={true}
                     autoCorrect='false'

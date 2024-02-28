@@ -25,19 +25,20 @@ import UserList from './UserList';
 //import { useAuth } from '@/utils/useAuth';
 import Link from 'next/link'
 import AccountIconLocal from '@/Icons/Account.icon';
-import { Product, Order, Customer, Guest } from '../types'
-import { SaleItem, aggregateSalesData, transformAndSortDataForChart } from './FetchDataUtil';
+import { Product, Order, Customer, Guest, Brand } from '../types'
+import { SaleItem, aggregateSalesData, transformAndSortDataForChart } from './utilities/AdminDashUtils';
 import { Theme, CSSObject, styled, useTheme, } from '@mui/material/styles';
 import GenerateSidebarItems from './models/GenerateSideBarItems';
 import DataGridSkeleton from './AdminSkeletons/DataGridSkeleton';
 import dynamic from 'next/dynamic';
 import SalesOverviewSkeleton from './AdminSkeletons/SalesOverviewSkeleton';
+import BrandList from './BrandList';
 
 
 
 const SalesOverview = dynamic(() => import('./SalesOverview'), {
     loading: () => (
-            <SalesOverviewSkeleton />
+        <SalesOverviewSkeleton />
     ),
     ssr: true,
 });
@@ -165,6 +166,8 @@ const AdminDashboard = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [orders, setOrders] = useState<Order[]>([]);
     const [guestData, setGuestData] = useState<Guest[]>([]);
+    //brands carries
+    const [brands, setBrands] = useState<Brand[]>([]);
     const url = 'http://localhost:8000/api/'
 
 
@@ -235,7 +238,11 @@ const AdminDashboard = () => {
                 const aggregatedData = aggregateSalesData(data);
                 const chartData = transformAndSortDataForChart(aggregatedData);
                 setSalesData(chartData);
-                console.log('salesData: ', salesData)
+                
+
+                // Fetch Brand Data
+                const brandData = await fetchData<Brand[]>(url + '/brands', signal);
+                setBrands(brandData);
             } catch (error) {
                 if (error instanceof Error && error.name !== 'AbortError') {
                     console.error('Error fetching data:', error);
@@ -298,7 +305,7 @@ const AdminDashboard = () => {
                             size="large"
                             edge="end"
                             aria-label="account of current user"
-                            sx={{ color: 'white', transition: '0.3s color ease', '&:hover': { transition: '0.3s color ease', color: '#FE6F49' } }}
+                            sx={{ color: 'white', transition: '0.3s all ease', '&:hover': { transition: '0.3s color ease', color: 'var(--color-secondary)' } }}
                         >
                             <AccountIconLocal height={32} width={32} />
                         </IconButton>
@@ -364,7 +371,7 @@ const AdminDashboard = () => {
                                     guestData={guestData}
 
                                 />)}
-                            {selectedComponent === 'productList' && <ProductList />}
+                            {selectedComponent === 'productList' && <ProductList initialProducts={products} />}
                             {selectedComponent === 'userList' && (
 
                                 <UserList
@@ -388,23 +395,23 @@ const AdminDashboard = () => {
                                     </div>
                                 } >
 
-
                                     <OrderList
                                         orders={orders}
                                     />
                                 </Suspense>
+                            )}
+                            {selectedComponent === 'brandList' && (
+                                <BrandList initialBrands={brands} />
                             )}
 
                         </Paper>
                     </Grid>
                 </Grid>
             </Container>
-            <CustomDrawer variant="permanent" anchor="left" open={sidebarOpen} onClose={handleSidebarToggle}
-
-            >
+            <CustomDrawer variant="permanent" anchor="left" open={sidebarOpen}  >
                 <DrawerHeader sx={{ backgroundColor: 'var(--color-primary-variant)' }} className='h-[70px]' >
                     <IconButton onClick={handleSidebarToggle}>
-                        {!sidebarOpen === true ? <ChevronRightIcon sx={{ fontSize: 30 }} /> : <ChevronLeftIcon sx={{ fontSize: 30 }} />}
+                        {!sidebarOpen === true ? <ChevronRightIcon sx={{ fontSize: 30, '&:hover': { transition: '0.3s color ease', color: 'var(--color-secondary)' } }} /> : <ChevronLeftIcon sx={{ fontSize: 30, '&:hover': { transition: '0.3s color ease', color: 'var(--color-secondary)' } }} />}
                     </IconButton>
                 </DrawerHeader>
                 <Divider />

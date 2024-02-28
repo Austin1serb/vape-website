@@ -331,7 +331,7 @@ const UserList: React.FC<UsersState> = ({ customers, guests }) => {
 
     ];
     return (
-        <div style={{ padding: 20, margin: 20 }}>
+        <div className="m-5 rounded-lg pb-12">
             <Dialog
                 open={deleteConfirmationOpen}
                 onClose={() => setDeleteConfirmationOpen(false)}
@@ -351,7 +351,7 @@ const UserList: React.FC<UsersState> = ({ customers, guests }) => {
                     </Button>
                 </DialogActions>
             </Dialog>
-            <h2 style={{ margin: 10 }}>Admin List</h2>
+            <h3 className='text-3xl text-start uppercase py-8 ml-8'>Admin List</h3>
             <DataGrid
 
                 rows={admins}
@@ -366,7 +366,7 @@ const UserList: React.FC<UsersState> = ({ customers, guests }) => {
                     {error}
                 </div>
             )}
-            <h2 style={{ margin: 10 }}>Customer List</h2>
+            <h3 className='text-3xl text-start uppercase py-8 ml-8'>Customer List</h3>
             <DataGrid
                 rows={nonAdmins}
                 columns={customerCols}
@@ -375,7 +375,7 @@ const UserList: React.FC<UsersState> = ({ customers, guests }) => {
                 getRowId={(row) => row._id}
             />
             <div>
-                <h2 style={{ margin: 10 }}>Guest User List</h2>
+                <h3 className='text-3xl text-start uppercase py-8 ml-8'>Guest User List</h3>
                 <DataGrid
                     rows={users.guests}
                     columns={guestCols}

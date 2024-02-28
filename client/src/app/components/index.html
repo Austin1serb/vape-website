@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 7rem;
+      }
+      
+      .button {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        color: #fff;
+        font-size: 0.8rem;
+        background-color: #bd04c0;
+        border: none;
+        border-radius: 0.3rem;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in;
+      }
+      
+      .button:hover {
+        background-color: #8f0092;
+      }
+      
+      video {
+        width: 350px;
+        margin-bottom: 0.7rem;
+        border-radius: 0.4rem;
+      }
+</style>
+<body>
+    <div class="wrapper">
+        <video
+          src="https://www.w3schools.com/html/mov_bbb.mp4"
+          controls
+          loop
+        ></video>
+      
+        <button type="button" class="button">
+          Enter PiP
+        </button>
+      </div>
+</body>
+<script>
+    const video = document.querySelector("video");
+    const button = document.querySelector("button");
+
+    /* --- Browsers Support --- */
+    if (!document.pictureInPictureEnabled) {
+        button.textContent = "Not Supported.";
+        button.disabled = true;
+        button.style.cursor = "not-allowed";
+        button.style.opacity = "0.5";
+    }
+
+    // Entering Picture-in-Picture mode
+    video.addEventListener(
+        "enterpictureinpicture",
+        () => (button.textContent = "Exit PiP")
+    );
+
+    // Leaving Picture-in-Picture mode
+    video.addEventListener(
+        "leavepictureinpicture",
+        () => (button.textContent = "Enter PiP")
+    );
+
+    // Button Click
+    button.addEventListener("click", () =>
+        document.pictureInPictureElement
+            ? document.exitPictureInPicture()
+            : video.requestPictureInPicture()
+    );
+</script>
+
+</html>

@@ -161,7 +161,7 @@ const OrderList: React.FC<OrderListProps> = ({ orders }) => {
         {
             field: '_id',
             headerName: 'Order ID',
-            flex: 2,
+            flex: 1.5,
             renderCell: (params) => (
                 <Tooltip title={params.value}>
                     <div style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
@@ -294,10 +294,10 @@ const OrderList: React.FC<OrderListProps> = ({ orders }) => {
 
     return (
 
-        <div className="bg-dark text-on-dark-background m-4 py-4">
-            <Typography variant="h4" gutterBottom>Order List </Typography>
+        <div className="m-5 rounded-lg pb-12">
+            <h3 className='text-3xl text-start uppercase py-8 ml-8' >Order List </h3>
 
-            <div className='mb-5 bg-dark-surface rounded-lg'>
+            <div className='mb-5 bg-dark-surface rounded-lg mx-4'>
                 <CardContent className="py-4 rounded-lg bg-dark-surface">
                     <div className="flex items-center justify-between bg-dark-surface rounded-lg">
                         <div className='w-full mr-8'>
@@ -325,12 +325,15 @@ const OrderList: React.FC<OrderListProps> = ({ orders }) => {
                     </div>
                 </CardContent>
             </div>
+            <div className='mx-4'>
             <DataGrid
+                autoHeight
                 getRowId={(row) => row._id}
                 rows={filteredOrders}
                 columns={columns}
                 components={{ Toolbar: GridToolbar }}
             />
+             </div>
             {/* Snackbar for success/error messages */}
             <Snackbar
                 open={snackbarOpen}

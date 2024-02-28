@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { FormControl, FormLabel, Box, TextField } from '@mui/material';
-import SeoKeywordsInput from '../SeoKeywordsInput'; 
+import KeywordsInput from '../KeywordsInput'; 
 import { Product } from '@/components/types';
 
 
@@ -64,8 +64,8 @@ const SEOSection:React.FC<SEOsectionProps>= ({ productData, handleChange, handle
                 />
 
                 {/* SEO Keywords Input Component */}
-                <SeoKeywordsInput
-                    seoKeywords={productData.seoKeywords}
+                <KeywordsInput
+                    Keywords={productData.seoKeywords}
                     onAddKeyword={handleAddKeyword}
                     onRemoveKeyword={handleRemoveKeyword}
                 />

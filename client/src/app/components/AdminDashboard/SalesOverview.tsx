@@ -136,7 +136,7 @@ const SalesOverview: React.FC<SalesOverviewProps> = ({
 
     return (
         <Box className="m-5 rounded-lg pb-12">
-            <Typography p={3} textAlign={'center'} variant='h4'>SALES OVERVIEW</Typography>
+            <h2 className='text-3xl text-start uppercase py-8 ml-8'>SALES OVERVIEW</h2>
             <Grid container spacing={3}>
                 {/* Display summary widgets */}
                 <Grid item xs={6} md={4} lg={2}>
@@ -188,8 +188,8 @@ const SalesOverview: React.FC<SalesOverviewProps> = ({
                     </Card>
                 </Grid>
                 <Grid item xs={12} md={4} lg={6} >
-                    <Card elevation={5} className="bg-dark-surface text-on-dark-background rounded-lg">
-                        <CardContent className="bg-dark-surface text-on-dark-background">
+                    <Card elevation={5} className="bg-dark-surface text-on-dark-background rounded-lg h-full">
+                        <CardContent className="bg-dark-surface text-on-dark-background h-full">
                             <Typography variant="body1" gutterBottom>Recent Customer Registrations: </Typography>
                             <Typography variant="body2"> {recentCustomers.map(customer => <li key={customer._id}>{customer.firstName} {customer.lastName} - {customer.email}</li>)}</Typography>
                         </CardContent>
@@ -255,7 +255,7 @@ const SalesOverview: React.FC<SalesOverviewProps> = ({
                     </Card>
                 </Grid>
 
-                <Grid item>
+                <Grid item sm={12}>
                     <Box >
                         <Typography p={3} textAlign={'center'} variant='h5'>Best Sellers Data</Typography>
                         <Legend series={chartSeries} />
@@ -263,6 +263,7 @@ const SalesOverview: React.FC<SalesOverviewProps> = ({
 
                     <Card elevation={5}>
                         <div className='bg-dark-surface flex-grow'>
+                            
                             <Suspense fallback={<BarChartSkeleton />}>
                                 <DynamicBarChart
                                     salesData={salesData}

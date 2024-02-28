@@ -15,6 +15,18 @@ const darkTheme = createTheme({
     typography: {
         fontFamily: montserrat.style.fontFamily
     },
+    components:{
+        MuiFilledInput:{
+            styleOverrides:{
+                root:{
+                    backgroundColor:'#262B31',
+                },
+                },
+          
+           
+        },
+       
+    }
 });
 
 

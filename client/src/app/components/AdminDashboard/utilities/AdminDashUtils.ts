@@ -82,3 +82,16 @@ export const transformAndSortDataForChart = (aggregatedData: AggregatedData): Tr
 
 
 
+export const formatDate = (dateString: string): string => {
+    if (dateString) {
+        const date = new Date(dateString);
+        const options: Intl.DateTimeFormatOptions = {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+        };
+        return new Intl.DateTimeFormat('en-US', options).format(date);
+    } else {
+        return 'Date Not Found';
+    }
+};

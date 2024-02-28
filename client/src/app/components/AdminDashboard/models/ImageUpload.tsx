@@ -7,21 +7,21 @@ import {
 } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
+import Image from 'next/image';
 
 interface ImageUploadProps {
-    error: { [key: string]: string }; // Adjust based on the actual structure of your error object
+    error: { [key: string]: string }; 
+    setError?: (newError: { [key: string]: string }) => void; 
     loading: boolean;
     selectedImage?: File[];
     selectedImageData: string[]; // Array of image URLs
     handleImage: (event: React.ChangeEvent<HTMLInputElement>) => void;
     setSelectedImageData: (newImageData: string[]) => void;
-    //Type 'File[]' is missing the following properties from type 'File': lastModified, name, webkitRelativePath, size, and 4 more.ts(2740)
-//ImageUpload.tsx(14, 5): The expected type comes from property 'selectedImage' which is declared here on type 'IntrinsicAttributes & ImageUploadProps'
-
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({
     error,
+    setError,
     loading,
     selectedImage,
     selectedImageData,
@@ -74,10 +74,10 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                 borderRadius: 1,
                 borderColor: error.imgSource ? 'red' : '#686D6E',
 
-               
+
             }}
             component="fieldset"
-          
+
         >
             <FormLabel component="legend"
                 htmlFor='image-upload'
@@ -135,16 +135,18 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                     {selectedImageData && selectedImageData.length > 0 ? (
                         selectedImageData.map((imgUrl, index) => (
                             <div key={index} style={imageContainerStyles}>
-                                <img
+                                <Image
                                     src={imgUrl}
                                     alt={`Selected Thumbnail ${index + 1}`}
+                                    width={100}
+                                    height={100}
+                                    quality={50}
                                     style={{ maxWidth: '100px', maxHeight: '100px', minWidth: '100px', minHeight: '100px', border: '.5px solid black', }}
                                     loading='lazy'
                                 />
                                 <Button
                                     size="small"
                                     variant="text"
-
                                     onClick={() => handleRemoveImage(index)}
                                     sx={{ marginTop: '5px' }}
                                 >

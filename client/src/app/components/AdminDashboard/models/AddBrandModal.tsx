@@ -1,0 +1,349 @@
+
+import React, { useEffect, useState } from 'react';
+import {
+    Button,
+    Dialog,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    CircularProgress,
+    Snackbar,
+    Alert,
+} from '@mui/material';
+import ImageUpload from './ImageUpload';
+import { Brand } from '@/components/types';
+import BrandForm from './BrandForm';
+import KeywordsInput from '../KeywordsInput';
+
+const initialBrandData = {
+    name: '',
+    imgSource: [],
+    description: '',
+    isActive: true,
+    rating: 0,
+    tags: [],
+};
+
+
+
+interface ErrorState {
+    [key: string]: string;
+}
+interface Props {
+    open: boolean;
+    onClose: () => void;
+    onAddBrand: (brandData: Brand) => void;
+    selectedBrand?: Brand | null;
+    onUpdateBrand: (brandData: Brand) => void;
+}
+
+
+const AddBrandModal: React.FC<Props> = ({ open, onClose, onAddBrand, selectedBrand, onUpdateBrand, }) => {
+    const [brandData, setBrandData] = useState<Brand>(selectedBrand || initialBrandData);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<ErrorState>({});
+    const [selectedImage, setSelectedImage] = useState<File[]>([]);
+    const [selectedImageData, setSelectedImageData] = useState<string[]>([]);
+    const [selectedStrength, setSelectedStrength] = useState<string>('low');
+    const [isNewImageSelected, setIsNewImageSelected] = useState<boolean>(false);
+    const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
+    const [snackbarMessage, setSnackbarMessage] = useState<string>('');
+
+    const openSnackbar = (errorData: ErrorState): void => {
+        const firstError = Object.values(errorData)[0];
+        setSnackbarMessage(firstError);
+        setIsSnackbarOpen(true);
+    };
+
+
+
+    const clearForm = () => {
+        setBrandData(initialBrandData);
+        setError({});
+        setSelectedImage([]);
+        setSelectedImageData([]);
+        setSelectedStrength('low');
+        setLoading(false)
+    };
+
+
+    useEffect(() => {
+        setBrandData((prevData) => ({
+            ...prevData,
+            imgSource: selectedImageData.map(urlOrObj => {
+                if (typeof urlOrObj === 'string') {
+                    const existingImageInfo = selectedBrand ? selectedBrand.imgSource.find((img: { url: string; }) => img.url === urlOrObj) : null;
+                    return {
+                        url: urlOrObj,
+                        publicId: existingImageInfo ? existingImageInfo.publicId : undefined
+                    };
+                }
+                return urlOrObj; // if it's already an object, just return as is
+            }),
+        }));
+    }, [selectedImageData, selectedBrand]);
+
+
+
+
+    useEffect(() => {
+        if (selectedBrand) {
+            setBrandData(selectedBrand);
+            // Check if selectedBrand has an image source
+            if (selectedBrand.imgSource && selectedBrand.imgSource.length > 0) {
+                setSelectedImageData(selectedBrand.imgSource.map(imageObj => imageObj.url));
+            } else {
+                setSelectedImageData([]);
+            }
+        } else {
+            setBrandData(initialBrandData);
+            setSelectedImageData([]);
+        }
+    }, [selectedBrand]);
+
+    const handleAddKeyword = (newKeyword: string) => {
+        setBrandData({
+            ...brandData,
+            tags: [...brandData.tags, newKeyword],
+        });
+    };
+
+    const handleRemoveKeyword = (tag: string) => {
+        const updatedTags = brandData.tags?.filter((tg) => tg !== tag);
+        setBrandData({
+            ...brandData,
+            tags: updatedTags,
+        });
+    };
+
+
+    const handleIsActiveChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setBrandData({ ...brandData, isActive: event.target.checked });
+    };
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = event.target;
+        setBrandData({ ...brandData, [name]: value });
+        //error state updating
+    // Error state updating with validation
+    setError((prevError) => {
+        const updatedError = { ...prevError };
+        // Example validation condition
+        if (value.trim() === '') {
+            updatedError[name] = 'This field cannot be empty.';
+        } else {
+            delete updatedError[name];
+        }
+        return updatedError;
+    });
+
+        console.log(brandData)
+    }
+
+
+
+
+
+
+    const API_URL = 'http://localhost:8000/api/brand/';
+    const HEADERS = {
+        'Content-Type': 'application/json',
+    };
+
+
+    const handleAddBrand = async () => {
+        try {
+            setLoading(true);
+
+            const brandToUpdate = prepareBrandData();
+
+            const endpoint = selectedBrand ? `${API_URL}${selectedBrand._id}` : API_URL;
+            const method = selectedBrand ? 'PUT' : 'POST';
+
+            const response = await makeApiCall(endpoint, method, brandToUpdate);
+
+            await handleApiResponse(response);
+        } catch (error) {
+            console.error('Error adding/updating brand:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const prepareBrandData = () => {
+        const brandDataCopy = { ...brandData, strength: selectedStrength };
+
+        const imageSource = selectedBrand ? formatImagesForUpdate() : formatImagesForNewBrand();
+        brandDataCopy.imgSource = imageSource || [];
+
+        return brandDataCopy;
+    };
+
+    const formatImagesForUpdate = () => {
+        if (Array.isArray(selectedImageData) && selectedImageData.length) {
+            return selectedImageData.map(url => {
+                const existingImageInfo = selectedBrand?.imgSource.find(img => img.url === url);
+                return {
+                    url,
+                    publicId: existingImageInfo ? existingImageInfo.publicId : undefined
+                };
+            });
+        }
+    };
+
+    const formatImagesForNewBrand = () => {
+        if (Array.isArray(selectedImageData) && selectedImageData.length) {
+            return selectedImageData.map(url => ({ url }));
+        }
+    };
+
+    const makeApiCall = async (url: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE', data?: object): Promise<Response> => {
+        return fetch(url, {
+            method,
+            headers: HEADERS,
+            credentials: 'include',
+            body: JSON.stringify(data),
+        });
+    };
+
+    const handleApiResponse = async (response: Response) => {
+        if (response.ok) {
+            const brand = await response.json();
+            if (selectedBrand) {
+                onUpdateBrand(brand);
+            } else {
+                onAddBrand(brand);
+            }
+            clearForm();
+            onClose();
+        } else {
+            const errorData = await response.json();
+
+            setError(errorData);
+            openSnackbar(errorData);
+            console.error('API error:', errorData.message || errorData);
+        }
+    };
+
+
+
+    // receive file from form
+    const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            const files = Array.from(e.target.files); // Convert the FileList to an array
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onloadend = () => {
+                    // Ensure reader.result is a string before adding it
+                    if (typeof reader.result === 'string') {
+                        setSelectedImageData(prevImages => [...prevImages, reader.result as string]);
+                    }
+                };
+            });
+            setSelectedImage(files);
+
+            setIsNewImageSelected(true);
+        }
+    };
+
+
+
+
+    const handleCancel = () => {
+        if (onClose) {
+            onClose();
+        }
+        clearForm();
+    }
+
+
+    useEffect(() => {
+        console.log(brandData)
+    }, [brandData])
+
+
+
+    const paperProps = {
+        style: {
+            borderRadius: '5px',
+            border: error.errors ? '1px solid red' : '',
+            width: '100%'
+        },
+    };
+
+    const buttonOptions = selectedBrand ? 'Save Changes' : 'Add Brand'
+
+    return (
+        <>
+            <Snackbar
+                open={isSnackbarOpen}
+                autoHideDuration={4000} // Adjust the duration as needed
+                onClose={() => setIsSnackbarOpen(false)}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+            >
+                <Alert severity="error" onClose={() => setIsSnackbarOpen(false)}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
+            <Dialog open={open} PaperProps={paperProps} fullWidth>
+
+
+                <DialogTitle
+                    className='bg-primary-variant text-center uppercase h-18'
+                >{selectedBrand ? 'Edit Brand Details' : 'Add New Brand'}</DialogTitle>
+
+                <DialogContent sx={{ borderRadius: 3 }} className='bg-dark-surface border-primary-variant border-4'>
+
+                    <DialogContentText sx={{ my: 2 }} >
+                        Please fill in the details of the new brand.
+                    </DialogContentText>
+
+                    <DialogContentText variant='caption' sx={{ m: 2, color: '#D23030' }}>
+                        Fields with * are required.
+                    </DialogContentText>
+
+                    {loading && <CircularProgress />}
+
+
+                    <BrandForm brandData={brandData}
+                        error={error}
+                        handleChange={handleChange}
+                        handleIsActiveChange={handleIsActiveChange}
+                    />
+
+                    {/* Image Upload */}
+                    <ImageUpload
+                        error={error}
+                        loading={loading}
+                        selectedImage={selectedImage}
+                        selectedImageData={selectedImageData}
+                        handleImage={handleImage}
+                        setSelectedImageData={setSelectedImageData}
+                    />
+
+                    {/* Rating */}
+                    <KeywordsInput
+                        Keywords={brandData.tags}
+                        onAddKeyword={handleAddKeyword}
+                        onRemoveKeyword={handleRemoveKeyword}
+                    />
+                </DialogContent>
+                <div className='bg-primary-variant flex justify-between py-2, p-4 shadow'>
+                    <Button onClick={clearForm} variant='contained' color="secondary">
+                        Clear Form
+                    </Button>
+                    <Button onClick={handleCancel} variant='contained' color="error">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleAddBrand} variant='contained' color="primary">
+                        {loading ? <CircularProgress /> : buttonOptions}
+                    </Button>
+                </div>
+
+            </Dialog >
+        </>
+    )
+};
+
+export default AddBrandModal;

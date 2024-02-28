@@ -133,16 +133,12 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
         if (selectedProduct) {
             setProductData(selectedProduct);
             setSelectedStrength(selectedProduct.strength!);
-
             // Check if selectedProduct has an image source
             if (selectedProduct.imgSource && selectedProduct.imgSource.length > 0) {
                 setSelectedImageData(selectedProduct.imgSource.map(imageObj => imageObj.url));
-
             } else {
                 setSelectedImageData([]);
             }
-
-
         } else {
             setProductData(initialProductData);
             setSelectedImageData([]);
@@ -202,6 +198,16 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
         } else {
             setProductData({ ...productData, [name]: value });
         }
+        setError((prevError) => {
+            const updatedError = { ...prevError };
+            // Example validation condition
+            if (value.trim() === '') {
+                updatedError[name] = 'This field cannot be empty.';
+            } else {
+                delete updatedError[name];
+            }
+            return updatedError;
+        });
     };
 
 
@@ -306,8 +312,9 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
                 };
             });
             setSelectedImage(files);
-
             setIsNewImageSelected(true);
+
+
         }
     };
 

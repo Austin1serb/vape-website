@@ -275,7 +275,69 @@ const AddBrandModal: React.FC<Props> = ({ open, onClose, onAddBrand, selectedBra
 
 
 
-    
+
+    const parseChatGPTResponse = (response: { description: string; tags: string[]; }) => {
+        // Parse the response to extract description, tags, and rating
+        // This is highly dependent on how you structure your prompt and the expected response format
+        return {
+            description: response.description,
+            tags: response.tags
+        };
+    };
+
+    const fetchChatGPTDetails = async (brandName:string) => {
+        const openAIResponse = await fetch('https://api.openai.com/v1/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer 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`
+            },
+            body: JSON.stringify({
+                model: 'gpt-3.5-turbo-instruct',
+                prompt: `Generate detailed description for a e-cigarette brand named ${brandName}. Include return: description, and tags,. return it in .json, this is for an API`,
+                temperature: 0.7,
+                max_tokens: 256,
+                top_p: 1.0,
+                frequency_penalty: 0.0,
+                presence_penalty: 0.0,
+            })
+        });
+
+        if (!openAIResponse.ok) {
+            throw new Error('Failed to fetch from OpenAI');
+        }
+
+        const data = await openAIResponse.json();
+        const res = data.choices[0].text
+        const cleanedRes = JSON.parse(res)
+        console.log(cleanedRes);
+        return cleanedRes
+    };
+
+
+
+    const handleGenerateDetails = async () => {
+        if (!brandData.name) {
+            alert('Please enter the brand name first.');
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const response = await fetchChatGPTDetails(brandData.name);
+            // Assuming response contains the brand details in a structured format
+            const generatedDetails = parseChatGPTResponse(response);
+            setBrandData({ ...brandData, ...generatedDetails });
+        } catch (error) {
+            console.error('Failed to generate brand details:', error);
+            // Handle error appropriately
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    //make function
+
     return (
         <>
             <Snackbar
@@ -343,7 +405,8 @@ const AddBrandModal: React.FC<Props> = ({ open, onClose, onAddBrand, selectedBra
                     >
                         {loading ? <CircularProgress /> : buttonOptions}
                     </Button>
-                    
+                    <Button variant="contained" color='success' onClick={handleGenerateDetails}>Generate</Button>
+
                 </div>
 
             </Dialog >

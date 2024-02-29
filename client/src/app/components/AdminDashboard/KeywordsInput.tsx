@@ -74,6 +74,8 @@ return (
         <Box sx={{ display: 'flex', alignItems: 'center',ml:2 }}>
             <TextField
                 spellCheck={true}
+                autoCorrect='true'
+                autoComplete='true'
                 label="Keywords"
                 name='keywords'
                 value={newKeyword}

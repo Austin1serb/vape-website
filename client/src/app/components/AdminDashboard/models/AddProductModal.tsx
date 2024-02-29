@@ -222,11 +222,12 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
 
 
     const handleAddProduct = async () => {
+       
         try {
             setLoading(true);
 
             const productToUpdate = prepareProductData();
-
+            console.log(productToUpdate)
             const endpoint = selectedProduct ? `${API_URL}${selectedProduct._id}` : API_URL;
             const method = selectedProduct ? 'PUT' : 'POST';
 
@@ -356,7 +357,7 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
         style: {
             borderRadius: '5px',
             border: error.errors ? '1px solid red' : '',
-            width:'100%'
+            width: '100%'
         },
     };
 
@@ -457,7 +458,9 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
                     <Button onClick={handleCancel} variant='contained' color="error">
                         Cancel
                     </Button>
-                    <Button onClick={handleAddProduct} variant='contained' color="primary">
+                    <Button sx={{ minWidth: '142px', maxHeight: '36.5px' }} onClick={handleAddProduct} variant='contained' color="primary"
+                        disabled={loading}
+                    >
                         {loading ? <CircularProgress /> : buttonOptions}
                     </Button>
                 </div>

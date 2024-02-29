@@ -1,10 +1,16 @@
 const Brand = require('../models/brand.model'); // Adjust the path as necessary to match your project structure
+const { deleteFromCloudinary } = require('../services/cloudinary');
 const { processImages, removeDeletedImages, handleErrors } = require('../utilities/fetchFunctions');
 
 // Controller function to add a new brand
 const addBrand = async (req, res) => {
     // Extract brand data and image info from request
     let { name, description, rating, tags, isActive, imgSource } = req.body;
+
+    const existingBrand = await Brand.findOne({ name });
+    if (existingBrand) {
+        return res.status(400).json({ name: 'Brand already exists' });
+    }
 
     try {
         imgSource = await processImages(imgSource);
@@ -71,10 +77,6 @@ const deleteBrand = async (req, res) => {
                 await deleteFromCloudinary(image.publicId);
             }
         }
-
-        // Delete the brand document from the database
-        await brand.remove();
-
         // Respond to indicate successful deletion
         res.status(200).json({ message: 'Brand deleted successfully' });
     } catch (error) {
@@ -83,9 +85,35 @@ const deleteBrand = async (req, res) => {
 };
 
 
+
+const getAll = async (req, res) => {
+    try {
+        const brands = await Brand.find();
+        res.status(200).json(brands);
+    } catch (error) {
+        handleErrors(error, res);
+    }
+}
+const getOne = async (req, res) => {
+    const brandId = req.params.id;
+
+    try {
+        const brand = await Brand.findById(brandId);
+        if (!brand) {
+            return res.status(404).json({ message: 'Brand not found' });
+        }
+        res.status(200).json(brand);
+    } catch (error) {
+        handleErrors(error, res);
+    }
+}
+
+
 module.exports = {
     addBrand,
     updateBrand,
-    deleteBrand
+    deleteBrand,
+    getAll,
+    getOne,
 
 };

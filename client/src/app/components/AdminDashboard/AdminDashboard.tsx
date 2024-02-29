@@ -219,7 +219,7 @@ const AdminDashboard = () => {
                 setPendingOrders(orderData.filter(order => order.orderStatus === 'Pending').length);
 
                 // Fetch customer data
-                const customerData = await fetchData<Customer[]>(url + 'customer', signal);
+                const customerData = await fetchData<Customer[]>(url + 'user', signal);
                 setCustomers(customerData)
                 // Logic for admins and customers
                 const admins = customerData.filter(customer => customer.isAdmin);
@@ -241,7 +241,7 @@ const AdminDashboard = () => {
                 
 
                 // Fetch Brand Data
-                const brandData = await fetchData<Brand[]>(url + '/brands', signal);
+                const brandData = await fetchData<Brand[]>(url + 'brand', signal);
                 setBrands(brandData);
             } catch (error) {
                 if (error instanceof Error && error.name !== 'AbortError') {
@@ -350,7 +350,7 @@ const AdminDashboard = () => {
             <Container className='mt-16'>
                 <Grid container spacing={3} >
                     <Grid item xs={12}>
-                        <Paper sx={{ backgroundColor: 'var(--color-dark-backgrond)', borderRadius: 2 }} className='bg-dark-background'
+                        <Paper sx={{ backgroundColor: 'var(--color-dark-backgrond)', borderRadius: 2 }} className='bg-dark-background min-w-[700px]'
                         >
 
                             {selectedComponent === 'AdminDashboard' && (

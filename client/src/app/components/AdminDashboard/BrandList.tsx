@@ -1,10 +1,10 @@
 
-import React, { useState } from 'react';
-import BrandCard from './models/BrandCard';
+import React, { useEffect, useState } from 'react';
 import { Button, Grid } from '@mui/material';
 import { Brand } from '../types';
 import AddBrandModal from './models/AddBrandModal';
 import { postData, putData } from './api/route';
+import AdminBrandCard from './models/AdminBrandCard';
 
 interface BrandListProps {
     initialBrands: Brand[];
@@ -50,6 +50,11 @@ const BrandList: React.FC<BrandListProps> = ({ initialBrands }) => {
     }
 
 
+    //useEffect(() => {
+    //   setBrands(brands)
+    //}, [brands])
+
+
 
     const handleDeleteBrand = (brandId: string) => {
         const confirmDelete = window.confirm('Are you sure you want to delete this brand?');
@@ -73,33 +78,42 @@ const BrandList: React.FC<BrandListProps> = ({ initialBrands }) => {
         }
     };
 
+
+
+
+
     return (
         <div className="m-5 rounded-lg pb-12" >
             <div className='flex justify-between items-center'>
                 <h3 className='text-3xl text-start uppercase py-8 ml-8 '>Brand Management</h3>
                 <div>
-                    <Button variant="contained" color="primary" onClick={handleOpen}>
+                    <Button variant="contained" color="success" onClick={handleOpen}>
                         Add Brand
                     </Button>
                 </div>
             </div>
-            {/*<BrandCard brand={brands} />*/}
-            <Grid container spacing={2}>
-                {/* commented out for now */}
-                {/*{brands.map((brand) => (
-                <Grid item xs={12} sm={6} md={4} key={brand._id}>
-              
-                </Grid>
-            ))}*/}
+
+
+            <Grid container spacing={2} gap={2}>
+
+                {brands.map((brand) =>
+                    <AdminBrandCard
+                        key={brand.name}
+                        brand={brand}
+                        handleEdit={handleOpenEdit}
+                        handleDelete={handleDeleteBrand}
+                    />
+
+                )}
             </Grid>
 
             {open && (
                 <AddBrandModal
-                    open={open || isEditModalOpen} 
+                    open={open || isEditModalOpen}
                     onClose={handleCloseEdit}
                     selectedBrand={selectedBrand}
-                    onUpdateBrand={handleAddBrand}
-                    onAddBrand={handleUpdateBrand} />
+                    onAddBrand={handleAddBrand}
+                    onUpdateBrand={handleUpdateBrand} />
 
             )}
 

@@ -53,8 +53,9 @@ const updateProduct = async (req, res, productData) => {
 
 
 const createProduct = async (res, productData) => {
+
     // Resolve the brand reference
-    if (productData.brand) {
+    if (productData.brand && productData.brand.trim() !== "") {
         const brand = await Brand.findOne({ name: productData.brand });
         if (brand) {
             productData.brand = brand._id; // Set the brand field to the ObjectId
@@ -63,6 +64,9 @@ const createProduct = async (res, productData) => {
         }
     }
 
+        // If no brand name is provided or it's an empty string, set brand to null or undefined
+        productData.brand = 0; // or null, depending on how you want to handle no brand scenario
+    
     productData.imgSource = await processImages(productData.imgSource);
     const newProduct = await Products.create(productData);
 

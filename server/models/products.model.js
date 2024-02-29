@@ -4,9 +4,8 @@ function arrayLimit(val) {
 }
 const ProductSchema = new mongoose.Schema({
     brand: {
-        type: mongoose.Schema.Types.ObjectId, 
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Brand',
-        required: [true, 'Please specify a brand'],
     },
     totalSold: {
         type: Number,

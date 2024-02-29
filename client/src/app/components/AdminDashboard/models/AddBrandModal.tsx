@@ -125,17 +125,17 @@ const AddBrandModal: React.FC<Props> = ({ open, onClose, onAddBrand, selectedBra
         const { name, value } = event.target;
         setBrandData({ ...brandData, [name]: value });
         //error state updating
-    // Error state updating with validation
-    setError((prevError) => {
-        const updatedError = { ...prevError };
-        // Example validation condition
-        if (value.trim() === '') {
-            updatedError[name] = 'This field cannot be empty.';
-        } else {
-            delete updatedError[name];
-        }
-        return updatedError;
-    });
+        // Error state updating with validation
+        setError((prevError) => {
+            const updatedError = { ...prevError };
+            // Example validation condition
+            if (value.trim() === '') {
+                updatedError[name] = 'This field cannot be empty.';
+            } else {
+                delete updatedError[name];
+            }
+            return updatedError;
+        });
 
         console.log(brandData)
     }
@@ -258,9 +258,6 @@ const AddBrandModal: React.FC<Props> = ({ open, onClose, onAddBrand, selectedBra
     }
 
 
-    useEffect(() => {
-        console.log(brandData)
-    }, [brandData])
 
 
 
@@ -274,6 +271,11 @@ const AddBrandModal: React.FC<Props> = ({ open, onClose, onAddBrand, selectedBra
 
     const buttonOptions = selectedBrand ? 'Save Changes' : 'Add Brand'
 
+
+
+
+
+    
     return (
         <>
             <Snackbar
@@ -336,9 +338,12 @@ const AddBrandModal: React.FC<Props> = ({ open, onClose, onAddBrand, selectedBra
                     <Button onClick={handleCancel} variant='contained' color="error">
                         Cancel
                     </Button>
-                    <Button onClick={handleAddBrand} variant='contained' color="primary">
+                    <Button sx={{ minWidth: '142px', maxHeight: '36.5px' }} onClick={handleAddBrand} variant='contained' color="primary"
+                        disabled={loading}
+                    >
                         {loading ? <CircularProgress /> : buttonOptions}
                     </Button>
+                    
                 </div>
 
             </Dialog >

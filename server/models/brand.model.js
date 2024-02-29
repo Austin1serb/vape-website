@@ -8,7 +8,9 @@ const BrandsSchema = new mongoose.Schema({
         minlength: [2, 'Brand must be at least 2 characters long.'],
         maxlength: [20, 'Brand cannot be longer than 20 characters'],
         required: [true, 'Please add a Brand name'],
-        unique: true,
+        unique: [true, 'Brand name already in use'],
+        trim: true,
+        uppercase: true,
     },
     imgSource: {
         type: [{
@@ -34,7 +36,7 @@ const BrandsSchema = new mongoose.Schema({
         min: [0, 'Rating must be at least 0'],
         max: [5, 'Rating cannot exceed 5'],
         default: 0,
-        required:false,
+        required: false,
     },
     tags: {
         type: [String]

@@ -9,6 +9,7 @@ import {
     CircularProgress,
     Snackbar,
     Alert,
+    SelectChangeEvent,
 
 } from '@mui/material';
 import CategoryInput from '../CategoryInput';
@@ -16,8 +17,9 @@ import ImageUpload from './ImageUpload';
 import StrengthFeaturedControl from './StrengthFeaturedControl';
 import SEOSection from './SEOsection';
 import ShippingInput from './ShippingInput';
-import { Product } from '@/components/types';
+import { Product, Brand } from '@/components/types';
 import { ProductForm } from './ProductForm';
+import GPTResponseGenerator from '../GptResponseGenerator';
 
 const initialProductData = {
     brand: '',
@@ -56,10 +58,11 @@ interface Props {
     onAddProduct: (productData: Product) => void;
     selectedProduct?: Product | null;
     onUpdateProduct: (productData: Product) => void;
+    brands: Brand[]
 }
 
 
-const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selectedProduct, onUpdateProduct, }) => {
+const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selectedProduct, onUpdateProduct, brands }) => {
     const [productData, setProductData] = useState<Product>(selectedProduct || initialProductData);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<ErrorState>({});
@@ -69,6 +72,7 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
     const [isNewImageSelected, setIsNewImageSelected] = useState<boolean>(false);
     const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
     const [snackbarMessage, setSnackbarMessage] = useState<string>('');
+
 
     const openSnackbar = (errorData: ErrorState): void => {
         const firstError = Object.values(errorData)[0];
@@ -148,8 +152,17 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
 
 
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent) => {
         const { name, value } = event.target;
+
+
+        if (name === "brand") {
+            // If the changed field is "brand", update the brand in productData
+            setProductData(prevData => ({
+                ...prevData,
+                brand: value,
+            }));
+        }
 
         if (name.startsWith('seo.')) {
             const seoField = name.replace('seo.', ''); // Remove "seo." from the field name
@@ -198,6 +211,7 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
         } else {
             setProductData({ ...productData, [name]: value });
         }
+
         setError((prevError) => {
             const updatedError = { ...prevError };
             // Example validation condition
@@ -210,11 +224,6 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
         });
     };
 
-
-
-
-
-
     const API_URL = 'http://localhost:8000/api/product/';
     const HEADERS = {
         'Content-Type': 'application/json',
@@ -222,7 +231,7 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
 
 
     const handleAddProduct = async () => {
-       
+
         try {
             setLoading(true);
 
@@ -363,11 +372,63 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
 
     const buttonOptions = selectedProduct ? 'Save Changes' : 'Add Product'
 
+
+
+
+    const gptPrompt = `Generate a JSON object with detailed information for an e-cigarette product. Use the following structure:
+- "description": A concise description of the e-cigarette, highlighting its key features and benefits within 300 characters. Incorporate the brand "${productData.brand}" and product name "${productData.name}".
+- "seoTitle": A search engine optimized title that includes the brand and product name.
+- "seoDescription": A brief SEO-friendly description, focusing on main features and advantages, suitable for search engine snippets.
+- "seoKeywords": An array of relevant keywords, limited to 8 words, that are associated with the brand and product. These should be pertinent for improving search engine visibility.
+
+Ensure the generated content is coherent, engaging, and optimized for SEO purposes. The description should effectively communicate the product's unique selling points and how it stands out in the market.`;
+
+    const parseGptResponse = (response: any) => {
+        const {
+            description,
+            seoTitle,
+            seoDescription,
+            seoKeywords,
+        } = response;
+
+
+        const updatedProductData = {
+            description,
+            seo: {
+                title: seoTitle,
+                description: seoDescription,
+            },
+            seoKeywords,
+        };
+
+        console.log("Updated Product Data: ", updatedProductData);
+        return updatedProductData;
+    };
+
+
+
+
+    const handleGPTResponse = (response: any) => {
+
+        console.log(response);
+        const parsedData = parseGptResponse(response);
+        setProductData(currentData => ({
+            ...currentData, // Keep existing non-SEO product data
+            ...parsedData, // Update product data with parsed GPT response data
+            seo: {
+                ...currentData.seo, // Keep existing SEO data
+                ...parsedData.seo // Overwrite SEO title and description with new ones from GPT
+            },
+            seoKeywords: parsedData.seoKeywords, // Update SEO keywords array
+        }));
+    };
+
+
     return (
         <>
             <Snackbar
                 open={isSnackbarOpen}
-                autoHideDuration={4000} // Adjust the duration as needed
+                autoHideDuration={2000} // Adjust the duration as needed
                 onClose={() => setIsSnackbarOpen(false)}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
             >
@@ -394,7 +455,14 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
 
                     {loading && <CircularProgress />}
 
-                    <ProductForm productData={productData} error={error} handleChange={handleChange} />
+                    <ProductForm
+                        brands={brands}
+                        productData={productData}
+                        error={error}
+
+                        handleChange={handleChange}
+                    //handleSelectChange={handleSelectChange}
+                    />
                     {/* Category Input Component */}
                     <CategoryInput
                         category={productData.category}
@@ -412,12 +480,6 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
                         handleImage={handleImage}
                         setSelectedImageData={setSelectedImageData}
                     />
-
-
-
-
-
-
 
 
 
@@ -461,8 +523,18 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
                     <Button sx={{ minWidth: '142px', maxHeight: '36.5px' }} onClick={handleAddProduct} variant='contained' color="primary"
                         disabled={loading}
                     >
-                        {loading ? <CircularProgress /> : buttonOptions}
+                        {loading ? <CircularProgress color='secondary' size={30} /> : buttonOptions}
+
                     </Button>
+
+                    <GPTResponseGenerator
+                        prompt={gptPrompt}
+                        onResponse={handleGPTResponse}
+                        data={productData}
+                        error={error}
+                        setError={setError}
+                    />
+
                 </div>
 
             </Dialog >

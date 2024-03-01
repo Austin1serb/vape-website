@@ -1,5 +1,9 @@
 // types.ts
-
+export interface Category {
+    _id?: string;
+    name: string;
+    description?: string;
+}
 export interface Shipping {
     weight: number | string;
     dimensions: {
@@ -8,20 +12,32 @@ export interface Shipping {
         height: number | string;
     };
 };
+
 export interface Brand {
     _id?: string;
     name: string;
     imgSource: ImageSource[];
-    description?: string; 
-    rating?: number; 
+    description?: string;
+    rating?: number;
     tags: string[];
     isActive: boolean;
     createdAt?: Date;
     updatedAt?: Date;
 }
+
+export interface BrandImageItem {
+    url: string;
+}
+
+export interface BrandItem {
+    _id: string;
+    name: string;
+    imgSource: BrandImageItem[]; // Array of objects with 'url' properties
+}
+
 export interface Product {
     _id?: string | number;
-    brand: string;
+    brand: BrandItem | string;
     name: string;
     price: number;
     specs: string;

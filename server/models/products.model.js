@@ -6,6 +6,8 @@ const ProductSchema = new mongoose.Schema({
     brand: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Brand',
+        required: [true, 'Please Select a Brand'],
+
     },
     totalSold: {
         type: Number,
@@ -112,7 +114,7 @@ const ProductSchema = new mongoose.Schema({
     },
     seoKeywords: {
         type: [String],
-        required: [true, 'Please provide product seo keywords.']
+        required: [false, 'Please provide product seo keywords.']
 
     },
     shipping: {

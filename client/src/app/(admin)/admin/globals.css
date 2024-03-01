@@ -139,7 +139,7 @@ body {
 }
 
 .rating-stars {
-  fill: var(--color-primary-variant);
+  fill: var(--color-secondary);
   transition: all 0.3s;
 
 }
@@ -180,6 +180,11 @@ body {
   box-shadow: 0 0 8px var(--color-primary-variant);
   /* Enhanced outer glow on hover */
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
 /* FIX MUI AND TAILWIND STYLE CONFLICTS */
 button.MuiButton-containedPrimary {
@@ -213,3 +218,9 @@ button.MuiButton-containedError:hover {
   @apply bg-red-400;
 }
 
+
+
+input.MuiInputBase-root {
+  display: hidden;
+
+}

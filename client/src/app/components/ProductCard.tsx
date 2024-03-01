@@ -59,7 +59,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, sm }) => {
           {product.name}</Link>)}
         <p className="text-sm font-bold text-gray-700">${product.price}</p>
         <div className="text-sm flex flex-row justify-center items-center">
-          {renderStars(product.reviews)}
+        
         </div>
       </div>
     </div>

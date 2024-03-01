@@ -25,7 +25,7 @@ import UserList from './UserList';
 //import { useAuth } from '@/utils/useAuth';
 import Link from 'next/link'
 import AccountIconLocal from '@/Icons/Account.icon';
-import { Product, Order, Customer, Guest, Brand } from '../types'
+import { Product, Order, Customer, Guest, Brand, Category } from '../types'
 import { SaleItem, aggregateSalesData, transformAndSortDataForChart } from './utilities/AdminDashUtils';
 import { Theme, CSSObject, styled, useTheme, } from '@mui/material/styles';
 import GenerateSidebarItems from './models/GenerateSideBarItems';
@@ -33,6 +33,8 @@ import DataGridSkeleton from './AdminSkeletons/DataGridSkeleton';
 import dynamic from 'next/dynamic';
 import SalesOverviewSkeleton from './AdminSkeletons/SalesOverviewSkeleton';
 import BrandList from './BrandList';
+import CategoryList from './CategoryList';
+import Icon from '../Icon';
 
 
 
@@ -85,7 +87,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
     border: 'none',
     width: `calc(${theme.spacing(7)} + 1px)`,
     [theme.breakpoints.up('sm')]: {
-        width: `calc(${theme.spacing(8)} + 1px)`,
+        width: `calc(${theme.spacing(8)} + 14px)`,
     },
 });
 const CustomDrawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -117,23 +119,6 @@ interface AppBarProps extends MuiAppBarProps {
     open?: boolean;
 }
 
-const CustomAppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== 'open',
-})<AppBarProps>(({ theme, open }) => ({
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-    }),
-    ...(open && {
-        marginLeft: drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    }),
-}));
 interface MenuItem {
     icon: JSX.Element;
     text: string;
@@ -166,8 +151,8 @@ const AdminDashboard = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [orders, setOrders] = useState<Order[]>([]);
     const [guestData, setGuestData] = useState<Guest[]>([]);
-    //brands carries
     const [brands, setBrands] = useState<Brand[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
     const url = 'http://localhost:8000/api/'
 
 
@@ -238,11 +223,14 @@ const AdminDashboard = () => {
                 const aggregatedData = aggregateSalesData(data);
                 const chartData = transformAndSortDataForChart(aggregatedData);
                 setSalesData(chartData);
-                
+
 
                 // Fetch Brand Data
                 const brandData = await fetchData<Brand[]>(url + 'brand', signal);
                 setBrands(brandData);
+                // Fetch Category Data
+                const categoryData = await fetchData<Category[]>(url + 'category', signal);
+                setCategories(categoryData);
             } catch (error) {
                 if (error instanceof Error && error.name !== 'AbortError') {
                     console.error('Error fetching data:', error);
@@ -350,7 +338,7 @@ const AdminDashboard = () => {
             <Container className='mt-16'>
                 <Grid container spacing={3} >
                     <Grid item xs={12}>
-                        <Paper sx={{ backgroundColor: 'var(--color-dark-backgrond)', borderRadius: 2 }} className='bg-dark-background min-w-[700px]'
+                        <Paper sx={{ backgroundColor: 'var(--color-dark-backgrond)', borderRadius: 2 }} className='bg-dark-background min-w-[700px] ml-2'
                         >
 
                             {selectedComponent === 'AdminDashboard' && (
@@ -371,7 +359,7 @@ const AdminDashboard = () => {
                                     guestData={guestData}
 
                                 />)}
-                            {selectedComponent === 'productList' && <ProductList initialProducts={products} />}
+                            {selectedComponent === 'productList' && <ProductList brands={brands} initialProducts={products} />}
                             {selectedComponent === 'userList' && (
 
                                 <UserList
@@ -403,22 +391,29 @@ const AdminDashboard = () => {
                             {selectedComponent === 'brandList' && (
                                 <BrandList initialBrands={brands} />
                             )}
+                            {selectedComponent === 'categoryList' && (
+                                <CategoryList initialCategories={categories} />
+                            )}
 
                         </Paper>
                     </Grid>
                 </Grid>
             </Container>
-            <CustomDrawer variant="permanent" anchor="left" open={sidebarOpen}  >
+            <CustomDrawer variant="permanent" anchor="left" open={sidebarOpen} >
                 <DrawerHeader sx={{ backgroundColor: 'var(--color-primary-variant)' }} className='h-[70px]' >
                     <IconButton onClick={handleSidebarToggle}>
-                        {!sidebarOpen === true ? <ChevronRightIcon sx={{ fontSize: 30, '&:hover': { transition: '0.3s color ease', color: 'var(--color-secondary)' } }} /> : <ChevronLeftIcon sx={{ fontSize: 30, '&:hover': { transition: '0.3s color ease', color: 'var(--color-secondary)' } }} />}
+                        <Icon name="ArrowDown" height={30} width={30} className={`transform transition-all duration-200 hover:text-secondary  ${sidebarOpen ? 'rotate-90' : '-rotate-90'}`} />
+
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
-                <div className="bg-dark-surface text-on-dark-background h-full shadow-lg w-full">
+                <div className="bg-dark-surface text-on-dark-background h-full shadow-lg w-full pl-2">
                     <GenerateSidebarItems
                         sideBarOpen={sidebarOpen}
-                        handleSidebarItemClick={handleSidebarItemClick} />
+                        
+                        handleSidebarItemClick={handleSidebarItemClick}
+                        disabled={loading}
+                    />
                 </div>
             </CustomDrawer>
         </div>

@@ -27,7 +27,7 @@ const addBrand = async (req, res) => {
 // Assuming processImages and removeDeletedImages functions are adapted for both product and brand images
 
 const updateBrand = async (req, res) => {
-    const brandId = req.params.id; // Assuming you're passing the brand's ID as a URL parameter
+    const brandId = req.params.id; 
     let { name, description, rating, tags, isActive, imgSource } = req.body;
 
     try {
@@ -77,6 +77,8 @@ const deleteBrand = async (req, res) => {
                 await deleteFromCloudinary(image.publicId);
             }
         }
+        await Brand.findByIdAndDelete(brandId);
+
         // Respond to indicate successful deletion
         res.status(200).json({ message: 'Brand deleted successfully' });
     } catch (error) {

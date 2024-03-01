@@ -4,7 +4,7 @@ import AddProductModal from './models/AddProductModal';
 import { GridColDef, GridToolbar, GridValueFormatterParams } from '@mui/x-data-grid';
 import DetailsView from './DetailsView';
 import Image from 'next/image';
-import { Product } from '../types';
+import { Brand, Product } from '../types';
 import dynamic from 'next/dynamic';
 import DataGridSkeleton from './AdminSkeletons/DataGridSkeleton';
 import { formatDate } from './utilities/AdminDashUtils';
@@ -14,16 +14,17 @@ const DataGrid = dynamic(() => import('@mui/x-data-grid').then((mod) => mod.Data
     ssr: true,
 });
 
-const API_URL = 'http://localhost:8000/api/product/';
+
 
 interface ErrorState {
     message: string;
 }
 interface ProductListProps {
     initialProducts: Product[];
+    brands:Brand[];
 }
 
-const ProductList: React.FC<ProductListProps> = ({ initialProducts }) => {
+const ProductList: React.FC<ProductListProps> = ({ initialProducts, brands }) => {
     const [detailsViewOpen, setDetailsViewOpen] = useState<boolean>(false);
     const [selectedProductForDetails, setSelectedProductForDetails] = useState<Product | null>(null);
     const [products, setProducts] = useState<Product[]>(initialProducts);
@@ -32,6 +33,25 @@ const ProductList: React.FC<ProductListProps> = ({ initialProducts }) => {
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<ErrorState | null>(null);
+
+
+    //const [brands, setBrands] = React.useState<Brand[]>([]);
+
+    //const API_URL = 'http://localhost:8000/api/brand/';
+    //const getBrands = async () => {
+    //    try {
+    //        const response = await fetch(API_URL);
+    //        const data = await response.json();
+    //        setBrands(data);
+    //        console.log(data);
+    //    } catch (error) {
+    //        console.error(error);
+    //    }
+    //}
+
+    //useEffect(() => {
+    //    getBrands()
+    //}, []);
 
 
 
@@ -227,6 +247,7 @@ const ProductList: React.FC<ProductListProps> = ({ initialProducts }) => {
                 selectedProduct={selectedProduct}
                 onAddProduct={handleAddProduct} // For adding a product
                 onUpdateProduct={handleUpdateProduct} // For updating a product
+                brands={brands}
 
             />
 
@@ -235,6 +256,7 @@ const ProductList: React.FC<ProductListProps> = ({ initialProducts }) => {
                 <DetailsView
                     open={detailsViewOpen}
                     product={selectedProductForDetails!}
+                    brands={brands}
                     onClose={() => setDetailsViewOpen(false)}
                 />
             )}

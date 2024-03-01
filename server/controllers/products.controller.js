@@ -23,6 +23,8 @@ const extractProductData = (body) => {
     const { brand, name, price, specs, imgSource, category, description, strength, reorderPoint, seo, seoKeywords, shipping, isFeatured, flavor, totalSold } = body;
     return { brand, name, price, specs, imgSource, category, description, strength, reorderPoint, seo, seoKeywords, shipping, isFeatured, flavor, totalSold };
 };
+
+
 const updateProduct = async (req, res, productData) => {
     const originalProduct = await Products.findById(req.params.id);
     if (!originalProduct) {
@@ -54,9 +56,14 @@ const updateProduct = async (req, res, productData) => {
 
 const createProduct = async (res, productData) => {
 
+    if (!productData.brand || productData.brand.trim() === "") {
+        // If no brand is selected, return a 400 response with a specific error message for the brand field
+        return res.status(400).json({ brand: 'Please select a brand.' });
+    }
+
     // Resolve the brand reference
     if (productData.brand && productData.brand.trim() !== "") {
-        const brand = await Brand.findOne({ name: productData.brand });
+        const brand = await Brand.findOne({ name: productData.brand.trim() });
         if (brand) {
             productData.brand = brand._id; // Set the brand field to the ObjectId
         } else {
@@ -64,9 +71,7 @@ const createProduct = async (res, productData) => {
         }
     }
 
-        // If no brand name is provided or it's an empty string, set brand to null or undefined
-        productData.brand = 0; // or null, depending on how you want to handle no brand scenario
-    
+
     productData.imgSource = await processImages(productData.imgSource);
     const newProduct = await Products.create(productData);
 
@@ -131,6 +136,7 @@ module.exports = {
 
     getAll: (req, res) => {
         Products.find() // Find all products
+        .populate('brand', 'name imgSource.url') // Include both 'name' and 'imgSource.url' fields
             .sort({ name: 1 }) // Sort products by 'name' field in ascending order (A to Z)
             .then(products => {
                 // Return the sorted list of products as a JSON response
@@ -146,6 +152,9 @@ module.exports = {
 
     getOne: (req, res) => {
         Products.findOne({ _id: req.params.id })
+        .populate('brand', 'name imgSource.url') // Include both 'name' and 'imgSource.url' fields
+
+
             .then(data => {
                 res.json(data)
             }).catch(err => res.json(err))

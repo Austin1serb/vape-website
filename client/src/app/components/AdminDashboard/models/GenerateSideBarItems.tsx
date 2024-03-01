@@ -1,10 +1,8 @@
 import React from 'react';
 import IconButton from '@mui/material/IconButton';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Button from '@mui/material/Button';
-// Import your icons and other components
+
 
 interface MenuItem {
     icon: JSX.Element;
@@ -15,9 +13,10 @@ interface MenuItem {
 interface GenerateSidebarItemsProps {
     sideBarOpen: boolean;
     handleSidebarItemClick: (component: string) => void;
+    disabled: boolean;
 }
 
-const GenerateSidebarItems: React.FC<GenerateSidebarItemsProps> = ({ sideBarOpen, handleSidebarItemClick }) => {
+const GenerateSidebarItems: React.FC<GenerateSidebarItemsProps> = ({ sideBarOpen, handleSidebarItemClick, disabled }) => {
     const menuItems: MenuItem[] = [
         {
 
@@ -77,40 +76,51 @@ const GenerateSidebarItems: React.FC<GenerateSidebarItemsProps> = ({ sideBarOpen
                 <svg stroke="currentColor" fill="currentColor" strokeWidth="0" version="1" viewBox="0 0 48 48" enableBackground="new 0 0 48 48" height="24" width="24" xmlns="http://www.w3.org/2000/svg"><path fill="#7CB342" d="M24,4C13,4,4,13,4,24s9,20,20,20s20-9,20-20S35,4,24,4z"></path><path fill="#0277BD" d="M45,24c0,11.7-9.5,21-21,21S3,35.7,3,24S12.3,3,24,3S45,12.3,45,24z M23.8,33.7c0-0.4-0.2-0.6-0.6-0.8 c-1.3-0.4-2.5-0.4-3.6-1.5c-0.2-0.4-0.2-0.8-0.4-1.3c-0.4-0.4-1.5-0.6-2.1-0.8c-0.8,0-1.7,0-2.7,0c-0.4,0-1.1,0-1.5,0 c-0.6-0.2-1.1-1.1-1.5-1.7c0-0.2,0-0.6-0.4-0.6c-0.4-0.2-0.8,0.2-1.3,0c-0.2-0.2-0.2-0.4-0.2-0.6c0-0.6,0.4-1.3,0.8-1.7 c0.6-0.4,1.3,0.2,1.9,0.2c0.2,0,0.2,0,0.4,0.2c0.6,0.2,0.8,1,0.8,1.7c0,0.2,0,0.4,0,0.4c0,0.2,0.2,0.2,0.4,0.2 c0.2-1.1,0.2-2.1,0.4-3.2c0-1.3,1.3-2.5,2.3-2.9c0.4-0.2,0.6,0.2,1.1,0c1.3-0.4,4.4-1.7,3.8-3.4c-0.4-1.5-1.7-2.9-3.4-2.7 c-0.4,0.2-0.6,0.4-1,0.6c-0.6,0.4-1.9,1.7-2.5,1.7c-1.1-0.2-1.1-1.7-0.8-2.3c0.2-0.8,2.1-3.6,3.4-3.1c0.2,0.2,0.6,0.6,0.8,0.8 c0.4,0.2,1.1,0.2,1.7,0.2c0.2,0,0.4,0,0.6-0.2c0.2-0.2,0.2-0.2,0.2-0.4c0-0.6-0.6-1.3-1-1.7c-0.4-0.4-1.1-0.8-1.7-1.1 c-2.1-0.6-5.5,0.2-7.1,1.7s-2.9,4-3.8,6.1c-0.4,1.3-0.8,2.9-1,4.4c-0.2,1-0.4,1.9,0.2,2.9c0.6,1.3,1.9,2.5,3.2,3.4 c0.8,0.6,2.5,0.6,3.4,1.7c0.6,0.8,0.4,1.9,0.4,2.9c0,1.3,0.8,2.3,1.3,3.4c0.2,0.6,0.4,1.5,0.6,2.1c0,0.2,0.2,1.5,0.2,1.7 c1.3,0.6,2.3,1.3,3.8,1.7c0.2,0,1-1.3,1-1.5c0.6-0.6,1.1-1.5,1.7-1.9c0.4-0.2,0.8-0.4,1.3-0.8c0.4-0.4,0.6-1.3,0.8-1.9 C23.8,35.1,24,34.3,23.8,33.7z M24.2,14.3c0.2,0,0.4-0.2,0.8-0.4c0.6-0.4,1.3-1.1,1.9-1.5c0.6-0.4,1.3-1.1,1.7-1.5 c0.6-0.4,1.1-1.3,1.3-1.9c0.2-0.4,0.8-1.3,0.6-1.9c-0.2-0.4-1.3-0.6-1.7-0.8c-1.7-0.4-3.1-0.6-4.8-0.6c-0.6,0-1.5,0.2-1.7,0.8 c-0.2,1.1,0.6,0.8,1.5,1.1c0,0,0.2,1.7,0.2,1.9c0.2,1-0.4,1.7-0.4,2.7c0,0.6,0,1.7,0.4,2.1L24.2,14.3z M41.8,29 c0.2-0.4,0.2-1.1,0.4-1.5c0.2-1,0.2-2.1,0.2-3.1c0-2.1-0.2-4.2-0.8-6.1c-0.4-0.6-0.6-1.3-0.8-1.9c-0.4-1.1-1-2.1-1.9-2.9 c-0.8-1.1-1.9-4-3.8-3.1c-0.6,0.2-1,1-1.5,1.5c-0.4,0.6-0.8,1.3-1.3,1.9c-0.2,0.2-0.4,0.6-0.2,0.8c0,0.2,0.2,0.2,0.4,0.2 c0.4,0.2,0.6,0.2,1,0.4c0.2,0,0.4,0.2,0.2,0.4c0,0,0,0.2-0.2,0.2c-1,1.1-2.1,1.9-3.1,2.9c-0.2,0.2-0.4,0.6-0.4,0.8 c0,0.2,0.2,0.2,0.2,0.4c0,0.2-0.2,0.2-0.4,0.4c-0.4,0.2-0.8,0.4-1.1,0.6c-0.2,0.4,0,1.1-0.2,1.5c-0.2,1.1-0.8,1.9-1.3,2.9 c-0.4,0.6-0.6,1.3-1,1.9c0,0.8-0.2,1.5,0.2,2.1c1,1.5,2.9,0.6,4.4,1.3c0.4,0.2,0.8,0.2,1.1,0.6c0.6,0.6,0.6,1.7,0.8,2.3 c0.2,0.8,0.4,1.7,0.8,2.5c0.2,1,0.6,2.1,0.8,2.9c1.9-1.5,3.6-3.1,4.8-5.2C40.6,32.4,41.2,30.7,41.8,29z"></path></svg>
             , text: 'Brands List', component: 'brandList'
         },
+        {
+            icon:
+                <svg stroke="currentColor" fill="currentColor" strokeWidth="0" version="1" viewBox="0 0 48 48" enableBackground="new 0 0 48 48" height="24" width="24" xmlns="http://www.w3.org/2000/svg"><polygon fill="#CFD8DC" points="40,9 40,7 31,7 31,12 24,12 15,12 15,23 8,23 8,25 15,25 15,36 24,36 31,36 31,41 40,41 40,39 33,39 33,31 40,31 40,29 31,29 31,34 24,34 17,34 17,14 24,14 31,14 31,19 40,19 40,17 33,17 33,9"></polygon><rect x="4" y="20" fill="#00BCD4" width="8" height="8"></rect><g fill="#3F51B5"><rect x="36" y="14" width="8" height="8"></rect><rect x="36" y="4" width="8" height="8"></rect><rect x="20" y="9" width="8" height="8"></rect><rect x="20" y="31" width="8" height="8"></rect><rect x="36" y="36" width="8" height="8"></rect><rect x="36" y="26" width="8" height="8"></rect></g></svg>
+            , text: 'Categories List', component: 'categoryList'
+        },
     ];
 
     return menuItems.map((item, index) => (
         <div
             key={index}
-            className={`bg-dark-surface text-on-dark-background my-4  ${!sideBarOpen ? 'justify-start' : ''}`}
+            className="relative bg-dark-surface text-on-dark-background my-6"
             onClick={() => handleSidebarItemClick(item.component)}
         >
-
-            {sideBarOpen ? (
-                <div className='mx-2'>
-                    <Button fullWidth variant='outlined' color='secondary' className="bg-dark-surface text-on-dark-background  py-4 mx-auto">
-                        <div className="bg-dark-surface text-on-dark-background w-full py-4 flex flex-nowrap justify-between mx-2">
-                            <div className='w-6 h-6'>{item.icon}</div>
-                            <ListItemText primary={item.text} />
-                        </div>
-                    </Button>
-                </div>
-            ) : (
-                <div className='mt-8'>
-                    <IconButton className='group hover:grayscale grayscale-0'>
-                        <div className='flex items-center flex-col h-12 w-12  transition-all duration-200'>
-                            <div className='w-6 h-6'>
-                                {item.icon}
+            {/* Container for OPEN state with transition */}
+            <div
+                className={`absolute inset-0 transition-opacity duration-500 ${sideBarOpen ? 'opacity-100' : 'opacity-0'}`}
+                style={{ pointerEvents: sideBarOpen ? 'auto' : 'none' }} // Prevent clicks when invisible
+            >
+                <Button disabled={disabled} variant='outlined' color='secondary'  sx={{width:'95%',color:'var(--color-on-dark-background)'}} >
+                    <div className="flex justify-between w-full py-1 mx-2">
+                        <div className='w-6 h-6'>
+                            {item.icon}
                             </div>
+                        <ListItemText primary={item.text} />
+                    </div>
+                </Button>
+            </div>
 
-                            <div className='text-sm group-hover:text-white group-hover:underline transition-all duration-200 '>
-                                {item.text.split(' ')[0]}
-                            </div>
+            {/* Container for CLOSED state with transition */}
+            <div
+                className={`transition-all duration-500 ${!sideBarOpen ? 'opacity-100' : 'opacity-0'}`}
+                style={{ pointerEvents: !sideBarOpen ? 'auto' : 'none' }} // Prevent clicks when invisible
+            >
+                <IconButton disabled={disabled} className='group hover:grayscale grayscale-0 mt-8'>
+                    <div className='flex flex-col items-center h-12 w-12'>
+                        <div className='w-6 h-6'>{item.icon}</div>
+                        <div className={`text-sm group-hover:text-white group-hover:underline transition-all  ${sideBarOpen ? '-translate-y-4 duration-250' : 'translate-x-0 duration-500'}`}>
+                            {item.text.split(' ')[0]}
                         </div>
-                    </IconButton>
-                </div>
-            )}
+                    </div>
+                </IconButton>
+            </div>
         </div>
-    ));
+    ))
+
+
 };
 export default GenerateSidebarItems;

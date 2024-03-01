@@ -1,31 +1,114 @@
 import React from 'react';
-import { TextField } from '@mui/material';
-import { Product } from '@/components/types';
+import { FormControl, FormHelperText, InputLabel, MenuItem, MenuList, Select, SelectChangeEvent, TextField } from '@mui/material';
+import { Brand, Product } from '@/components/types';
+
+import Image from 'next/image';
 
 interface ProductFormProps {
     productData: Product;
     error: ErrorState;
-    handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+    handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>|SelectChangeEvent) => void;
+    brands: Brand[];
 }
 interface ErrorState {
     [key: string]: string; // Assumes error state is a map of field names to error messages
 }
 
-export const ProductForm: React.FC<ProductFormProps> = ({ productData, error, handleChange }) => {
+
+
+export const ProductForm: React.FC<ProductFormProps> = ({ productData, error, handleChange, brands }) => {
+    //state to hold selected brand
+    const [selectedBrand, setSelectedBrand] = React.useState<Brand | null>(null);
+
+    const handleSelectChange = (event: SelectChangeEvent) => {
+        handleChange(event)
+        const brandName = event.target.value;
+        const brand = brands.find(b => b.name === brandName);
+        setSelectedBrand(brand || null);
+
+    };
+
+    
+
+
     return (
         <>
             {/* Brand */}
-            <TextField
-                sx={{ my: 2, }}
-                name="brand"
-                label="Brand*"
-                fullWidth
-                error={Boolean(error.brand)}
-                helperText={error.brand}
-                value={productData.brand}
-                onChange={handleChange}
-                autoComplete='true'
-            />
+            <FormControl fullWidth sx={{ my: 2 }} error={Boolean(error.brand)}>
+                <InputLabel id="brand-select-label">Brand*</InputLabel>
+                <Select
+                    labelId="brand-select-label"
+                    id="brand-select"
+                    fullWidth
+                    name="brand"
+                    value={productData.brand}
+                    label="Brand*"
+
+                    onChange={handleSelectChange} // Assuming this updates both the selected brand and image
+                    renderValue={(selected) => (
+                        selectedBrand && <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }} >
+                            <div>{selected}</div>
+                            <div style={{
+                                width: '35px',
+                                height: '35px',
+                                borderRadius: '50%',
+                                overflow: 'hidden',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                position: 'relative',
+                                backgroundColor: 'white'
+                            }}>
+                                <Image
+                                    alt={selectedBrand.name}
+                                    src={selectedBrand.imgSource[0].url}
+                                    fill
+                                    style={{ objectFit: 'contain' }}
+                                    quality={50}
+                                    sizes='5vw'
+                                />
+                            </div>
+                        </div>
+                    )}
+                    MenuProps={{
+                        PaperProps: {
+                            style: {
+                                maxHeight: 200,
+                                overflow: 'auto',
+                            },
+                        },
+                    }}
+                >
+
+                    {brands.map((brand) => (
+                        <MenuItem key={brand._id} value={brand.name} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }} >
+                            <div>{brand.name}</div>
+                            <div style={{
+                                width: '35px',
+                                height: '35px',
+                                borderRadius: '50%',
+                                overflow: 'hidden',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                position: 'relative',
+                                backgroundColor: 'white'
+                            }}>
+                                <Image
+                                    alt={brand.name}
+                                    src={brand.imgSource[0].url}
+                                    fill
+                                    style={{ objectFit: 'contain' }}
+                                    quality={50}
+                                    sizes='5vw'
+                                />
+                            </div>
+                        </MenuItem>
+
+                    ))}
+                </Select>
+                {error.brand && <FormHelperText>{error.brand}</FormHelperText>}
+            </FormControl>
 
             {/* Name */}
             <TextField

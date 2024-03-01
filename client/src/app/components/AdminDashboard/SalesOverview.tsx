@@ -140,48 +140,48 @@ const SalesOverview: React.FC<SalesOverviewProps> = ({
             <Grid container spacing={3}>
                 {/* Display summary widgets */}
                 <Grid item xs={6} md={4} lg={2}>
-                    <Card elevation={5} className="bg-dark-surface text-on-dark-background rounded-lg">
-                        <CardContent className="bg-dark-surface text-on-dark-background">
+                    <Card elevation={5} className="bg-dark-surface text-on-dark-background rounded-lg h-full">
+                        <CardContent className="bg-dark-surface text-on-dark-background h-full">
                             <Typography variant="body1" gutterBottom>Total Products:</Typography>
                             <Typography variant="body2">{totalProducts}</Typography>
                         </CardContent>
                     </Card>
                 </Grid>
                 <Grid item xs={6} md={4} lg={2}>
-                    <Card elevation={5} className="bg-dark-surface text-on-dark-background rounded-lg">
-                        <CardContent className="bg-dark-surface text-on-dark-background">
+                    <Card elevation={5} className="bg-dark-surface text-on-dark-background rounded-lg h-full">
+                        <CardContent className="bg-dark-surface text-on-dark-background h-full">
                             <Typography variant="body1" gutterBottom>Total Orders:</Typography>
                             <Typography variant="body2">{totalOrders}</Typography>
                         </CardContent>
                     </Card>
                 </Grid>
                 <Grid item xs={6} md={4} lg={2}>
-                    <Card elevation={5} className="bg-dark-surface text-on-dark-background rounded-lg">
-                        <CardContent className="bg-dark-surface text-on-dark-background">
+                    <Card elevation={5} className="bg-dark-surface text-on-dark-background rounded-lg h-full">
+                        <CardContent className="bg-dark-surface text-on-dark-background h-full">
                             <Typography variant="body1" gutterBottom>Total Sales:</Typography>
                             <Typography variant="body2">{totalSales.toFixed(2)}</Typography>
                         </CardContent>
                     </Card>
                 </Grid>
                 <Grid item xs={6} md={4} lg={2}>
-                    <Card elevation={5} className="bg-dark-surface text-on-dark-background rounded-lg">
-                        <CardContent className="bg-dark-surface text-on-dark-background">
+                    <Card elevation={5} className="bg-dark-surface text-on-dark-background rounded-lg h-full">
+                        <CardContent className="bg-dark-surface text-on-dark-background h-full">
                             <Typography variant="body1" gutterBottom>Pending Orders:</Typography>
                             <Typography variant="body2">{pendingOrders}</Typography>
                         </CardContent>
                     </Card>
                 </Grid>
                 <Grid item xs={6} md={4} lg={2}>
-                    <Card elevation={5} className="bg-dark-surface text-on-dark-background rounded-lg">
-                        <CardContent className="bg-dark-surface text-on-dark-background">
+                    <Card elevation={5} className="bg-dark-surface text-on-dark-background rounded-lg h-full">
+                        <CardContent className="bg-dark-surface text-on-dark-background h-full">
                             <Typography variant="body1" gutterBottom>Total Admins: </Typography>
                             <Typography variant="body2">{totalAdmins}</Typography>
                         </CardContent>
                     </Card>
                 </Grid>
                 <Grid item xs={6} md={4} lg={2}>
-                    <Card elevation={5} className="bg-dark-surface text-on-dark-background rounded-lg">
-                        <CardContent className="bg-dark-surface text-on-dark-background">
+                    <Card elevation={5} className="bg-dark-surface text-on-dark-background rounded-lg h-full">
+                        <CardContent className="bg-dark-surface text-on-dark-background h-full">
                             <Typography variant="body1" gutterBottom>Total Accounts:  </Typography>
                             <Typography variant="body2">{totalCustomers}</Typography>
                         </CardContent>
@@ -196,8 +196,8 @@ const SalesOverview: React.FC<SalesOverviewProps> = ({
                     </Card>
                 </Grid>
                 <Grid item xs={12} md={8} lg={6}>
-                    <Card elevation={5} className="bg-dark-surface text-on-dark-background rounded-lg">
-                        <CardContent className="bg-dark-surface text-on-dark-background">
+                    <Card elevation={5} className="bg-dark-surface text-on-dark-background rounded-lg h-full">
+                        <CardContent className="bg-dark-surface text-on-dark-background h-full">
                             <Typography variant="body1">Guest Information:</Typography>
                             {/* Display guest data */}
                             {/*{guestData.map(guest => (

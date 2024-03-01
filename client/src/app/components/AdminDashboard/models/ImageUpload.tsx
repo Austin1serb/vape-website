@@ -8,6 +8,7 @@ import {
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
 import Image from 'next/image';
+import BrandImage from '@/components/BrandImage';
 
 interface ImageUploadProps {
     error: { [key: string]: string };
@@ -38,13 +39,13 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     const imageContainerStyles: CSSProperties = {
         height: '100px',
         width: '100px',
-        position: 'relative',
         display: 'inline-flex',
         flexDirection: 'column',
         alignItems: 'center',
         margin: '5px',
         border: '1px solid gray',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        borderRadius: '10px',
     };
 
     // Styles for the image thumbnail container
@@ -139,8 +140,9 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                 <Box sx={thumbnailContainerStyles}>
                     {selectedImageData && selectedImageData.length > 0 ? (
                         selectedImageData.map((imgUrl, index) => (
-                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <div key={index + 'div'} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                 <Button
+                                    key={index + 'button'}
                                     size="small"
                                     variant="text"
                                     onClick={() => handleRemoveImage(index)}
@@ -149,11 +151,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                                     Remove
                                 </Button>
                                 <div key={index} style={imageContainerStyles}>
-                                    <Image
+                                    <BrandImage
                                         src={imgUrl}
                                         alt={`Selected Thumbnail ${index + 1}`}
-                                        fill
-                                        objectFit='contain'
+                                        height={100}
+                                        width={100}
+                                        className='rounded-lg border-red-100 border'
                                     />
 
                                 </div>

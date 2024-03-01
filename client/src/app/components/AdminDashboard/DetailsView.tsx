@@ -12,7 +12,7 @@ import {
     TableRow,
     Paper,
 } from '@mui/material';
-import { Product } from '../types';
+import { Brand, BrandItem, Product } from '../types';
 import Image from 'next/image';
 
 const paperProps = {
@@ -24,16 +24,21 @@ const paperProps = {
 interface Props {
     open: boolean;
     product: Product;
+    brands:Brand[];
     onClose: () => void;
 }
 const DetailsView: React.FC<Props> = ({ open, product, onClose }) => {
+    function isBrandItem(brand: BrandItem | string): brand is BrandItem {
+        return (brand as BrandItem)._id !== undefined;
+    }
+    
     return (
         <Dialog open={open} onClose={onClose} PaperProps={paperProps} className=''>
             <DialogTitle className='bg-primary-variant text-center uppercase h-18'>
                 Product Details
             </DialogTitle>
-            <DialogContent  className='bg-dark-background border-primary-variant border-4'>
-                <div  className='bg-dark-surface p-4 mt-4 rounded-lg'>
+            <DialogContent className='bg-dark-background border-primary-variant border-4'>
+                <div className='bg-dark-surface p-4 mt-4 rounded-lg'>
                     <Table>
                         <TableBody>
                             <TableRow>
@@ -47,7 +52,7 @@ const DetailsView: React.FC<Props> = ({ open, product, onClose }) => {
                                     <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Images:</Typography>
                                 </TableCell>
                                 <TableCell>    {product.imgSource && product.imgSource.map((image, index) => (
-                                    <div className='h-32 w-32 relative mb-2'>
+                                    <div key={index+'div'} className='h-32 w-32 relative mb-2'>
                                         <Image key={index} src={image.url}
                                             fill sizes='10vw'
                                             alt={`${product.name} ${index}`} className='rounded bg-background ' />
@@ -61,7 +66,8 @@ const DetailsView: React.FC<Props> = ({ open, product, onClose }) => {
                                 <TableCell>
                                     <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Brand:</Typography>
                                 </TableCell>
-                                <TableCell>{product.brand}</TableCell>
+
+                                <TableCell>{isBrandItem(product.brand) ? product.brand.name : 'Brand ID: ' + product.brand}</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell>

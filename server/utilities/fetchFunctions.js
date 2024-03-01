@@ -25,7 +25,7 @@ const removeDeletedImages = async (newImages, originalProduct) => {
     }
 };
 
-const handleErrors = (error, res,) => {
+const handleErrors = (error, res) => {
     console.error(error);
     if (error.name === 'ValidationError') {
         const errors = Object.keys(error.errors).reduce((acc, field) => {

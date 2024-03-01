@@ -12,8 +12,8 @@ interface Props {
 }
 const BrandImage: React.FC<Props> = ({ alt, src, height, width, className, style, ifStatement }) => {
     return (
-        <div style={{ height: ifStatement ? '100px' : '55px', width: '100%', position: 'relative' }} className={`min-w-[${width}px] min-h-[${height}px] max-w-[${width}px] max-h-[${height}px]  relative bg-white `}>
-            <Image fill quality={50} src={src} alt={alt} className={`object-contain	 rounded ${className}`} style={style} sizes='5vw'/>
+        <div style={{ height: height, width: width, position: 'relative', }} className={`object-cover ${className}`}>
+            <Image fill quality={50} src={src} alt={alt} className='object-cover p-1' style={style} sizes='5vw' />
         </div>
     )
 }

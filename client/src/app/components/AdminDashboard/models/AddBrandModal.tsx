@@ -37,6 +37,7 @@ interface Props {
     onUpdateBrand: (brandData: Brand) => void;
 }
 
+const apiKey = process.env.NEXT_PUBLIC_GPT_API_KEY;
 
 const AddBrandModal: React.FC<Props> = ({ open, onClose, onAddBrand, selectedBrand, onUpdateBrand, }) => {
     const [brandData, setBrandData] = useState<Brand>(selectedBrand || initialBrandData);
@@ -48,6 +49,7 @@ const AddBrandModal: React.FC<Props> = ({ open, onClose, onAddBrand, selectedBra
     const [isNewImageSelected, setIsNewImageSelected] = useState<boolean>(false);
     const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
     const [snackbarMessage, setSnackbarMessage] = useState<string>('');
+
 
     const openSnackbar = (errorData: ErrorState): void => {
         const firstError = Object.values(errorData)[0];
@@ -277,24 +279,24 @@ const AddBrandModal: React.FC<Props> = ({ open, onClose, onAddBrand, selectedBra
 
 
     const parseChatGPTResponse = (response: { description: string; tags: string[]; }) => {
-        // Parse the response to extract description, tags, and rating
-        // This is highly dependent on how you structure your prompt and the expected response format
         return {
             description: response.description,
             tags: response.tags
         };
     };
 
-    const fetchChatGPTDetails = async (brandName:string) => {
+    const fetchChatGPTDetails = async (brandName: string) => {
+        console.log(apiKey)
         const openAIResponse = await fetch('https://api.openai.com/v1/completions', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer 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`
+                'Authorization': `Bearer ${apiKey}`
             },
             body: JSON.stringify({
                 model: 'gpt-3.5-turbo-instruct',
-                prompt: `Generate detailed description for a e-cigarette brand named ${brandName}. Include return: description, and tags,. return it in .json, this is for an API`,
+                prompt: `Create a JSON object with a detailed description and tags for an e-cigarette brand. The brand name is "${brandName}". Ensure the description is no more than 300 characters and includes key features and benefits. Generate tags related to the brand, limited to 8 words. The JSON should have keys for 'description' and 'tags'.
+                `,
                 temperature: 0.7,
                 max_tokens: 256,
                 top_p: 1.0,
@@ -336,7 +338,6 @@ const AddBrandModal: React.FC<Props> = ({ open, onClose, onAddBrand, selectedBra
         }
     };
 
-    //make function
 
     return (
         <>

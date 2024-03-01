@@ -8,8 +8,8 @@ router.get('/search/', ProductsController.searchProducts);
 router.route('/featured').get(ProductsController.getFeatured);
 router.route('/bestsellers').get(ProductsController.getBestSellers);
 router.route('/paginate/').get(ProductsController.getAllPaginate);
-
 router.route('/:id').get(ProductsController.getOne);
+
 
 //router.use(isAdmin, verifyToken);
 router.route('/').post(ProductsController.createOne);

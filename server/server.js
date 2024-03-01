@@ -46,14 +46,15 @@ const shippoRoutes = require('./routes/shippo.routes');
 const suggestionsRoutes = require('./routes/suggestions.routes');
 //const paymentRoutes = require('./routes/payment.routes');
 const passwordResetRoutes = require('./routes/passwordReset.routes')
-const contactRouter = require('./routes/contact.routes');
-const brandRouter = require('./routes/brands.routes');
-
+const contactRoutes = require('./routes/contact.routes');
+const brandRoutes = require('./routes/brands.routes');
+const categoryRoutes = require('./routes/categories.routes');
 
 app.use('/api', passwordResetRoutes);
 app.use("/api/", suggestionsRoutes);
 //app.use('/api/payment', paymentRoutes);
-app.use('/api/brand', brandRouter);
+app.use('/api/category', categoryRoutes);
+app.use('/api/brand', brandRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/order", orderRoutes);
 app.use('/api/guest', guestRoutes);
@@ -61,7 +62,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/upload", uploadToCloudinary);
 app.use('/api/shippo', shippoRoutes);
 app.use(bodyParser.json());
-app.use('/api/contact', contactRouter);
+app.use('/api/contact', contactRoutes);
 
 
 

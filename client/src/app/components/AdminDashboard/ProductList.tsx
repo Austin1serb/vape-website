@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { Brand, Product } from '../types';
 import dynamic from 'next/dynamic';
 import DataGridSkeleton from './AdminSkeletons/DataGridSkeleton';
-import { formatDate } from './utilities/AdminDashUtils';
+import { formatDate } from '../../utils/AdminDashUtils';
 
 const DataGrid = dynamic(() => import('@mui/x-data-grid').then((mod) => mod.DataGrid), {
     loading: () => <DataGridSkeleton />,

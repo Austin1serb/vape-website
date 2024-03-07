@@ -2,14 +2,14 @@
 const FooterBottom: React.FC = () => {
     return (
         <div className="text-sm text-on-background py-2 px-4">
-            <hr className="my-2"/>
+            <hr className="my-2" />
             <div className="max-w-6xl mx-auto flex flex-col items-center space-y-4 md:flex-row md:justify-between md:space-y-0 md:items-start ">
                 {/* Antivirus and certification logos, centered on mobile */}
                 <div className="flex flex-wrap justify-center md:justify-start space-x-4">
                     {/* Antivirus logos here */}
                     <div className="flex flex-wrap items-center justify-start space-x-4 mb-4 md:mb-0">
-                        <a href="https://www.mcafeesecure.com/verify?host=elementvape.com" target="_blank" rel="noopener noreferrer">
-                            <img src="https://iconape.com/wp-content/files/gc/333339/png/McAfee__Secure-logo.png" alt="McAfee Secure" className="h-8" />
+                        <a href="htps://www.mcafeesecure.com/verify?host=elementvape.com" target="_blank" rel="noopener noreferrer">
+                            <img src="https://i.imgur.com/v5DmNwL.png" alt="McAfee Secure" className="h-8" />
                         </a>
                         <a href="#" target="_blank" rel="noopener noreferrer">
                             <img src="https://www.elementvape.com/media/Dckap/images/norton-av.svg?0" alt="Norton" className="h-8" />
@@ -42,7 +42,7 @@ const FooterBottom: React.FC = () => {
                     </div>
                 </div>
             </div>
-        
+
         </div>
 
 

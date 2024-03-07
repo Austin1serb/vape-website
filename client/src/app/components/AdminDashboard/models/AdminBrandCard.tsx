@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, Chip, Rating, Button, Collapse, IconButton } from '@mui/material';
+import { Typography, Chip, Button, Collapse, IconButton } from '@mui/material';
 
 import BrandImage from '@/components/BrandImage';
 import { Brand } from '@/components/types';
@@ -20,8 +20,6 @@ const AdminBrandCard: React.FC<AdminBrandCardProps> = ({ brand, handleDelete, ha
     };
 
     const imageContainerClass = `h-34 w-24 tranistion-all duration-300 bg-white flex flex-row justify-between items-center rounded-l-lg tranistion-all duration-300 `;
-
-
 
 
     const renderStars = (score: number) => {

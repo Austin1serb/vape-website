@@ -2,12 +2,8 @@
 "use client"
 import React, { Suspense, useEffect, useState } from 'react';
 import MuiDrawer from '@mui/material/Drawer';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
-
+import { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import {
-
     Toolbar,
     Typography,
     Container,
@@ -26,7 +22,7 @@ import UserList from './UserList';
 import Link from 'next/link'
 import AccountIconLocal from '@/Icons/Account.icon';
 import { Product, Order, Customer, Guest, Brand, Category } from '../types'
-import { SaleItem, aggregateSalesData, transformAndSortDataForChart } from './utilities/AdminDashUtils';
+import { SaleItem, aggregateSalesData, transformAndSortDataForChart } from '../../utils/AdminDashUtils';
 import { Theme, CSSObject, styled, useTheme, } from '@mui/material/styles';
 import GenerateSidebarItems from './models/GenerateSideBarItems';
 import DataGridSkeleton from './AdminSkeletons/DataGridSkeleton';
@@ -129,7 +125,7 @@ interface SalesData {
     [productName: string]: number | string;
 }
 
-const AdminDashboard = () => {
+const AdminDashboard: React.FC = () => {
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
     const [selectedComponent, setSelectedComponent] = useState<string>('AdminDashboard');
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -279,9 +275,8 @@ const AdminDashboard = () => {
 
 
     return (
-
-
         <div className=" text-on-dark-background bg-dark-background ">
+           
             <AppBar position="fixed"  >
                 <Toolbar sx={{ backgroundColor: 'var(--color-primary-variant)', justifyContent: 'space-between', }} >
                     <div>
@@ -335,7 +330,7 @@ const AdminDashboard = () => {
                     </Menu>
                 </Toolbar>
             </AppBar>
-            <Container className='mt-16'>
+            <Container className='mt-16 min-w-[900px]'>
                 <Grid container spacing={3} >
                     <Grid item xs={12}>
                         <Paper sx={{ backgroundColor: 'var(--color-dark-backgrond)', borderRadius: 2 }} className='bg-dark-background min-w-[700px] ml-2'
@@ -410,7 +405,7 @@ const AdminDashboard = () => {
                 <div className="bg-dark-surface text-on-dark-background h-full shadow-lg w-full pl-2">
                     <GenerateSidebarItems
                         sideBarOpen={sidebarOpen}
-                        
+
                         handleSidebarItemClick={handleSidebarItemClick}
                         disabled={loading}
                     />

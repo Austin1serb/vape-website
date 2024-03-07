@@ -7,7 +7,7 @@ const create = async (req, res) => {
         await category.save();
         res.status(201).json(category);
     } catch (error) {
-        handleErrors(error,res)
+        handleErrors(error, res)
     }
 };
 
@@ -17,7 +17,7 @@ const getAll = async (req, res) => {
         const categories = await Category.find();
         res.json(categories);
     } catch (error) {
-        handleErrors(error,res)
+        handleErrors(error, res)
     }
 }
 //update categories
@@ -41,7 +41,7 @@ const deleteOne = async (req, res) => {
         }
         res.json({ message: 'Category deleted successfully' });
     } catch (error) {
-        handleErrors(error,res)
+        handleErrors(error, res)
     }
 }
 

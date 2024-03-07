@@ -22,12 +22,14 @@ export default function RootLayout({
                 {/* Your Metadata configuration will be applied here */}
             </head>
             <body>
-                <AppRouterCacheProvider>
-                    <ThemeProvider theme={darkTheme}>
+
+                <ThemeProvider theme={darkTheme}>
+                    <AppRouterCacheProvider>
                         {/* Main content of the application */}
                         <main>{children}</main>
-                    </ThemeProvider>
-                </AppRouterCacheProvider>
+                    </AppRouterCacheProvider>
+                </ThemeProvider>
+
             </body>
         </html>
     );

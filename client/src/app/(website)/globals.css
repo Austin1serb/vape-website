@@ -9,15 +9,16 @@
   /* Primary colors */
   --color-primary: #6200EE;
   --color-primary-variant: #3700B3;
-
+  --color-primary-transparent: #6200EEA5;
+  --color-primary-semi-transparent: #6200EEE6;
   /* Secondary colors */
   --color-secondary: #03DAC6;
   --color-secondary-variant: #018786;
 
   /* Background, Surface, and Error */
   --color-background: #FFFFFF;
-  --color-dark-background:#191E2C;
-  --color-dark-surface:#282F48;
+  --color-dark-background: #191E2C;
+  --color-dark-surface: #282F48;
   --color-surface: #F5F5F5;
   --color-error: #B00020;
 
@@ -25,7 +26,7 @@
   --color-on-primary: #FFFFFF;
   --color-on-secondary: #000000;
   --color-on-background: #000000;
-  --color-on-dark-background:#F5F7FB;
+  --color-on-dark-background: #F5F7FB;
   --color-on-surface: #000000;
   --color-on-error: #FFFFFF;
 
@@ -45,9 +46,11 @@
   --deep-purple-A400: #651FFF;
   --deep-purple-A700: #6200EA;
 
- 
+
 }
-html,body{
+
+html,
+body {
   scroll-behavior: sm;
 }
 
@@ -60,9 +63,11 @@ body {
   min-width: 320px;
 
 }
-body button{
+
+body button {
   cursor: pointer;
 }
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -84,7 +89,7 @@ body button{
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     padding: 5px;
-   
+
   }
 }
 
@@ -141,8 +146,7 @@ body button{
 }
 
 .rating-stars {
-  fill:var(--color-primary-variant);
+  fill: var(--color-primary-variant);
   transition: all 0.3s;
 
 }
-

@@ -4,6 +4,7 @@ const saltRounds = 10; //
 const secretKey = process.env.JWT_SECRET_KEY;
 const jwt = require('jsonwebtoken');
 const RevokedToken = require('../models/revokedToken.model');
+const { handleErrors } = require('../utilities/fetchFunctions');
 const reCaptchaSecretKey = process.env.RECAPTCHA_SECRET_KEY;
 
 const verifyRecaptcha = async (token) => {
@@ -82,13 +83,36 @@ const verifyAccessToken = (req) => {
     return decoded;
 };
 
-
+const checkLogin = (req, res) => {
+    const refreshToken = req.cookies.refreshToken; // Assuming you're using cookie-parser middleware
+    if (!refreshToken) {
+        return res.status(401).json({ isLoggedIn: false, user: { isAdmin: false } });
+    }
+    jwt.verify(refreshToken, secretKey, async (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ isLoggedIn: false, message: 'Invalid token' });
+        }
+        try {
+            const user = await Users.findById(decoded.customerId);
+            if (user) {
+                // You can directly send the response here since you found the user
+                res.status(200).json({ isLoggedIn: true, user });
+            } else {
+                res.status(404).json({ isLoggedIn: false, message: 'User not found' });
+            }
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ isLoggedIn: false, message: 'Internal server error', error: error.message || 'Unknown error' });
+        }
+    });
+}
 
 
 
 module.exports = {
 
     getAll: (req, res) => {
+
         Users.find()
             .then(data => { res.json(data) })
             .catch(err => res.json(err))
@@ -97,7 +121,7 @@ module.exports = {
 
     getOne: (req, res) => {
         const userId = req.params.id; // Retrieve the user's ID from the request parameter
-
+        
         Users.findOne({ _id: userId }) // Query the database using the user's ID
             .then(data => {
                 if (data) {
@@ -160,7 +184,7 @@ module.exports = {
                 // Set the new refresh token in an HTTP-Only cookie
                 res.cookie('refreshToken', newRefreshToken, {
                     httpOnly: true,
-                    secure: true, // Use secure in production
+                    secure: false, // Use secure in production
                     maxAge: 86600000, // Refresh token expiry in milliseconds
                     sameSite: 'Lax',
                 });
@@ -222,7 +246,7 @@ module.exports = {
             // Set refresh token in HTTP-Only cookie
             res.cookie('refreshToken', refreshToken, {
                 httpOnly: true,
-                secure: true, // use secure in production
+                secure: false, // use secure in production
                 maxAge: 43300000/* refresh token expiry in milliseconds */,
                 sameSite: 'Lax',
             });
@@ -277,21 +301,21 @@ module.exports = {
                 // Set refresh token in HTTP-Only cookie
                 res.cookie('refreshToken', newRefreshToken, {
                     httpOnly: true,
-                    secure: true,
+                    secure: process.env.NODE_ENV === 'production',
                     maxAge: 43300000/* refresh token expiry in milliseconds */,
                     sameSite: 'Lax',
                 });
                 // Send the new access token and refresh token to the client
-                return res.json({ message: 'Login successful', accessToken, });
+                return res.json({ message: 'Login successful', accessToken, newRefreshToken });
             } else {
                 // Passwords don't match, authentication failed
                 return res.status(401).json({ message: 'Incorrect email or password.' });
             }
         } catch (err) {
-            console.error(err)
-            return res.status(500).json({ message: 'Server error', error: err });
+            handleErrors(err, res)
         }
     },
+
     revokeToken: async (refreshToken) => {
         try {
             const revokedToken = new RevokedToken({ token: refreshToken });
@@ -431,7 +455,7 @@ module.exports = {
         }
     },
 
-
+    checkLogin,
 
 
     //deleteOne: (req, res) => {

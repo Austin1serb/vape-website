@@ -1,18 +1,12 @@
 
 "use server"
 
-import { NextResponse } from "next/server";
-
-const BASE_URL = 'http://localhost:8000/api/';
-
+const BASE_URL = 'http://localhost:8000/api';
 
 export const getData = async (endpoint: string, _id?: string) => {
     try {
         const url = _id ? `${BASE_URL}/${endpoint}/${_id}` : `${BASE_URL}/${endpoint}/`;
-        const response = await fetch(url, {
-            method: 'GET',
-            credentials: 'include',
-        });
+        const response = await fetch(url)
 
         if (!response.ok) {
             const error = await handleErrors(response);
@@ -20,7 +14,7 @@ export const getData = async (endpoint: string, _id?: string) => {
         }
 
         const data = await response.json();
-        return NextResponse.json({ data })
+        return data
     } catch (error) {
         console.error("Fetch Error:", error);
         throw error;
@@ -96,6 +90,19 @@ export const putData = async <T, B>(endpoint: string, _id: string, body: B): Pro
 
 
 
+export async function fetchData(url: string) {
+    const response = await fetch(url, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    if (!response.ok) {
+        throw new Error(`Failed to fetch data from ${url}`);
+    }
+    return response.json();
+}
 
 
 

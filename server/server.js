@@ -10,26 +10,24 @@ const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const frontEndDomain = process.env.FRONTEND_DOMAIN
 
-app.use(
-    cors({
-        origin: frontEndDomain,
-        credentials: true,
-    }),
+app.use(cors({
+    origin: frontEndDomain,
+    credentials: true,
+}));
 
-    express.json({ limit: "50mb" }),
-    express.urlencoded({ limit: "50mb", extended: true }),
-    (cookieParser()),
-);
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
+app.use(cookieParser()); 
 
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
             defaultSrc: ["'self'"],
-            scriptSrc: ["'self'", 'https://maps.googleapis.com', 'https://web.squarecdn.com'],
-            styleSrc: ["'self'", 'https://fonts.googleapis.com', "'unsafe-inline'"],
-            fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+            scriptSrc: ["'self'"],
+            styleSrc: ["'self'"],
+            fontSrc: ["'self'"],
             imgSrc: ["'self'", 'https://res.cloudinary.com'],
-            connectSrc: ["'self'", 'https://connect.squareup.com', 'http://localhost:8000'],
+            connectSrc: ["'self'", 'http://localhost:8000'],
             frameSrc: ["'self'"],
             objectSrc: ["'none'"],
             // Add other directives as needed

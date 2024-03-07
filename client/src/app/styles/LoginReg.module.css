@@ -49,6 +49,9 @@
     margin-top: 10px;
     cursor: pointer;
     transition: all 0.3s;
+    width: 143px;
+    height: 43px;
+    white-space: nowrap;
 
 }
 
@@ -64,6 +67,7 @@
 }
 
 .container button.hidden:hover {
+
     background: var(--color-secondary);
     transition: all 0.3s;
 }
@@ -78,16 +82,27 @@
     height: 100%;
 }
 
-.container input {
-    background-color: #eee;
-    border: none;
-    margin: 8px 0;
-    padding: 10px 15px;
-    font-size: 13px;
-    border-radius: 8px;
-    width: 100%;
-    outline: none;
+.iconVisibility {
+    padding: 8px;
+    transition: all 0.2s ease;
+
 }
+
+.iconVisibility:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.04);
+    /* Light grey on hover, similar to MUI default */
+    border-radius: 50%;
+}
+
+.iconVisibility:active {
+    opacity: 10%;
+    transform: scale(0.8);
+
+}
+
+
+.container input {}
 
 .formContainer {
     position: absolute;
@@ -139,9 +154,11 @@
     margin: 20px 0;
     height: 80px;
 }
-.socialIcons{
+
+.socialIcons {
     display: flex;
 }
+
 .socialIcons a {
     border: 1px solid #ccc;
     border-radius: 20%;
@@ -153,11 +170,13 @@
     height: 50px;
 
 }
+
 .socialIcons svg {
     filter: grayscale(100%);
     transition: all 0.3s;
 
 }
+
 .socialIcons a:hover svg {
     transition: all 0.3s;
     height: 36px;
@@ -234,6 +253,7 @@
     .container {
         margin: 0 auto;
     }
+
     /* Stack the forms on top of each other for mobile */
     .formContainer {
         position: relative;

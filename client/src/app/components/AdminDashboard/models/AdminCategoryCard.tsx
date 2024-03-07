@@ -17,12 +17,12 @@ const AdminCategoryCard: React.FC<AdminCategoryCardProps> = ({ category, handleD
     };
 
     return (
-        <div className='flex flex-row w-full bg-dark-surface rounded-lg border border-dark-surface pl-1 h-auto'
+        <div className='flex flex-row w-full bg-dark-surface rounded-lg border border-dark-surface pl-1 h-16'
             style={{ boxShadow: '-10px 3px 5px -1px rgba(0,0,0,0.2),-6px 5px 8px 0px rgba(0,0,0,0.14), -2px 1px 14px 0px rgba(0,0,0,0.12)' }}
         >
-            <div className='flex items-center justify-between w-full'>
+            <div className='flex items-center justify-between w-full min-w-96'>
                 <div className='flex w-full justify-between items-center'>
-                    <Typography variant="h6" color="textPrimary" className='text-lg font-semibold text-on-dark-background'>{category.name}</Typography>
+                    <Typography variant="h6" color="var(--color-on-dark-background)" sx={{ml:1}}>{category.name}</Typography>
                     <Collapse in={expanded} unmountOnExit>
                         <Typography variant="body2" color="textSecondary" className='text-sm text-on-dark-background p-4'>{category.description}</Typography>
                     </Collapse>

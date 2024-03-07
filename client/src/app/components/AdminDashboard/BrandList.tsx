@@ -74,8 +74,8 @@ const BrandList: React.FC<BrandListProps> = ({ initialBrands }) => {
 
 
     return (
-        <div className="m-5 rounded-lg pb-12" >
-            <div className='flex justify-between items-center'>
+        <div className="m-5 rounded-lg pb-12 min-w-[900px]" >
+            <div className='flex justify-between items-center min-w-[900px]'>
                 <h3 className='text-3xl text-start uppercase py-8 ml-8 w-20'>Brand Management</h3>
                 <div>
                     <Button variant="contained" color="success" onClick={handleOpen}>

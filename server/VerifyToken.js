@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const Customers = require('./models/users.model')
+const Users = require('./models/users.model')
 const secretKey = process.env.JWT_SECRET_KEY;
 
 
@@ -7,6 +7,7 @@ const secretKey = process.env.JWT_SECRET_KEY;
 
 function verifyToken(req, res, next) {
     const refreshToken = req.cookies.refreshToken;
+    console.log('refreshToken: ',refreshToken)
 
     if (!refreshToken) {
         return res.status(401).json({ message: 'Authorization token is missing' });
@@ -19,7 +20,7 @@ function verifyToken(req, res, next) {
 
         // Find the user based on customerId in the token
         try {
-            const user = await Customers.findById(decoded.customerId);
+            const user = await Users.findById(decoded.customerId);
             if (user) {
                 req.user = user; // Set the user object in the request
                 return next();
@@ -40,7 +41,7 @@ const isAdmin = async (req, res, next) => {
 
     try {
         const decoded = jwt.verify(refreshToken, secretKey);
-        const user = await Customers.findById(decoded.customerId);
+        const user = await Users.findById(decoded.customerId);
 
         if (user.isAdmin && user.isAdmin === true || user.isAdmin === 'true') {
             return next();

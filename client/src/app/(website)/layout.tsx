@@ -9,8 +9,10 @@ import "./globals.css";
 import { Metadata } from "next";
 import { CartProvider } from "../contexts/useCart";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
+import theme from "./theme";
+import { ThemeProvider } from "@mui/material";
 
-const poppins = Montserrat({ weight: ["100", '200', '400', '500', '700'], subsets: ['latin'] });
+const monterrat = Montserrat({ weight: ["100", '200', '400', '500', '700'], subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Home',
@@ -24,13 +26,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+
+
   return (
-    <html lang="en" className={poppins.className}>
+    <html lang="en" className={monterrat.className}>
       <head>
         {/* Metadata API is used to manage <head> elements */}
         {/* Your Metadata configuration will be applied here */}
       </head>
       <body>
+      <ThemeProvider theme={theme}>
       <AppRouterCacheProvider >
         <ResponsiveProvider>
           <NicotineWarning />
@@ -42,6 +47,7 @@ export default function RootLayout({
           </CartProvider>
         </ResponsiveProvider>
         </AppRouterCacheProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

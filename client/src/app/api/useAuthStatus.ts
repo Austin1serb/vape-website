@@ -1,4 +1,4 @@
-// authStatus.server.js (or .ts if using TypeScript)
+
 "use server";
 
 import { fetchAuthStatus } from './auth';

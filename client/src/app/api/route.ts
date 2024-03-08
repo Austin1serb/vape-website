@@ -1,12 +1,18 @@
 
 "use server"
 
+import { cookies } from "next/headers";
+
 const BASE_URL = 'http://localhost:8000/api';
 
 export const getData = async (endpoint: string, _id?: string) => {
     try {
         const url = _id ? `${BASE_URL}/${endpoint}/${_id}` : `${BASE_URL}/${endpoint}/`;
-        const response = await fetch(url)
+        const response = await fetch(url,{
+            headers: {
+                Cookie: cookies().toString()
+            },
+            })
 
         if (!response.ok) {
             const error = await handleErrors(response);

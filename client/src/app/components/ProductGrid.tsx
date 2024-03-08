@@ -1,23 +1,17 @@
 // ProductsGrid.tsx
 import React from 'react';
 import ProductCard from './ProductCard';
+import { Product } from './types';
 
-interface PropData {
-    id: number;
-    name: string;
-    imageUrl: string;
-    reviews: number;
-    price: number;
-}
 interface Props {
-    products: PropData[]
+    products: Product[]
     sm: boolean;
 }
 const TrendingGrid: React.FC<Props> = ({ products, sm }) => {
     return (
         <div className="grid grid-cols-3  gap-2">
             {products.slice(0, 3).map(product => (
-                <ProductCard key={product.id} product={product} sm={false} />
+                <ProductCard key={product._id} product={product} sm={false} />
             ))}
         </div>
 

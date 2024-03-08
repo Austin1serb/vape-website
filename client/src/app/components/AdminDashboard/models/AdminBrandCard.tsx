@@ -46,7 +46,7 @@ const AdminBrandCard: React.FC<AdminBrandCardProps> = ({ brand, handleDelete, ha
         >
 
             <div className={imageContainerClass}>
-                <BrandImage height={50} width={100} src={brand.imgSource[0].url} alt={brand.name} />
+                <BrandImage height={50} width={100} src={brand.imgSource[0].url} alt={brand.name} style={{objectFit:'cover', padding:'5px'}} />
             </div>
 
             <div className='w-full '>

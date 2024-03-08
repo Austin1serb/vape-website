@@ -12,18 +12,12 @@ import Link from 'next/link';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Back from '@/Icons/Back.icon';
 import Forward from '@/Icons/Forward.icon';
+import { Product } from './types';
 
-interface PropData {
-    id: number;
-    name: string;
-    imageUrl: string;
-    reviews: number;
-    price: number;
-    link: string;
-}
+
 
 interface Props {
-    products: PropData[];
+    products: Product[];
     id: number;
     sm: boolean
 }

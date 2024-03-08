@@ -8,19 +8,14 @@ import 'swiper/css/grid';
 import Link from 'next/link';
 import Icon from './Icon';
 import BrandImage from './BrandImage';
-import { getProducts } from '@/api/useFetch';
+import { Brand } from './types';
 
-interface brandIconData {
-    id: number;
-    src: string;
-    link: string;
-    name: string;
-}
+
 interface Props {
-    brandIcons: brandIconData[]
+    brands: Brand[]
 }
 
-const BrandIconSlider: React.FC<Props> = ({ brandIcons }) => {
+const BrandIconSlider: React.FC<Props> = ({ brands }) => {
 
     const [onMount, setOnMount] = React.useState(false);
 
@@ -33,14 +28,14 @@ const BrandIconSlider: React.FC<Props> = ({ brandIcons }) => {
 
         <div className="mx-auto p-4 px-16 relative">
             <div className={`grid grid-cols-3 md:grid-cols-5 gap-6 ${onMount ? 'hidden' : ''} mt-4 `}>
-                {brandIcons.slice(0, 10).map((icon, index) => (
+                {brands.slice(0, 10).map((brand, index) => (
                     <div key={index} className=' flex justify-center items-center '>
-                        <Link href={icon.link} passHref >
-                            <div className="block p-4 cursor-pointer hover:scale-90 transition duration-300	" style={{ width: '13vw', minWidth: '150px' }}>
+                        <Link href={`/shop/${brand.name}`} passHref >
+                            <div className="block p-4 cursor-pointer hover:scale-90 transition duration-300	" style={{ width: '13vw', minWidth: '150px',  }}>
                                 {/* Use Next.js Image for optimized image handling */}
                                 <BrandImage
-                                    src={icon.src}
-                                    alt={`Brand ${icon.name}`}
+                                    src={brand.imgSource[0].url}
+                                    alt={`Brand ${brand.name}`}
                                     width={150}
                                     height={150}
                                     quality={100}
@@ -89,16 +84,16 @@ const BrandIconSlider: React.FC<Props> = ({ brandIcons }) => {
 
                     }}
                 >
-                    {brandIcons.map((icon, index) => (
+                    {brands.map((brand, index) => (
                         <SwiperSlide key={index}>
                             <div key={index + 'brand-div'} className=' flex justify-center items-center '>
-                                <Link key={index + 'brand-Link'} href={icon.link} passHref >
+                                <Link key={index + 'brand-Link'} href={`/brand/${brand.name}`} passHref >
                                     <div key={index + 'brand-dev2'} className="block p-4 cursor-pointer hover:scale-90 transition duration-300	" style={{ width: '13vw', minWidth: '150px' }}>
                                         {/* Use Next.js Image for optimized image handling */}
                                         <BrandImage
                                             key={index + 'brand-image'}
-                                            src={icon.src}
-                                            alt={`Brand ${icon.name}`}
+                                            src={brand.imgSource[0].url}
+                                            alt={`Brand ${brand.name}`}
                                             width={150}
                                             height={150}
                                         />

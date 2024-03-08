@@ -12,6 +12,7 @@ export const getData = async (endpoint: string, _id?: string) => {
             headers: {
                 Cookie: cookies().toString()
             },
+            cache:'no-store'
             })
 
         if (!response.ok) {
@@ -96,22 +97,6 @@ export const putData = async <T, B>(endpoint: string, _id: string, body: B): Pro
 
 
 
-export async function fetchData(url: string) {
-    const response = await fetch(url, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
-    if (!response.ok) {
-        throw new Error(`Failed to fetch data from ${url}`);
-    }
-    return response.json();
-}
-
-
-
 
 //error handling
 interface ValidationError {
@@ -140,3 +125,26 @@ export const handleErrors = async (response: Response): Promise<ValidationError 
     return 'No error from response.';
 };
 
+
+
+
+
+// Auth
+
+export async function fetchAuthStatus() {
+    try {
+
+        const response = await fetch('http://localhost:8000/api/user/checklogin', {
+            headers: {
+                Cookie: cookies().toString()
+            },
+            cache:'no-store'
+        });
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error checking login status:', error);
+        return { isLoggedIn: false, isAdmin: false, user:{} };
+    }
+}

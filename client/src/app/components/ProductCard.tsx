@@ -2,17 +2,12 @@ import React from 'react';
 import Icon from './Icon';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Product } from './types';
 
-interface ProductItem {
-  id: number;
-  name: string;
-  imageUrl: string;
-  price: number;
-  reviews: number; // Assuming this is the review score, not the number of reviews
-}
+
 
 interface ProductCardProps {
-  product: ProductItem;
+  product: Product;
   sm?: boolean;
 }
 
@@ -48,13 +43,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, sm }) => {
           alt={product.name}
           className={` w-${sm ? '9/12' : 'full'} h-${sm ? '9/12' : 'full'} object-cover rounded hover:cursor-pointer`} />
 </div>*/}
-        <Image src={product.imageUrl} height={320} width={320} alt={product.name} className={` w-${sm ? '9/12' : 'full'} h-${sm ? '9/12' : 'full'} object-cover rounded hover:cursor-pointer`} />
+        <Image src={product.imgSource[0].url} height={320} width={320} quality={100} alt={product.name} className={` w-${sm ? '9/12' : 'full'} h-${sm ? '9/12' : 'full'} object-cover rounded hover:cursor-pointer`} />
         <button className="absolute opacity-0 group-hover:opacity-100 flex justify-center items-center transition-all duration-300 bg-primary-transparent border border-primary border-2 hover:bg-primary-variant bg-opacity-100 hover:bg-opacity-100 text-white p-4 uppercase font-normal text-sm rounded text-base hidden md:flex whitespace-nowrap" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
           Quick View
         </button>
       </div>
       <div className="pt-2 max-h-20 min-h-20 flex flex-col items-center text-center  justify-between">
-        {sm ? (<span className='text-sm font-semibold hover:text-primary-variant hover:underline transition duration-300'>{product.name}</span>) : (<Link href={`/products/${product.id}`}
+        {sm ? (<span className='text-sm font-semibold hover:text-primary-variant hover:underline transition duration-300'>{product.name}</span>) : (<Link href={`/products/${product._id}`}
           className="text-sm font-semibold hover:text-primary-variant hover:underline transition duration-300">
           {product.name}</Link>)}
         <p className="text-sm font-bold text-gray-700">${product.price}</p>

@@ -32,7 +32,11 @@ export interface BrandImageItem {
 export interface BrandItem {
     _id: string;
     name: string;
-    imgSource: BrandImageItem[]; // Array of objects with 'url' properties
+    imgSource: BrandImageItem[];
+}
+export interface CategoryItem {
+    _id: string;
+    name: string;
 }
 
 export interface Product {
@@ -43,7 +47,7 @@ export interface Product {
     specs: string;
     totalSold: number;
     imgSource: Array<{ url: string, publicId?: string }>;
-    category: string[];
+    category: string[]| CategoryItem[];
     description: string;
     strength: string;
     isFeatured: boolean;

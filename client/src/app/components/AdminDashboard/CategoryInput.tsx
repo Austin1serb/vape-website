@@ -1,120 +1,79 @@
-import React, { useState, useEffect } from 'react';
-import {
-    TextField,
-    Button,
-    Box,
-    FormControl,
-    FormLabel,
-    Chip,
-    Typography,
-} from '@mui/material';
-
+import React from 'react';
+import { InputLabel, MenuItem, FormControl, Select, Chip, Box, SelectChangeEvent, Theme, FilledInput, Checkbox, ListItemText, FormHelperText } from '@mui/material';
+import { Category, CategoryItem } from '../types';
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+    PaperProps: {
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            width: 250,
+        },
+    },
+};
 interface CategoryInputProps {
     category: string[];
-    onAddCategory: (category: string) => void;
-    onRemoveCategory: (category: string) => void;
+    onAddCategory: (category: string[]) => void;
+    allCategories: Category[];
     error?: string | null;
 }
-const CategoryInput: React.FC<CategoryInputProps> = ({ category, onAddCategory, onRemoveCategory, error }) => {
-    const [newCategory, setNewCategory] = useState('');
-    const [localError, setLocalError] = useState(error);
+const CategoryInput: React.FC<CategoryInputProps> = ({ category, onAddCategory, error, allCategories }) => {
 
-    const handleAddCategory = () => {
-        if (newCategory.trim() !== '') {
-            // Convert the new category to lowercase and remove leading/trailing spaces
-            const formattedCategory = newCategory.trim().toLowerCase();
+    //useEffect to console.log category
+    React.useEffect(() => {
+        console.log(category);
+    }
+        , [category]);
 
-            // Check if the category already exists in the list
-            if (!category.includes(formattedCategory)) {
-                onAddCategory(formattedCategory);
-                setLocalError(null); // Clear the local error state when a new category is successfully added
-            } else {
-                setLocalError('Category already exists');
-            }
-
-            setNewCategory('');
-        } else {
-            setLocalError('Category name cannot be empty');
-        }
+    const handleChange = (event: SelectChangeEvent<string[]>) => {
+        const {
+            target: { value },
+        } = event;
+        const categoryIds = typeof value === 'string' ? value.split(',') : value;
+        onAddCategory(categoryIds);
     };
 
-    useEffect(() => {
-        // Update the local error state when the error prop changes
-        setLocalError(error);
-    }, [error]);
-
     return (
-        <FormControl
-            className='transition-all duration-300 border-gray-500'
-            sx={{
-
-                width: '97%',
-                pl: 1,
-                py: 1,
-                pr: 1,
-                border: 1,
-                borderRadius: 1,
-                color: 'gray',
-                borderColor: localError ? (theme) => theme.palette.error.main : '#686D6E',
-            }}
-            name='category-input'
-            component="fieldset"
-            variant="outlined"
-        >
-            <FormLabel
-                id="category-input"
-                component="legend"
-                className="form-label-sx text-blue-500"
-                sx={{
-                    fontSize: 16,
-                    color: 'var(--color-blue)'
-                }}
-            >
-                Add product categories.*
-            </FormLabel>
-            <Box sx={{ display: 'flex', alignItems: 'center', }}>
-                <TextField
+        <div>
+            <FormControl fullWidth error={Boolean(error)}>
+                <InputLabel id="multiple-chip-label">Categories</InputLabel>
+                <Select
+                    labelId="multiple-chip-label"
+                    id="multiple-chip"
+                    multiple
                     variant='filled'
+                    value={category}
                     color='secondary'
-                    name='categories'
-                    spellCheck={true}
-                    autoCorrect='false'
-                    label="Categories*"
-                    value={newCategory}
-                    error={Boolean(localError)}
-                    onChange={(e) => setNewCategory(e.target.value)}
-                />
-                <Button
-                    sx={{ fontSize: 10, m: 2 }}
-                    variant="outlined"
-                    color={localError ? 'error' : 'primary'}
-                    onClick={handleAddCategory}
+                    onChange={handleChange}
+                    input={<FilledInput id="select-multiple-chip" />}
+                    renderValue={(selectedIds) => (
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                            {selectedIds.map((id) => {
+                                const category = allCategories.find(c => c._id === id);
+                                return <Chip color='secondary' key={id} label={category ? category.name : ''} />;
+                            })}
+                        </Box>
+                    )}
+
+                    MenuProps={MenuProps}
                 >
-                    Add
-                </Button>
-            </Box>
-            <Box>
-                {category.map((category, index) => (
-                    <Chip
-                        sx={{
-                            m: 1,
-                            '&:hover': {
-                                borderColor: 'red',
-                            },
-                        }}
-                        size="small"
-                        key={index}
-                        label={category}
-                        onDelete={() => onRemoveCategory(category)}
-                        color="primary"
-                        variant="outlined"
-                    />
-                ))}
-                <Typography variant="caption" color="error">
-                    {localError}
-                </Typography>
-            </Box>
-        </FormControl>
+                    {allCategories.map((categoryOption:Category) => (
+                        <MenuItem
+                            key={categoryOption._id}
+                            value={categoryOption._id} // Use `_id` as the value
+                        >
+                            <Checkbox
+                                color='success'
+                                checked={category.includes(categoryOption._id!)} // Check against IDs
+                            />
+                            <ListItemText primary={categoryOption.name} />
+                        </MenuItem>
+                    ))}
+
+                </Select>
+                {error && <FormHelperText color="error" >{error}</FormHelperText>}
+            </FormControl>
+        </div>
     );
 };
 

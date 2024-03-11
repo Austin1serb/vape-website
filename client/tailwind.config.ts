@@ -2,14 +2,13 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./pages/**/*.{jsx,tsx}",
+    "./src/app/components/**/*.{jsx,tsx}",
+    "./src/app/**/*.{jsx,tsx}",
   ],
 
   theme: {
     extend: {
-
       colors: {
         primary: '#6200EE',
         'primary-transparent': '#6200EEA5',

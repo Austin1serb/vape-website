@@ -1,6 +1,8 @@
 "use client"
 import React, { useState } from 'react';
 import Icon from './Icon'; // Adjust the import path as needed
+import Envelope from '@/Icons/Envelope.icon';
+import Forward from '@/Icons/Forward.icon';
 
 const SubscribeField: React.FC = () => {
     const [isFocused, setIsFocused] = useState<boolean>(false);
@@ -28,7 +30,7 @@ const SubscribeField: React.FC = () => {
                 <div className="flex items-center w-full">
                     <div className="relative flex flex-row mt-2 h-12 w-full">
                         <div className='absolute'>
-                            <Icon name='Envelope' width={35} height={35} className="absolute top-5 transform -translate-y-3 text-gray-500 fill-white z-10 hover:fill-primary transition duration-300" />
+                            <Envelope name='Envelope' width={35} height={35} className="absolute top-5 transform -translate-y-3 text-gray-500 fill-white z-10 hover:fill-primary transition duration-300" />
                         </div>
                         <input
                             id='email'
@@ -42,7 +44,7 @@ const SubscribeField: React.FC = () => {
                         />
                         <label htmlFor="email" className={`cursor-text text-lg font-light absolute text-on-primary left-12 top-4 transform -translate-y-1 transition-all ${isFocused || inputValue ? 'text-xs text-gray-400 bg-gray-800 p-1 -translate-y-7 ' : ''}`}>Enter your email</label>
                         <button type="submit" aria-label='submit' className={`bg-transparent text-white px-4 py-2 -top-1 md:-top-0 absolute -right-4`}>
-                            <Icon name='Forward' width={35} height={35} className='hover:stroke-primary transition duration-300' />
+                            <Forward name='Forward' width={35} height={35} className='hover:stroke-primary transition duration-300' />
                         </button>
                     </div>
                 </div>

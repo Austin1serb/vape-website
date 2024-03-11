@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Typography, Button, Box } from '@mui/material';
+import React, { useState } from 'react';
+import {  Button, Box } from '@mui/material';
 import AddProductModal from './models/AddProductModal';
 import { GridColDef, GridToolbar, GridValueFormatterParams } from '@mui/x-data-grid';
 import DetailsView from './DetailsView';
 import Image from 'next/image';
-import { Brand, Product } from '../types';
+import { Brand, Category, Product } from '../types';
 import dynamic from 'next/dynamic';
 import DataGridSkeleton from './AdminSkeletons/DataGridSkeleton';
 import { formatDate } from '../../utils/AdminDashUtils';
@@ -22,9 +22,10 @@ interface ErrorState {
 interface ProductListProps {
     initialProducts: Product[];
     brands:Brand[];
+    categories: Category[];
 }
 
-const ProductList: React.FC<ProductListProps> = ({ initialProducts, brands }) => {
+const ProductList: React.FC<ProductListProps> = ({ initialProducts, brands,categories }) => {
     const [detailsViewOpen, setDetailsViewOpen] = useState<boolean>(false);
     const [selectedProductForDetails, setSelectedProductForDetails] = useState<Product | null>(null);
     const [products, setProducts] = useState<Product[]>(initialProducts);
@@ -34,47 +35,6 @@ const ProductList: React.FC<ProductListProps> = ({ initialProducts, brands }) =>
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<ErrorState | null>(null);
 
-
-    //const [brands, setBrands] = React.useState<Brand[]>([]);
-
-    //const API_URL = 'http://localhost:8000/api/brand/';
-    //const getBrands = async () => {
-    //    try {
-    //        const response = await fetch(API_URL);
-    //        const data = await response.json();
-    //        setBrands(data);
-    //        console.log(data);
-    //    } catch (error) {
-    //        console.error(error);
-    //    }
-    //}
-
-    //useEffect(() => {
-    //    getBrands()
-    //}, []);
-
-
-
-
-
-    //useEffect(() => {
-    //    // Fetch products from your backend API
-    //    setIsLoading(true);
-
-    //    fetch(API_URL, {
-    //        credentials: 'include',
-    //    })
-    //        .then((response) => response.json())
-    //        .then((data) => {
-    //            setProducts(data);
-    //            setIsLoading(false);
-    //        })
-    //        .catch((error) => {
-    //            setError(error);
-    //            setIsLoading(false);
-    //            console.error('Error fetching products:', error);
-    //        });
-    //}, []);
 
     const handleOpenAddProductModal = () => setIsAddProductModalOpen(true);
 
@@ -102,7 +62,24 @@ const ProductList: React.FC<ProductListProps> = ({ initialProducts, brands }) =>
     };
 
 
+//update products by fetching when products changes
+    React.useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch('http://localhost:8000/api/product/');
+                const data = await response.json();
+                setProducts(data);
+                setIsLoading(false);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+                setError({ message: 'Failed to fetch products' });
+                setIsLoading(false);
+            }
+        };
 
+        fetchProducts();
+    }
+    , [products]);
 
 
 
@@ -227,7 +204,6 @@ const ProductList: React.FC<ProductListProps> = ({ initialProducts, brands }) =>
             </div>
 
             <DataGrid
-
                 rows={products.map(product => ({
                     ...product,
                     createdAt: formatDate(product.createdAt!), // Format the date
@@ -248,6 +224,7 @@ const ProductList: React.FC<ProductListProps> = ({ initialProducts, brands }) =>
                 onAddProduct={handleAddProduct} // For adding a product
                 onUpdateProduct={handleUpdateProduct} // For updating a product
                 brands={brands}
+                categories={categories}
 
             />
 

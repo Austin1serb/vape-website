@@ -19,7 +19,7 @@ const SEOSection:React.FC<SEOsectionProps>= ({ productData, handleChange, handle
         <FormControl
         color='secondary'
             sx={{
-                width: '97%',
+                width: '100%',
                 my: 2,
                 pl: 1,
                 py: 1,
@@ -39,10 +39,6 @@ const SEOSection:React.FC<SEOsectionProps>= ({ productData, handleChange, handle
                 className='form-label-sx'
                 component="legend">   Search Engine Optimization (Optional)</FormLabel>
             <Box  >
-                {/*<Typography variant="body2" sx={{ mt: 2, ml: '25%' }}>
-                            Search Engine Optimization (Optional)
-                        </Typography>*/}
-
                 <TextField
                     sx={{ my: 2 }}
                     name="seo.title"
@@ -58,7 +54,6 @@ const SEOSection:React.FC<SEOsectionProps>= ({ productData, handleChange, handle
                     label="SEO Description"
                     fullWidth
                     multiline
-                    rows={2}
                     value={productData.seo['description']}
                     onChange={handleChange}
                 />

@@ -84,11 +84,10 @@ body button {
   .swiper-button-prev::after,
   .swiper-button-next::after {
     color: var(--color-on-primary);
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    padding: 5px;
+    background-color: var(--color-primary-transparent);
+    padding: 15px;
+    border-radius: 10%;
+
 
   }
 }

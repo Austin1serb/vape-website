@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Typography, Button, Collapse, IconButton } from '@mui/material';
 import { Category } from '@/components/types';
 import Icon from '@/components/Icon';
+import ArrowDown from '@/Icons/ArrowDown.icon';
 
 interface AdminCategoryCardProps {
     category: Category;
@@ -33,7 +34,7 @@ const AdminCategoryCard: React.FC<AdminCategoryCardProps> = ({ category, handleD
                 </div>
 
                 <IconButton color='primary' onClick={toggleExpanded}>
-                    <Icon name="ArrowDown" height={30} width={30} className={`transform transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`} />
+                    <ArrowDown name="ArrowDown" height={30} width={30} className={`transform transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`} />
                 </IconButton>
             </div>
 

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Typography, Chip, Button, Collapse, IconButton } from '@mui/material';
-
 import BrandImage from '@/components/BrandImage';
 import { Brand } from '@/components/types';
-import Icon from '@/components/Icon';
+import FullStar from '@/Icons/FullStar.icon';
+import HalfStar from '@/Icons/HalfStar.icon';
+import EmptyStar from '@/Icons/EmptyStar.icon';
+import ArrowDown from '@/Icons/ArrowDown.icon';
 
 
 interface AdminBrandCardProps {
@@ -27,13 +29,13 @@ const AdminBrandCard: React.FC<AdminBrandCardProps> = ({ brand, handleDelete, ha
         for (let i = 1; i <= 5; i++) {
             if (i <= score) {
                 // Full star
-                stars.push(<Icon name={'FullStar'} height={15} width={15} key={i} className="rating-stars" />);
+                stars.push(<FullStar name={'FullStar'} height={15} width={15} key={i} className="rating-stars" />);
             } else if (i - 1 < score && i > score) {
                 // Half star - adjust this logic if you have a way to represent half stars
-                stars.push(<Icon name={'HalfStar'} height={15} width={15} key={i} className="rating-stars" />);
+                stars.push(<HalfStar name={'HalfStar'} height={15} width={15} key={i} className="rating-stars" />);
             } else {
                 // Empty star
-                stars.push(<Icon name={'EmptyStar'} height={15} width={15} key={i} className="rating-stars" />);
+                stars.push(<EmptyStar name={'EmptyStar'} height={15} width={15} key={i} className="rating-stars" />);
             }
         }
         return stars;
@@ -92,7 +94,7 @@ const AdminBrandCard: React.FC<AdminBrandCardProps> = ({ brand, handleDelete, ha
                                     className='text-on-secondary text-lg w-full flex justify-between items-center'
                                 >
                                     <IconButton color='primary' onClick={toggleExpanded}>
-                                        <Icon
+                                        <ArrowDown
 
                                             name="ArrowDown"
                                             height={50}

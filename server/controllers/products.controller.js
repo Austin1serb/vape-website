@@ -1,5 +1,6 @@
 const Products = require('../models/products.model');
-const Brand = require('../models/brand.model'); // Ensure this path matches your Brand model
+const Brand = require('../models/brand.model');
+const Category = require('../models/category.model');
 const { deleteFromCloudinary } = require('../services/cloudinary');
 const { processImages, removeDeletedImages, handleErrors } = require('../utilities/fetchFunctions');
 
@@ -55,12 +56,12 @@ const updateProduct = async (req, res, productData) => {
 
 
 const createProduct = async (res, productData) => {
+    console.log(productData)
 
     if (!productData.brand || productData.brand.trim() === "") {
         // If no brand is selected, return a 400 response with a specific error message for the brand field
         return res.status(400).json({ brand: 'Please select a brand.' });
     }
-
     // Resolve the brand reference
     if (productData.brand && productData.brand.trim() !== "") {
         const brand = await Brand.findOne({ name: productData.brand.trim() });
@@ -70,7 +71,10 @@ const createProduct = async (res, productData) => {
             return res.status(404).json({ message: 'Brand not found' });
         }
     }
-
+    if (!productData.category || productData.category.length<1) {
+        // If no brand is selected, return a 400 response with a specific error message for the brand field
+        return res.status(400).json({ category: 'Please select a Category.' });
+    }
 
     productData.imgSource = await processImages(productData.imgSource);
     const newProduct = await Products.create(productData);
@@ -136,7 +140,8 @@ module.exports = {
 
     getAll: (req, res) => {
         Products.find() // Find all products
-        .populate('brand', 'name imgSource.url') // Include both 'name' and 'imgSource.url' fields
+            .populate('brand', 'name imgSource.url') // Include both 'name' and 'imgSource.url' fields
+            .populate('category', 'name') 
             .sort({ name: 1 }) // Sort products by 'name' field in ascending order (A to Z)
             .then(products => {
                 // Return the sorted list of products as a JSON response
@@ -152,9 +157,8 @@ module.exports = {
 
     getOne: (req, res) => {
         Products.findOne({ _id: req.params.id })
-        .populate('brand', 'name imgSource.url') // Include both 'name' and 'imgSource.url' fields
-
-
+            .populate('brand', 'name imgSource.url') // Include both 'name' and 'imgSource.url' fields
+            .populate('category', 'name') 
             .then(data => {
                 res.json(data)
             }).catch(err => res.json(err))

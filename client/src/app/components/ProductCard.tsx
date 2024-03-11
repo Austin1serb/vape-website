@@ -3,6 +3,9 @@ import Icon from './Icon';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Product } from './types';
+import FullStar from '@/Icons/FullStar.icon';
+import HalfStar from '@/Icons/HalfStar.icon';
+import EmptyStar from '@/Icons/EmptyStar.icon';
 
 
 
@@ -16,13 +19,13 @@ const renderStars = (score: number) => {
   for (let i = 1; i <= 5; i++) {
     if (i <= score) {
       // Full star
-      stars.push(<Icon name={'FullStar'} height={15} width={15} key={i} className="rating-stars" />);
+      stars.push(<FullStar name={'FullStar'} height={15} width={15} key={i} className="rating-stars" />);
     } else if (i - 1 < score && i > score) {
       // Half star - adjust this logic if you have a way to represent half stars
-      stars.push(<Icon name={'HalfStar'} height={15} width={15} key={i} className="rating-stars" />);
+      stars.push(<HalfStar name={'HalfStar'} height={15} width={15} key={i} className="rating-stars" />);
     } else {
       // Empty star
-      stars.push(<Icon name={'EmptyStar'} height={15} width={15} key={i} className="rating-stars" />);
+      stars.push(<EmptyStar name={'EmptyStar'} height={15} width={15} key={i} className="rating-stars" />);
     }
   }
   return stars;

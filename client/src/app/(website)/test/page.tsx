@@ -1,5 +1,6 @@
 'use server'
-import { useAuthStatus } from '@/api/useAuthStatus';
+
+import { useAuthStatus } from '@/api/useFetch';
 import React from 'react'
 
 const page =async () => {

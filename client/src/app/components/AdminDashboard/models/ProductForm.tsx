@@ -27,9 +27,12 @@ export const ProductForm: React.FC<ProductFormProps> = ({ productData, error, ha
         setSelectedBrand(brand || null);
 
     };
-
+    React.useEffect(() => {
+        // Find the brand in 'brands' that matches 'productData.brand'
+        const initialBrand = brands.find(brand => brand.name === productData.brand);
+        setSelectedBrand(initialBrand || null);
+    }, [productData.brand, brands]);
     
-
 
     return (
         <>
@@ -41,7 +44,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ productData, error, ha
                     id="brand-select"
                     fullWidth
                     name="brand"
-                    value={productData.brand}
+                    value={productData.brand as string}
                     label="Brand*"
 
                     onChange={handleSelectChange} // Assuming this updates both the selected brand and image
@@ -172,7 +175,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ productData, error, ha
             <TextField
                 sx={{ my: 2 }}
                 name="flavor"
-                label="Flavor"
+                label="Flavor / Color"
                 multiline
                 rows={1}
                 fullWidth

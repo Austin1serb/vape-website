@@ -2,6 +2,9 @@
 import React, { useState } from 'react';
 import Icon from '../Icon';
 import { useResponsive } from '@/contexts/ResponsiveContext';
+import Instagram from '@/Icons/Instagram.icon';
+import Twitter from '@/Icons/Twitter.icon';
+import FaceBook from '@/Icons/Facebook.icon';
 
 
 interface Props {
@@ -54,13 +57,13 @@ const FooterTop: React.FC = () => {
                     <h5 className={`text-on-background text-lg font-bold mb-2 ${isMobile ? 'hidden' : 'flex'}`}>FOLLOW US</h5>
                     <p className="social flex justify-between">
                         <a href="https://www.instagram.com/elementvape" className="instagram" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">
-                            <Icon name='Instagram' width={35} height={35} className="instagram hover:fill-secondary transition-all duration-300" aria-hidden="true"></Icon>
+                            <Instagram name='Instagram' width={35} height={35} className="instagram hover:fill-secondary transition-all duration-300" aria-hidden="true"></Instagram>
                         </a>
                         <a href="https://www.facebook.com/elementvape" className="facebook" target="_blank" rel="noopener" title="Facebook" aria-label="Facebook">
-                            <Icon name='Facebook' width={35} height={35} className="facebook hover:fill-secondary transition-all duration-300" aria-hidden="true"></Icon>
+                            <FaceBook name='Facebook' width={35} height={35} className="facebook hover:fill-secondary transition-all duration-300" aria-hidden="true"></FaceBook>
                         </a>
                         <a href="https://twitter.com/element_vape" className="twitter" target="_blank" rel="noopener" title="Twitter" aria-label="Twitter">
-                            <Icon name='Twitter' width={35} height={35} className="twitter hover:fill-secondary transition-all duration-300" aria-hidden="true"></Icon>
+                            <Twitter name='Twitter' width={35} height={35} className="twitter hover:fill-secondary transition-all duration-300" aria-hidden="true"></Twitter>
                         </a>
 
                     </p>

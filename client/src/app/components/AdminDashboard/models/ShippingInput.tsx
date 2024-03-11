@@ -17,15 +17,13 @@ const ShippingInput: React.FC<ShippingInputProps> = ({ weight, length, width, he
         <FormControl
 
             sx={{
-                width: '97%',
-
+                width: '100%',
                 pl: 1,
                 py: 1,
                 pr: 1,
                 border: 1,
                 borderRadius: 1,
                 
-               
             }}
             component="fieldset"
             className='border-gray-500'

@@ -31,6 +31,7 @@ import SalesOverviewSkeleton from './AdminSkeletons/SalesOverviewSkeleton';
 import BrandList from './BrandList';
 import CategoryList from './CategoryList';
 import Icon from '../Icon';
+import ArrowDown from '@/Icons/ArrowDown.icon';
 
 
 
@@ -111,9 +112,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     ...theme.mixins.toolbar,
 }));
 
-interface AppBarProps extends MuiAppBarProps {
-    open?: boolean;
-}
 
 interface MenuItem {
     icon: JSX.Element;
@@ -354,7 +352,7 @@ const AdminDashboard: React.FC = () => {
                                     guestData={guestData}
 
                                 />)}
-                            {selectedComponent === 'productList' && <ProductList brands={brands} initialProducts={products} />}
+                            {selectedComponent === 'productList' && <ProductList brands={brands} initialProducts={products} categories={categories} />}
                             {selectedComponent === 'userList' && (
 
                                 <UserList
@@ -397,7 +395,7 @@ const AdminDashboard: React.FC = () => {
             <CustomDrawer variant="permanent" anchor="left" open={sidebarOpen} >
                 <DrawerHeader sx={{ backgroundColor: 'var(--color-primary-variant)' }} className='h-[70px]' >
                     <IconButton onClick={handleSidebarToggle}>
-                        <Icon name="ArrowDown" height={30} width={30} className={`transform transition-all duration-200 hover:text-secondary  ${sidebarOpen ? 'rotate-90' : '-rotate-90'}`} />
+                        <ArrowDown name="ArrowDown" height={30} width={30} className={`transform transition-all duration-200 hover:text-secondary  ${sidebarOpen ? 'rotate-90' : '-rotate-90'}`} />
 
                     </IconButton>
                 </DrawerHeader>

@@ -17,7 +17,7 @@ import ImageUpload from './ImageUpload';
 import StrengthFeaturedControl from './StrengthFeaturedControl';
 import SEOSection from './SEOsection';
 import ShippingInput from './ShippingInput';
-import { Product, Brand } from '@/components/types';
+import { Product, Brand, Category, CategoryItem, BrandItem } from '@/components/types';
 import { ProductForm } from './ProductForm';
 import GPTResponseGenerator from '../GptResponseGenerator';
 
@@ -58,11 +58,12 @@ interface Props {
     onAddProduct: (productData: Product) => void;
     selectedProduct?: Product | null;
     onUpdateProduct: (productData: Product) => void;
-    brands: Brand[]
+    brands: Brand[];
+    categories: Category[];
 }
 
 
-const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selectedProduct, onUpdateProduct, brands }) => {
+const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selectedProduct, onUpdateProduct, brands, categories }) => {
     const [productData, setProductData] = useState<Product>(selectedProduct || initialProductData);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<ErrorState>({});
@@ -130,12 +131,24 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
         }));
     }, [selectedImageData, selectedProduct]);
 
-
-
-
     useEffect(() => {
         if (selectedProduct) {
-            setProductData(selectedProduct);
+            let categoryIds: string[] = []
+            if (typeof selectedProduct.category[0] === 'object') {
+                categoryIds = selectedProduct.category.map(cat => (cat as CategoryItem)._id);
+            }
+            let brandName: string = '';
+            if (typeof selectedProduct.brand === 'object') {
+                brandName = (selectedProduct.brand as BrandItem).name;
+            } else {
+                brandName = selectedProduct.brand;
+            }
+
+            setProductData({
+                ...selectedProduct,
+                category: categoryIds,
+                brand: brandName,
+            });
             setSelectedStrength(selectedProduct.strength!);
             // Check if selectedProduct has an image source
             if (selectedProduct.imgSource && selectedProduct.imgSource.length > 0) {
@@ -147,6 +160,7 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
             setProductData(initialProductData);
             setSelectedImageData([]);
         }
+
     }, [selectedProduct]);
 
 
@@ -197,12 +211,6 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
                     },
                 });
             }
-        } else if (name === 'category') {
-            const formattedCategory = value.toLowerCase().replace(/\s/g, '');
-            setProductData(prevData => ({
-                ...prevData,
-                category: [...prevData.category, formattedCategory] // Adds the new formatted category to the array
-            }));
         } else if (name === 'isFeatured') {
             // Convert the value to a boolean
             const isFeatured = value === 'true';
@@ -341,20 +349,14 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
 
 
     // Function to handle adding a new category
-    const handleAddCategory = (newCategory: string): void => {
+    const handleAddCategory = (newCategory: string[]): void => {
         setProductData({
             ...productData,
-            category: [...productData.category, newCategory],
+            category: newCategory,
         });
     };
 
-    // Function to handle removing a category
-    const handleRemoveCategory = (category: string): void => {
-        setProductData({
-            ...productData,
-            category: productData.category.filter((c) => c !== category),
-        });
-    };
+
     const { shipping } = productData;
     const weight = shipping?.weight || '';
     const dimensions = shipping?.dimensions || {};
@@ -376,12 +378,11 @@ const AddProductModal: React.FC<Props> = ({ open, onClose, onAddProduct, selecte
 
 
     const gptPrompt = `Generate a JSON object with detailed information for an e-cigarette product. Use the following structure:
-- "description": A concise description of the e-cigarette, highlighting its key features and benefits within 300 characters. Incorporate the brand "${productData.brand}" and product name "${productData.name}".
-- "seoTitle": A search engine optimized title that includes the brand and product name.
-- "seoDescription": A brief SEO-friendly description, focusing on main features and advantages, suitable for search engine snippets.
-- "seoKeywords": An array of relevant keywords, limited to 8 words, that are associated with the brand and product. These should be pertinent for improving search engine visibility.
-
-Ensure the generated content is coherent, engaging, and optimized for SEO purposes. The description should effectively communicate the product's unique selling points and how it stands out in the market.`;
+    - "description": A concise description of the e-cigarette, highlighting its key features and benefits within 300 characters. Incorporate the brand "${productData.brand}" and product name "${productData.name}".
+    - "seoTitle": A search engine optimized title that includes the brand and product name.
+    - "seoDescription": A brief SEO-friendly description, focusing on main features and advantages, suitable for search
+    engine snippets.
+    - "seoKeywords": An array of relevant keywords, limited to 8 words, that are associated with the brand and product. These should be pertinent for improving search engine visibility. Ensure the generated content is coherent, engaging, and optimized for SEO purposes. The description should effectively communicate the product's unique selling points and how it stands out in the market.`;
 
     const parseGptResponse = (response: any) => {
         const {
@@ -428,7 +429,7 @@ Ensure the generated content is coherent, engaging, and optimized for SEO purpos
         <>
             <Snackbar
                 open={isSnackbarOpen}
-                autoHideDuration={2000} // Adjust the duration as needed
+                autoHideDuration={5000} // Adjust the duration as needed
                 onClose={() => setIsSnackbarOpen(false)}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
             >
@@ -465,10 +466,10 @@ Ensure the generated content is coherent, engaging, and optimized for SEO purpos
                     />
                     {/* Category Input Component */}
                     <CategoryInput
-                        category={productData.category}
+                        category={productData.category as string[]}
                         onAddCategory={handleAddCategory}
-                        onRemoveCategory={handleRemoveCategory}
                         error={error && error.category}
+                        allCategories={categories}
                     />
 
                     {/* Image Upload */}

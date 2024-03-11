@@ -9,6 +9,8 @@ import Link from 'next/link';
 import Icon from './Icon';
 import BrandImage from './BrandImage';
 import { Brand } from './types';
+import Forward from '@/Icons/Forward.icon';
+import Back from '@/Icons/Back.icon';
 
 
 interface Props {
@@ -30,8 +32,8 @@ const BrandIconSlider: React.FC<Props> = ({ brands }) => {
             <div className={`grid grid-cols-3 md:grid-cols-5 gap-6 ${onMount ? 'hidden' : ''} mt-4 `}>
                 {brands.slice(0, 10).map((brand, index) => (
                     <div key={index} className=' flex justify-center items-center '>
-                        <Link href={`/shop/${brand.name}`} passHref >
-                            <div className="block p-4 cursor-pointer hover:scale-90 transition duration-300	" style={{ width: '13vw', minWidth: '150px',  }}>
+                        <Link href={`/shop/${brand.name.toLowerCase()}`} passHref >
+                            <div className="block p-4 cursor-pointer hover:scale-90 transition duration-300	" >
                                 {/* Use Next.js Image for optimized image handling */}
                                 <BrandImage
                                     src={brand.imgSource[0].url}
@@ -87,8 +89,8 @@ const BrandIconSlider: React.FC<Props> = ({ brands }) => {
                     {brands.map((brand, index) => (
                         <SwiperSlide key={index}>
                             <div key={index + 'brand-div'} className=' flex justify-center items-center '>
-                                <Link key={index + 'brand-Link'} href={`/brand/${brand.name}`} passHref >
-                                    <div key={index + 'brand-dev2'} className="block p-4 cursor-pointer hover:scale-90 transition duration-300	" style={{ width: '13vw', minWidth: '150px' }}>
+                                <Link key={index + 'brand-Link'} href={`/brand/${brand.name.toLowerCase()}`} passHref >
+                                    <div key={index + 'brand-dev2'} className="block p-4 cursor-pointer hover:scale-90 transition duration-300	" >
                                         {/* Use Next.js Image for optimized image handling */}
                                         <BrandImage
                                             key={index + 'brand-image'}
@@ -106,11 +108,11 @@ const BrandIconSlider: React.FC<Props> = ({ brands }) => {
             </div>
             {/* SWIPER BUTTONS*/}
             <div className="swiper-button-next-custom backdrop-blur-md bg-white/30 absolute top-1/2 right-2 transform -translate-y-1/2 z-10 hover: cursor-pointer shadow-md transition-all duration-300 ease-in-out group" >
-                <Icon name={'Forward'} height={'5vw'} width={'5vw'}
+                <Forward name={'Forward'} height={'5vw'} width={'5vw'}
                     className=" forward-icon group hover:stroke-secondary transition-all duration-300 ease-in-out" />
             </div>
             <div className="swiper-button-prev-custom absolute backdrop-blur-md bg-white/30 top-1/2 left-2 transform -translate-y-1/2 z-10 hover: cursor-pointer shadow-md transition-all duration-300 ease-in-out group">
-                <Icon name={'Back'} height={'5vw'} width={'5vw'}
+                <Back name={'Back'} height={'5vw'} width={'5vw'}
                     className="back-icon group hover:stroke-secondary transition-all duration-300 ease-in-out" />
             </div>
         </div>

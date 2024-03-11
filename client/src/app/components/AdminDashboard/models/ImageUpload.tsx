@@ -70,7 +70,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     return (
         <FormControl
             sx={{
-                width: '97%',
+                width: '100%',
                 fontSize: 8,
                 my: 2,
                 pl: 1,
@@ -141,15 +141,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                     {selectedImageData && selectedImageData.length > 0 ? (
                         selectedImageData.map((imgUrl, index) => (
                             <div key={index + 'div'} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                <Button
-                                    key={index + 'button'}
-                                    size="small"
-                                    variant="text"
-                                    onClick={() => handleRemoveImage(index)}
-                                    sx={{ marginTop: '5px' }}
-                                >
-                                    Remove
-                                </Button>
+
                                 <div key={index} style={imageContainerStyles}>
                                     <BrandImage
                                         src={imgUrl}
@@ -160,7 +152,16 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                                     />
 
                                 </div>
-
+                                <Button
+                                    key={index + 'button'}
+                                    color='warning'
+                                    size="small"
+                                    variant="text"
+                                    onClick={() => handleRemoveImage(index)}
+                                    sx={{ marginTop: '5px' }}
+                                >
+                                    Remove
+                                </Button>
                             </div>
                         ))
                     ) : (

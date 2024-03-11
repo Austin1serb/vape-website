@@ -8,7 +8,6 @@ import {
     Chip,
     Typography,
 } from '@mui/material';
-import { BorderColor } from '@mui/icons-material';
 
 
 interface KeywordsInputProps {
@@ -52,7 +51,7 @@ const handleKeyPress = (event: { key: string; preventDefault: () => void; }) => 
 return (
     <FormControl
         sx={{
-            width: '97%',
+            width: '100%',
             pl: 1,
             py: 1,
             pr: 1,
@@ -97,7 +96,7 @@ return (
             </Button>
         </Box>
         <Box>
-            {Keywords.map((Keyword, index: number) => (
+            {Keywords?.map((Keyword, index: number) => (
                 <Chip
                     sx={{
                         m: 1,

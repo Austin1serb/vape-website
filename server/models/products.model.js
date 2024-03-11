@@ -41,16 +41,10 @@ const ProductSchema = new mongoose.Schema({
         }],
         validate: [arrayLimit, 'Product must have at least one image.']
     },
-    category: {
-        type: [String],
-        required: true,
-        validate: {
-            validator: function (value) {
-                return value.length > 0; // Custom validation function to check if the array is not empty
-            },
-            message: 'Please specify at least one category for the product',
-        },
-    },
+    category:[ {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category'
+    }],
     flavor: {
         type: String,
     },

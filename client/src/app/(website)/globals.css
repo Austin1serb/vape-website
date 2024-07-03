@@ -79,7 +79,7 @@ body button {
 
 /* slider */
 /* TextSlider.css */
-@media(min-width:409px) {
+@media(min-width:449px) {
 
   .swiper-button-prev::after,
   .swiper-button-next::after {
@@ -92,11 +92,12 @@ body button {
   }
 }
 
-@media(max-width:409px) {
+@media(max-width:449px) {
 
   .swiper-button-prev::after,
   .swiper-button-next::after {
     color: var(--color-on-primary);
+    background-color:transparent;
 
   }
 }

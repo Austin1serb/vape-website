@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import {  Button, Box } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Button, Box } from '@mui/material';
 import AddProductModal from './models/AddProductModal';
 import { GridColDef, GridToolbar, GridValueFormatterParams } from '@mui/x-data-grid';
 import DetailsView from './DetailsView';
@@ -21,11 +21,11 @@ interface ErrorState {
 }
 interface ProductListProps {
     initialProducts: Product[];
-    brands:Brand[];
+    brands: Brand[];
     categories: Category[];
 }
 
-const ProductList: React.FC<ProductListProps> = ({ initialProducts, brands,categories }) => {
+const ProductList: React.FC<ProductListProps> = ({ initialProducts, brands, categories }) => {
     const [detailsViewOpen, setDetailsViewOpen] = useState<boolean>(false);
     const [selectedProductForDetails, setSelectedProductForDetails] = useState<Product | null>(null);
     const [products, setProducts] = useState<Product[]>(initialProducts);
@@ -47,9 +47,8 @@ const ProductList: React.FC<ProductListProps> = ({ initialProducts, brands,categ
         setSelectedProduct(null); // Reset selectedProduct when the edit modal is closed
     };
 
-    const handleAddProduct = (newProduct: Product) => {
-        // You can update the 'products' state with the new product data here
-        setProducts([...products, newProduct]);
+    const handleAddProduct = () => {
+        fetchProducts()
         handleCloseAddProductModal();
     };
     const handleEditProduct = (product: React.SetStateAction<Product | null>) => {
@@ -62,38 +61,22 @@ const ProductList: React.FC<ProductListProps> = ({ initialProducts, brands,categ
     };
 
 
-//update products by fetching when products changes
-    React.useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const response = await fetch('http://localhost:8000/api/product/');
-                const data = await response.json();
-                setProducts(data);
-                setIsLoading(false);
-            } catch (error) {
-                console.error('Error fetching products:', error);
-                setError({ message: 'Failed to fetch products' });
-                setIsLoading(false);
-            }
-        };
-
-        fetchProducts();
-    }
-    , [products]);
-
-
-
-
-    const handleUpdateProduct = (updatedProduct: Product) => {
-        setProducts((prevProducts) => {
-            // Map through the previous products and replace the one with the matching _id
-            return prevProducts.map((product) =>
-                product._id === updatedProduct._id ? updatedProduct : product
-            );
-        });
+    const fetchProducts = async () => {
+        try {
+            setIsLoading(true);
+            const response = await fetch('http://localhost:8000/api/product/');
+            const data = await response.json();
+            setProducts(data);
+            setIsLoading(false);
+        } catch (error) {
+            console.error('Error fetching products:', error);
+            setError({ message: 'Failed to fetch products' });
+            setIsLoading(false);
+        }
     };
-
-
+    const handleUpdateProduct = () => {
+        fetchProducts()
+    };
 
 
 
@@ -138,7 +121,7 @@ const ProductList: React.FC<ProductListProps> = ({ initialProducts, brands,categ
             ),
         },
         { field: 'name', headerName: 'Name', flex: 1 },
-        { field: 'category', headerName: 'Category', flex: 1 },
+        { field: 'isFeatured', headerName: 'Featured', flex: 1 },
         { field: 'specs', headerName: 'Specs', flex: 1 },
         { field: 'totalSold', headerName: 'Sold', flex: 0.25 },
         {
@@ -204,12 +187,11 @@ const ProductList: React.FC<ProductListProps> = ({ initialProducts, brands,categ
             </div>
 
             <DataGrid
-                rows={products.map(product => ({
+                rows={products.map(product => ({ 
                     ...product,
                     createdAt: formatDate(product.createdAt!), // Format the date
                 }))}
-
-                //rows={products}
+           
                 columns={columns}
                 autoHeight
                 disableRowSelectionOnClick

@@ -84,7 +84,7 @@ const CategoryList: React.FC<CategoryListProps> = ({ initialCategories }) => {
 
             <Grid container spacing={2}>
                 {categories.map((category) =>
-                    <Grid key={category._id} item xs={6}>
+                    <Grid key={category._id} item md={6} sm={12}>
                         <AdminCategoryCard
                             key={category.name}
                             category={category}

@@ -3,7 +3,7 @@
 import { useAuthStatus } from '@/api/useFetch';
 import React from 'react'
 
-const page =async () => {
+const page = async () => {
   const { isLoggedIn, isAdmin, user } = await  useAuthStatus();
 
   return (

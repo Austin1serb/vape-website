@@ -1,5 +1,5 @@
 'use client'
-import { deepPurple } from '@mui/material/colors';
+import { deepOrange, deepPurple } from '@mui/material/colors';
 import { createTheme } from "@mui/material";
 import { Montserrat } from 'next/font/google';
 const montserrat = Montserrat({ weight: ["100", '200', '400', '500', '700'], subsets: ['latin'], display: 'swap' });
@@ -10,7 +10,8 @@ const montserrat = Montserrat({ weight: ["100", '200', '400', '500', '700'], sub
 const theme = createTheme({
     palette: {
         mode: 'light',
-        secondary: deepPurple
+        secondary: deepPurple,
+        success: deepOrange
     },
     typography: {
         fontFamily: montserrat.style.fontFamily

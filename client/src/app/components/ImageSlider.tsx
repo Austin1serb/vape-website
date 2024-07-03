@@ -36,7 +36,7 @@ const ImageSlider: React.FC<Props> = ({ imageData }) => {
                 className="my-4"
             >
                 {imageData.map((item, index) => (
-                    <SwiperSlide key={index}>
+                    <SwiperSlide key={item.url}>
                         <Link href={item.link}>
                             <div style={{ width: '100vw', height: "42vw" ,position:'relative' }}>
                                 <Image priority src={item.url} alt={`Slide ${index}`} className="w-full h-auto  object-cover" fill

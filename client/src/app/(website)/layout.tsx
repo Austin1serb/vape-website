@@ -11,6 +11,7 @@ import { CartProvider } from "../contexts/useCart";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import theme from "./theme";
 import { ThemeProvider } from "@mui/material";
+import { useAuthStatus } from '@/api/useFetch';
 
 const monterrat = Montserrat({ weight: ["100", '200', '400', '500', '700'], subsets: ['latin'] });
 
@@ -21,11 +22,13 @@ export const metadata: Metadata = {
 
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const { isLoggedIn, isAdmin, user } = await useAuthStatus();
+
 
 
   return (
@@ -40,7 +43,8 @@ export default function RootLayout({
         <ResponsiveProvider>
           <NicotineWarning />
           <CartProvider>
-          <NavBar />
+          <NavBar isLoggedIn={isLoggedIn}   />
+        /
           {/* Main content of the application */}
           <main>{children}</main>
           <Footer />

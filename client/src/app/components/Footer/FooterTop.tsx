@@ -55,7 +55,7 @@ const FooterTop: React.FC = () => {
             <div className="max-w-7xl mx-auto grid grid-cols-1  lg:grid-cols-4 gap-6">
                 <CollapsibleSection isMobile={isMobile} title="FOLLOW US">
                     <h5 className={`text-on-background text-lg font-bold mb-2 ${isMobile ? 'hidden' : 'flex'}`}>FOLLOW US</h5>
-                    <p className="social flex justify-between">
+                    <div className="social flex justify-between -ml-12 mr-4">
                         <a href="https://www.instagram.com/elementvape" className="instagram" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">
                             <Instagram name='Instagram' width={35} height={35} className="instagram hover:fill-secondary transition-all duration-300" aria-hidden="true"></Instagram>
                         </a>
@@ -66,7 +66,7 @@ const FooterTop: React.FC = () => {
                             <Twitter name='Twitter' width={35} height={35} className="twitter hover:fill-secondary transition-all duration-300" aria-hidden="true"></Twitter>
                         </a>
 
-                    </p>
+                    </div>
 
                 </CollapsibleSection>
                 <CollapsibleSection isMobile={isMobile} title="Need Help?">

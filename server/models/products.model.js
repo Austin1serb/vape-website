@@ -38,17 +38,18 @@ const ProductSchema = new mongoose.Schema({
                 type: String,
                 required: [true, 'Please provide product image url.']
             },
+            flavor:String,
+
         }],
         validate: [arrayLimit, 'Product must have at least one image.']
+    },
+    flavor: {
+        type: String,
     },
     category:[ {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category'
     }],
-    flavor: {
-        type: String,
-    },
-
 
     description: {
         type: String,
@@ -95,13 +96,6 @@ const ProductSchema = new mongoose.Schema({
         default: false,
     },
 
-
-    //relatedProducts: [
-    //    {
-    //        type: mongoose.Schema.Types.ObjectId,
-    //        ref: 'Product',
-    //    },
-    //],
     seo: {
         title: String,
         description: String,

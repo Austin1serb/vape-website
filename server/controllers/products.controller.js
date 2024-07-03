@@ -167,9 +167,7 @@ module.exports = {
 
     // Search products based on the search term and filter
     searchProducts: async (req, res) => {
-
         try {
-
             const searchTerm = req.query.term;
             const pageSize = parseInt(req.query.pageSize) || 10; // Default page size
             const filter = req.query.filter || '';

@@ -2,14 +2,14 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import Icon from '@/components/Icon';
+
 import Cart from './Cart';
 import DropdownMenu from './DropdownMenu';
 import { useRouter } from 'next/navigation';
 import Herba from '@/Icons/Herba.icon';
 import AccountIconLocal from '@/Icons/Account.icon';
 import CartIcon from '@/Icons/Cart.icon';
-
+import { IconButton, Menu, MenuItem } from '@mui/material';
 interface NavLink {
     href: string;
     label: string;
@@ -91,10 +91,45 @@ const navLinks: NavLink[] = [
 
 ];
 
-const NavBar: React.FC = () => {
+const NavBar: React.FC = (isLoggedIn) => {
     const [isMobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
     const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+    async function logoutUser(){
+        const response = await fetch('http://localhost:8000/api/user/logout',
+            {
+                method: 'POST',
+                credentials: 'include',
+            }
+        );
+        if(response.ok){
+            // Clear the session storage and local storage
+            sessionStorage.clear();
+            localStorage.clear();
+            console.log('logged out')
+            router.push('/');
+        }
+
+    }
+
     const router = useRouter()
+    const handleAuthAction = async () => {
+        if (isLoggedIn) {
+            await logoutUser();
+            router.push('/'); // Adjust as needed
+        } else {
+            // Redirect to the login page
+            router.push('/auth');
+        }
+        handleClose(); // Assuming you have a method to close the menu
+    };
 
     return (
         <nav className="bg-white mx-auto max-w-7xl">
@@ -108,13 +143,43 @@ const NavBar: React.FC = () => {
                     </Link>
 
                 </div>
-                <div className="flex items-center justify-end flex-1 gap-4">
-                    <Link href="/account">
-                        <AccountIconLocal name='Account' width={'40'} height={'40'} className='accountIcon mr-4 hover:text-primary-variant hover:scale-110 transition duration-300' />
-                    </Link>
-                    <button aria-label='button' onClick={() => setDrawerOpen(true)}>
-                        <CartIcon name='Cart' width={'40'} height={'40'} className='cartIcon mr-4 hover:text-primary-variant hover:scale-110 transition duration-300' />
-                    </button>
+                <div className="flex items-center justify-end flex-1 gap-4 mr-4">
+                    <IconButton
+                        type='button'
+                        id="account-positioned-button"
+                        aria-controls={open ? 'account-positioned-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}
+                        onClick={handleClick}
+
+                    >
+                        <AccountIconLocal name='Account' width={'40'} height={'40'} className='accountIcon  hover:text-primary-variant hover:scale-110 transition duration-300 text-black' />
+
+                    </IconButton>
+                    <Menu
+                        id="demo-positioned-menu"
+                        aria-labelledby="demo-positioned-button"
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'left',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'left',
+                        }}
+                    >
+                        <MenuItem onClick={handleClose}>Profile</MenuItem>
+                        <MenuItem onClick={handleClose}>My account</MenuItem>
+                        <MenuItem onClick={handleAuthAction}>
+                            {isLoggedIn ? 'Logout' : 'Login'}
+                        </MenuItem>
+                    </Menu>
+                    <IconButton aria-label='button' onClick={() => setDrawerOpen(true)}>
+                        <CartIcon name='Cart' width={'40'} height={'40'} className='cartIcon  hover:text-primary-variant hover:scale-110 transition duration-300 text-black' />
+                    </IconButton>
                 </div>
             </div>
             <div className="hidden md:block border-b-2" />
@@ -138,14 +203,30 @@ const NavBar: React.FC = () => {
             <div className="md:hidden  flex justify-between items-center py-2 px-4 h-24">
 
                 {/* MENU HAMBURGER ICON */}
+
                 <button
-                    aria-label="menu-icon"
+                    aria-label="Toggle mobile menu"
                     type="button"
                     onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
-                    className="w-12 h-10 flex flex-col justify-center items-center gap-1.5 relative hover:shadow-md transition-shadow duration-300 ease-in-out"
-
+                    className="w-12 h-10 p-1 flex flex-col justify-center items-center gap-2 relative hover:shadow-md transition-shadow duration-300 ease-in-out"
                 >
+                    {/* Top line */}
+                    <div
+                        className={`w-8 h-1 bg-black transition duration-300 ease-in-out ${isMobileMenuOpen ? 'rotate-45 translate-y-3' : ''
+                            }`}
+                    ></div>
 
+                    {/* Middle line */}
+                    <div
+                        className={`w-8 h-1 bg-black transition duration-300 ease-in-out ${isMobileMenuOpen ? 'opacity-0' : ''
+                            }`}
+                    ></div>
+
+                    {/* Bottom line */}
+                    <div
+                        className={`w-8 h-1 bg-black transition duration-300 ease-in-out ${isMobileMenuOpen ? '-rotate-45 -translate-y-3' : ''
+                            }`}
+                    ></div>
                 </button>
                 <Herba name='Herba' width={'375'} height={'175'} className='herbaIcon h-full w-full fill-primary' />
                 <div className="flex items-center justify-end flex-1 gap-4">

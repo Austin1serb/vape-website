@@ -356,7 +356,6 @@ module.exports = {
 
             // Now clear the cookie after all operations are completed
             res.clearCookie('refreshToken');
-
             return res.status(200).json({ message: 'Logout successful' });
         } catch (err) {
             console.error("Error in logoutUser:", err);

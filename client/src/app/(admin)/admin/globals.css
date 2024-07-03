@@ -199,14 +199,16 @@ button.MuiButton-containedSecondary {
 button.MuiButton-containedSecondary:hover {
   @apply bg-deep-purple-A200;
 }
-
-button.MuiButton-containedSuccess {
-  @apply bg-cyan-700;
+span.MuiChip-label{
+  @apply text-white;
+}
+button.MuiButton-containedSuccess{
+  @apply bg-emerald-600;
   @apply text-white;
 }
 
 button.MuiButton-containedSuccess:hover {
-  @apply bg-cyan-500;
+  @apply bg-emerald-500;
 
 }
 

@@ -1,8 +1,6 @@
 
 "use client"
 import React, { Suspense, useEffect, useState } from 'react';
-import MuiDrawer from '@mui/material/Drawer';
-import { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import {
     Toolbar,
     Typography,
@@ -23,15 +21,12 @@ import Link from 'next/link'
 import AccountIconLocal from '@/Icons/Account.icon';
 import { Product, Order, Customer, Guest, Brand, Category } from '../types'
 import { SaleItem, aggregateSalesData, transformAndSortDataForChart } from '../../utils/AdminDashUtils';
-import { Theme, CSSObject, styled, useTheme, } from '@mui/material/styles';
-import GenerateSidebarItems from './models/GenerateSideBarItems';
 import DataGridSkeleton from './AdminSkeletons/DataGridSkeleton';
 import dynamic from 'next/dynamic';
 import SalesOverviewSkeleton from './AdminSkeletons/SalesOverviewSkeleton';
 import BrandList from './BrandList';
 import CategoryList from './CategoryList';
-import Icon from '../Icon';
-import ArrowDown from '@/Icons/ArrowDown.icon';
+import Sidebar from './models/SideBar';
 
 
 
@@ -60,59 +55,6 @@ const OrderList = dynamic(() => import('./OrderList'), {
 
 
 
-
-
-const drawerWidth = 275;
-
-const openedMixin = (theme: Theme): CSSObject => ({
-    width: drawerWidth,
-    border: 'none',
-    boxShadow: '20px 0 20px -10px rgba(0, 0, 0, 0.5)',
-    transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-    }),
-    overflowX: 'hidden',
-});
-
-const closedMixin = (theme: Theme): CSSObject => ({
-    transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: 'hidden',
-    border: 'none',
-    width: `calc(${theme.spacing(7)} + 1px)`,
-    [theme.breakpoints.up('sm')]: {
-        width: `calc(${theme.spacing(8)} + 14px)`,
-    },
-});
-const CustomDrawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open }) => ({
-        width: drawerWidth,
-        flexShrink: 0,
-        whiteSpace: 'nowrap',
-        boxSizing: 'border-box',
-        ...(open && {
-            ...openedMixin(theme),
-            '& .MuiDrawer-paper': openedMixin(theme),
-        }),
-        ...(!open && {
-            ...closedMixin(theme),
-            '& .MuiDrawer-paper': closedMixin(theme),
-        }),
-    }),
-);
-const DrawerHeader = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-}));
-
-
 interface MenuItem {
     icon: JSX.Element;
     text: string;
@@ -128,7 +70,6 @@ const AdminDashboard: React.FC = () => {
     const [selectedComponent, setSelectedComponent] = useState<string>('AdminDashboard');
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     //const { isLoggedIn, logout, isAdmin } = useAuth();
-    const theme = useTheme()
     const [salesData, setSalesData] = useState<SalesData[]>([]);
     const [products, setProducts] = useState<Product[]>([]);
     const [totalProducts, setTotalProducts] = useState<number>(0);
@@ -180,7 +121,10 @@ const AdminDashboard: React.FC = () => {
                 // Fetch guest data
                 const guestDataResponse = await fetchData<Guest[]>(url + 'guest', signal);
                 setGuestData(guestDataResponse);
-
+            }catch{
+                console.log('error')
+            }
+            try{
                 // Fetch products
                 const productData = await fetchData<Product[]>(url + 'product', signal);
 
@@ -274,7 +218,7 @@ const AdminDashboard: React.FC = () => {
 
     return (
         <div className=" text-on-dark-background bg-dark-background ">
-           
+
             <AppBar position="fixed"  >
                 <Toolbar sx={{ backgroundColor: 'var(--color-primary-variant)', justifyContent: 'space-between', }} >
                     <div>
@@ -392,23 +336,13 @@ const AdminDashboard: React.FC = () => {
                     </Grid>
                 </Grid>
             </Container>
-            <CustomDrawer variant="permanent" anchor="left" open={sidebarOpen} >
-                <DrawerHeader sx={{ backgroundColor: 'var(--color-primary-variant)' }} className='h-[70px]' >
-                    <IconButton onClick={handleSidebarToggle}>
-                        <ArrowDown name="ArrowDown" height={30} width={30} className={`transform transition-all duration-200 hover:text-secondary  ${sidebarOpen ? 'rotate-90' : '-rotate-90'}`} />
+            <Sidebar
+                open={sidebarOpen}
+                handleToggle={handleSidebarToggle}
+                handleItemClick={handleSidebarItemClick}
+                loading={loading}
+            />
 
-                    </IconButton>
-                </DrawerHeader>
-                <Divider />
-                <div className="bg-dark-surface text-on-dark-background h-full shadow-lg w-full pl-2">
-                    <GenerateSidebarItems
-                        sideBarOpen={sidebarOpen}
-
-                        handleSidebarItemClick={handleSidebarItemClick}
-                        disabled={loading}
-                    />
-                </div>
-            </CustomDrawer>
         </div>
 
     );

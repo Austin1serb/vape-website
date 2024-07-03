@@ -10,7 +10,7 @@ const montserrat = Montserrat({ weight: ["100", '200', '400', '500', '700'], sub
 const darkTheme = createTheme({
     palette: {
         mode: 'dark',
-        secondary:deepPurple
+        secondary:deepPurple,
     },
     typography: {
         fontFamily: montserrat.style.fontFamily

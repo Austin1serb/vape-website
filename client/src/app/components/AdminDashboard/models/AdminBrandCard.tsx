@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, Chip, Button, Collapse, IconButton } from '@mui/material';
+import { Typography, Chip, Button, Collapse, IconButton, darken } from '@mui/material';
 import BrandImage from '@/components/BrandImage';
 import { Brand } from '@/components/types';
 import FullStar from '@/Icons/FullStar.icon';
@@ -78,16 +78,40 @@ const AdminBrandCard: React.FC<AdminBrandCardProps> = ({ brand, handleDelete, ha
 
                         </div>
                         <div className='flex itmes-center justify-between'>
-                            <div className='flex flex-wrap w-1/2 h-16 overflow-hidden whitespace-nowrap items-center mx-4'>
-                                {brand.tags.map((tag) => (
-                                    <Chip key={tag} label={tag} color='secondary' size="small" className="m-1" />
-                                ))}
-                            </div>
+                        <div className="flex flex-wrap items-center mx-4 gap-2">
+    {brand.tags.map((tag, index) => {
+        // Dynamically assign color or style based on the tag, if applicable.
+        const chipColor = `bg-gradient-to-r from-100-500 to-300-500`; // Example dynamic background.
+        // Note: Tailwind does not support dynamic class names out of the box. You might need to use inline styles or predefined classes.
+
+        return (
+            <Chip
+                key={tag}
+                label={tag}
+                // Using `sx` for dynamic styles; for Tailwind, you'd apply classes directly or use inline styles as needed.
+                sx={{
+                    //backgroundColor: chipColor, // For MUI, replace this with your logic to determine the color or gradient.
+                    //'&:hover': {
+                    //    backgroundColor: darken(chipColor, 0.2), // Example to darken on hover.
+                    //},
+                    color: 'white',
+                    fontSize: '0.75rem',
+                    fontWeight: 'bold',
+                }}
+                size="small"
+                className={`m-1 text-white ${chipColor}`} // Example of applying Tailwind classes along with dynamic color.
+                // Optional: add a tooltip or click handler.
+                // onClick={() => handleTagClick(tag)}
+                // title="More info" // Tooltip text; consider using MUI's Tooltip component for more interactive tooltips.
+            />
+        );
+    })}
+</div>
 
                             <div className='flex flex-row'>
                                 <div className=' flex flex-col items-center gap-2'>
-                                    <Button size='small' variant='contained' color='secondary' fullWidth onClick={() => handleEdit(brand)}>Edit</Button>
-                                    <Button size='small' variant='contained' color='error' fullWidth onClick={() => brand?._id && handleDelete(brand?._id)}>Delete</Button>
+                                    <Button size='small' variant='contained' color='primary' fullWidth onClick={() => handleEdit(brand)}>Edit</Button>
+                                    <Button size='small' variant='contained' color='secondary' fullWidth onClick={() => brand?._id && handleDelete(brand?._id)}>Delete</Button>
                                 </div>
                                 <div
                                     aria-label='button'

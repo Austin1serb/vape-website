@@ -33,14 +33,14 @@ const Cart: React.FC<Props> = ({ setDrawerOpen, drawerOpen }) => {
             onClose={() => setDrawerOpen(false)}>
 
 
-            <Box sx={{ display: 'flex', flexDirection: "column", justifyContent: 'space-between', height: '78vh', width:'75vw', maxWidth:'425px' }}>
+            <Box sx={{ display: 'flex', flexDirection: "column", justifyContent: 'space-between', height: '78vh', width: '75vw', maxWidth: '425px' }}>
                 <Box>
                     {/* Cart Header */}
                     <Box
                         className="cart-drawer__top flex justify-between items-center p-4 bg-primary text-on-primary"
                     >
                         {/* ml: { xs: 5, sm: 13, md: 16 }, */}
-                        <Typography sx={{  fontSize: 18, ml:6  }} className="type-subheading type-subheading--1 w-full tracking-widest text-center" variant="h6">
+                        <Typography sx={{ fontSize: 18, ml: 6 }} className="type-subheading type-subheading--1 w-full tracking-widest text-center" variant="h6">
                             YOUR CART
                         </Typography>
                         <IconButton className="cart-close-icon" onClick={() => setDrawerOpen(false)}>
@@ -51,10 +51,9 @@ const Cart: React.FC<Props> = ({ setDrawerOpen, drawerOpen }) => {
                     <Box sx={{ maxHeight: '415px', overflowY: 'auto', }}>
                         {cart.length === 0 ? (
                             // This section renders when the cart is empty
-                            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: "center", height:200  }}>
-                                <Typography align="center" sx={{ mt: 3, fontVariant: 'all-small-caps', fontSize: 22 , fontWeight: 100 }}>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: "center", height: 200 }}>
+                                <Typography align="center" sx={{ mt: 3, fontVariant: 'all-small-caps', fontSize: 22, fontWeight: 100 }}>
                                     Your Cart Is Empty!
-
                                 </Typography>
                                 {/* CART ICON */}
                                 <svg height='50' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
@@ -62,7 +61,7 @@ const Cart: React.FC<Props> = ({ setDrawerOpen, drawerOpen }) => {
                                 </svg>
                                 <Button onClick={() => {
                                     setDrawerOpen(false); // Close the drawer
-                                }} href="/shop" component={Link} sx={{ border: 1, width: '90%', letterSpacing: 2, color: '#283047', backgroundColor: 'white', borderColor: 'var(--color-secondary-variant)', borderWidth: 1.5, height: 55, '&:hover': { backgroundColor: 'var(--color-secondary)', color: 'white' }, borderRadius:'5px' }} > Start Shopping</Button>
+                                }} href="/shop" component={Link} sx={{ border: 1, width: '90%', letterSpacing: 2, color: '#283047', backgroundColor: 'white', borderColor: 'var(--color-secondary-variant)', borderWidth: 1.5, height: 55, '&:hover': { backgroundColor: 'var(--color-secondary)', color: 'white' }, borderRadius: '5px' }} > Start Shopping</Button>
                             </Box>
                         ) : (
                             <List>
@@ -83,7 +82,6 @@ const Cart: React.FC<Props> = ({ setDrawerOpen, drawerOpen }) => {
                                             <Box >
                                                 <Box sx={{
                                                     ml: 1,
-
                                                 }}>
                                                     <Typography sx={{
                                                         fontWeight: 600,
@@ -129,32 +127,32 @@ const Cart: React.FC<Props> = ({ setDrawerOpen, drawerOpen }) => {
                 </Box>
                 <Box>
                     {/* Notes for the seller */}
-              
+
                     <Box sx={{
 
                         boxShadow: ' 1px -4px 6px -1px rgba(0, 0, 0, 0.2)',
                         display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '30vh',
 
                     }}>
-                              {cart.length===0? (
-                              <div className='h-2'>
+                        {cart.length === 0 ? (
+                            <div className='h-2'>
 
-                              </div>
-                              ):(
-                        <Box sx={{ borderTop: 0.5, display: 'flex', flexDirection: 'column', alignItems: 'center' }} className="ajax-cart--checkout-add-note">
-                            <label htmlFor="seller-notes"
-                                aria-label='seller-notes'
-                                id='seller-notes'
-                                className='text-center mt-1 sm:mt-2 sm:mb-2 font-thin text-xs text-gray-600 tracking-wide	'
-                            >Add a note for the seller…(optional)</label>
-                            <textarea name='notes-for-seller' className='textareacart'
-                                id='seller-notes'
-                                disabled={cart.length === 0}
-                                value={notes}
-                                rows={2}
-                                onChange={handleNoteChange} />
-                        </Box>
-                    )}
+                            </div>
+                        ) : (
+                            <Box sx={{ borderTop: 0.5, display: 'flex', flexDirection: 'column', alignItems: 'center' }} className="ajax-cart--checkout-add-note">
+                                <label htmlFor="seller-notes"
+                                    aria-label='seller-notes'
+                                    id='seller-notes'
+                                    className='text-center mt-1 sm:mt-2 sm:mb-2 font-thin text-xs text-gray-600 tracking-wide	'
+                                >Add a note for the seller…(optional)</label>
+                                <textarea name='notes-for-seller' className='textareacart'
+                                    id='seller-notes'
+                                    disabled={cart.length === 0}
+                                    value={notes}
+                                    rows={2}
+                                    onChange={handleNoteChange} />
+                            </Box>
+                        )}
 
                         {/* Subtotal and checkout details */}
                         <Box className="ajax-cart--bottom-wrapper" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
@@ -164,10 +162,10 @@ const Cart: React.FC<Props> = ({ setDrawerOpen, drawerOpen }) => {
 
                             {cart.length > 0 && (
                                 <>
-                                    <Button component={Link} href='/checkout/1' onClick={handleProceedToCheckout} variant="outlined" sx={{ width: { xs: '75%', sm: '90%', md: '90%' }, letterSpacing: 2, color: 'white', backgroundColor: '#283047', mb: { xs: 5, sm: 3 }, height: 56.5, "&:hover": { backgroundColor: '#FE6F49', border: 'none', }, textAlign: 'center', borderRadius:'5px' }}>Place your order</Button>
+                                    <Button component={Link} href='/checkout/1' onClick={handleProceedToCheckout} variant="outlined" sx={{ width: { xs: '75%', sm: '90%', md: '90%' }, letterSpacing: 2, color: 'white', backgroundColor: '#283047', mb: { xs: 5, sm: 3 }, height: 56.5, "&:hover": { backgroundColor: '#FE6F49', border: 'none', }, textAlign: 'center', borderRadius: '5px' }}>Place your order</Button>
                                     <Button onClick={() => {
                                         setDrawerOpen(false); // Close the drawer
-                                    }} variant="outlined" sx={{ mb: 1, width: { xs: '75%', sm: '90%', md: '90%' }, letterSpacing: 2, color: '#283047', backgroundColor: 'white', borderColor: '#283047', borderWidth: 1.5, height: 55, '&:hover': { backgroundColor: 'var(--color-primary-variant)', color: 'white' },borderRadius:'5px' }}>Continue Shopping</Button>
+                                    }} variant="outlined" sx={{ mb: 1, width: { xs: '75%', sm: '90%', md: '90%' }, letterSpacing: 2, color: '#283047', backgroundColor: 'white', borderColor: '#283047', borderWidth: 1.5, height: 55, '&:hover': { backgroundColor: 'var(--color-primary-variant)', color: 'white' }, borderRadius: '5px' }}>Continue Shopping</Button>
                                 </>
                             )}
 

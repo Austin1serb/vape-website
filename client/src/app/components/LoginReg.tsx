@@ -69,6 +69,10 @@ const LoginReg: React.FC = () => {
         setLoading(false);
         setShowPassword(false);
         setProgress(0)
+        setSuccessMessage('')
+        setRecaptchaValue(null)
+        setFocus(false)
+
     }
 
     const handleLogin = async (event: React.FormEvent) => {
@@ -229,7 +233,7 @@ const LoginReg: React.FC = () => {
                             margin='dense'
                             size='small'
                             variant="filled"
-                            type="password"
+                            type={showPassword ? 'text' : 'password'}
                             autoComplete='new-password'
                             label="Password"
                             fullWidth
@@ -242,13 +246,24 @@ const LoginReg: React.FC = () => {
                             onBlur={() => setFocus(true)}
                             error={!!regError}
                             InputProps={{
-                                endAdornment: progress === 1 ? (
+                                endAdornment: (
                                     <>
-                                        <svg stroke="currentColor" fill="currentColor" strokeWidth="0" version="1" viewBox="0 0 48 48" enableBackground="new 0 0 48 48" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><polygon fill="#43A047" points="40.6,12.1 17,35.7 7.4,26.1 4.6,29 17,41.3 43.4,14.9"></polygon></svg>
-
+                                        <InputAdornment position="end">
+                                            <div
+                                                className={styles.iconVisibility}
+                                                aria-label={showPassword ? "Hide password" : "Show password"}
+                                                onClick={handleClickShowPassword}
+                                                onMouseDown={handleMouseDownPassword}
+                                            >
+                                                {showPassword ? <VisibilityOff color='primary' /> : <Visibility color='secondary' />}
+                                            </div>
+                                        </InputAdornment>
+                                        {progress === 1 ? (
+                                            <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 48 48" enableBackground="new 0 0 48 48" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><polygon fill="#43A047" points="40.6,12.1 17,35.7 7.4,26.1 4.6,29 17,41.3 43.4,14.9"></polygon></svg>
+                                        ) : null}
                                         <div
                                             style={{
-                                                height: '2px',
+                                                height: '2.25px',
                                                 width: `${progress * 100}%`,
                                                 backgroundColor: progress === 1 ? '#3ACF8D' : 'red',
                                                 transition: 'width 0.3s ease',
@@ -257,16 +272,7 @@ const LoginReg: React.FC = () => {
                                             }}
                                         />
                                     </>
-                                ) : (<div
-                                    style={{
-                                        height: '2px',
-                                        width: `${progress * 100}%`,
-                                        backgroundColor: progress === 1 ? '#3ACF8D' : 'red',
-                                        transition: 'width 0.3s ease',
-                                        position: 'absolute',
-                                        bottom: 0,
-                                    }}
-                                />),
+                                ),
                             }}
                         />
                         <Collapse in={focus && progress !== 1 || !!regError} unmountOnExit>
@@ -276,7 +282,7 @@ const LoginReg: React.FC = () => {
                                 </div>
                             ) : (
                                 <div className='h-[70px] text-xs text-red-600'>
-                                    {regError?.email ?? regError?.firstName ?? regError?.lastName ?? 'An error occurred'}
+                                    {regError?.email ?? regError?.firstName ?? regError?.lastName ?? ''}
                                 </div>
                             )}
                         </Collapse>

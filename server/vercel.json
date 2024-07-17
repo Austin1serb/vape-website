@@ -2,14 +2,25 @@
     "version": 2,
     "builds": [
         {
-            "src": "/api/brand.js",
+            "src": "/api/categories.js",
             "use": "@vercel/node"
+        },
+        {
+            "src":"/api/brand.js",
+            "use":"@vercel/node"
+
         }
+
+
     ],
     "routes": [
         {
-            "src": "/api/brand",
-            "dest": "/api/brand.js"
+            "src": "/(.*)",
+            "dest": "/api/categories.js"
+        },
+        {
+            "src":"/(.*)",
+            "dest":"/api/brand.js"
         }
     ]
 }

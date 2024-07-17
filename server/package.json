@@ -15,7 +15,8 @@
     "mongoose": "^8.2.0",
     "nodemailer": "^6.9.10",
     "nodemon": "^3.1.0",
-    "shippo": "^1.7.1"
+    "shippo": "^1.7.1",
+    "vercel": "^35.0.3"
   },
   "scripts": {
     "start": "nodemon server.js"

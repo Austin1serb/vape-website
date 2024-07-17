@@ -14,22 +14,7 @@
         {
             "src": "/api/category",
             "dest": "/api/category.js"
-        },
-        {
-            "src": "/api/contact",
-            "dest": "/api/contact.js"
-        },
-        {
-            "src": "/api/order",
-            "dest": "/api/order.js"
-        },
-        {
-            "src": "/api/product",
-            "dest": "/api/product.js"
-        },
-        {
-            "src": "/api/user",
-            "dest": "/api/user.js"
         }
+        
     ]
 }

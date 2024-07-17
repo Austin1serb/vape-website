@@ -4,23 +4,12 @@
         {
             "src": "/api/categories.js",
             "use": "@vercel/node"
-        },
-        {
-            "src":"/api/brand.js",
-            "use":"@vercel/node"
-
         }
-
-
     ],
     "routes": [
         {
             "src": "/(.*)",
             "dest": "/api/categories.js"
-        },
-        {
-            "src":"/(.*)",
-            "dest":"/api/brand.js"
         }
     ]
 }

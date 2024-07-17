@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const cors = require('cors')
 const express = require('express');
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
@@ -65,4 +65,4 @@ app.use('/api/contact', contactRoutes);
 
 
 
-app.listen(port, () => console.log(`Listening on port: ${port}`));
+app.listen(port, () => console.log(`Listening on port: ${port} AUSTIN SERB CREATED THIS!!`));

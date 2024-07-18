@@ -1,14 +1,14 @@
 require('dotenv').config();
 require('./config/mongoose.config');
 const jwt = require('jsonwebtoken');
-const cors = require('cors')
+const cors = require('cors');
 const express = require('express');
+const serverless = require('serverless-http');
 const app = express();
-const port = process.env.PORT;
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
-const frontEndDomain = process.env.FRONTEND_DOMAIN
+const frontEndDomain = process.env.FRONTEND_DOMAIN;
 
 app.use(cors({
     origin: frontEndDomain,
@@ -17,7 +17,7 @@ app.use(cors({
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
-app.use(cookieParser()); 
+app.use(cookieParser());
 
 app.use(helmet({
     contentSecurityPolicy: {
@@ -38,12 +38,11 @@ app.use(helmet({
 const { uploadToCloudinary } = require('./services/cloudinary');
 const productRoutes = require('./routes/products.routes');
 const orderRoutes = require('./routes/orders.routes');
-const guestRoutes = require('./routes/guest.routes')
+const guestRoutes = require('./routes/guest.routes');
 const userRoutes = require('./routes/users.routes');
 const shippoRoutes = require('./routes/shippo.routes');
 const suggestionsRoutes = require('./routes/suggestions.routes');
-//const paymentRoutes = require('./routes/payment.routes');
-const passwordResetRoutes = require('./routes/passwordReset.routes')
+const passwordResetRoutes = require('./routes/passwordReset.routes');
 const contactRoutes = require('./routes/contact.routes');
 const brandRoutes = require('./routes/brands.routes');
 const categoryRoutes = require('./routes/categories.routes');
@@ -62,6 +61,9 @@ app.use('/api/shippo', shippoRoutes);
 app.use(bodyParser.json());
 app.use('/api/contact', contactRoutes);
 
+module.exports = app;
+module.exports.handler = serverless(app);
 
-
-app.listen(port, () => console.log(`Listening on port: ${port} AUSTIN SERB CREATED THIS!!`));
+// This part is not needed for serverless functions
+// const port = process.env.PORT || 3000;
+// app.listen(port, () => console.log(`Listening on port: ${port} AUSTIN SERB CREATED THIS!!`));

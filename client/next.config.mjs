@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 const nextConfig = {
 
 
@@ -7,7 +8,7 @@ const nextConfig = {
       // Rewrites all API requests to your Express server
       {
         source: "/api/:path*",
-        destination: "http://localhost:8000/api/:path*",
+        destination: `${API_URL}/api/:path`,
       }
     ];
   },
@@ -25,7 +26,7 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'res.cloudinary.com',
-   
+
       },
 
     ],

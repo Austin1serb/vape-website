@@ -25,7 +25,7 @@ const UserList: React.FC<UsersState> = ({ customers, guests }) => {
 	const [userToDelete, setUserToDelete] = useState<string | null>(null);
 	const [userTypeToDelete, setUserTypeToDelete] = useState<"customer" | "guest" | null>(null);
 	const [viewMode, setViewMode] = useState<boolean>(false);
-	const BASE_URL = process.env.FRONTEND_DOMAIN || "localhost:8000";
+	const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 	// Function definitions remain the same as they don't need explicit type annotations in most cases
 	// However, for better type checking, you can annotate parameters and return types where applicable
@@ -42,7 +42,7 @@ const UserList: React.FC<UsersState> = ({ customers, guests }) => {
 			return;
 		}
 
-		const url = userTypeToDelete === "customer" ? `${BASE_URL}/api/customer/${userToDelete}` : `${BASE_URL}/api/guest/${userToDelete}`;
+		const url = userTypeToDelete === "customer" ? `${API_URL}/api/customer/${userToDelete}` : `${API_URL}/api/guest/${userToDelete}`;
 
 		try {
 			await fetchData(url, { method: "DELETE" });
@@ -90,7 +90,7 @@ const UserList: React.FC<UsersState> = ({ customers, guests }) => {
 	}
 
 	const handleMakeAdmin = (customerId: string) => {
-		fetchData(`${BASE_URL}/api/customer/${customerId}`, {
+		fetchData(`${API_URL}/api/customer/${customerId}`, {
 			method: "PUT",
 			body: JSON.stringify({ isAdmin: true }),
 		})
@@ -116,7 +116,7 @@ const UserList: React.FC<UsersState> = ({ customers, guests }) => {
 			return;
 		}
 
-		fetchData(`${BASE_URL}/api/customer/${adminId}`, {
+		fetchData(`${API_URL}/api/customer/${adminId}`, {
 			method: "PUT",
 			body: JSON.stringify({ isAdmin: false }),
 		})

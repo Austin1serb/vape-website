@@ -35,14 +35,13 @@ app.use(helmet({
     contentSecurityPolicy: {
         directives: {
             defaultSrc: ["'self'"],
-            scriptSrc: ["'self'"],
-            styleSrc: ["'self'"],
-            fontSrc: ["'self'"],
-            imgSrc: ["'self'", 'https://res.cloudinary.com'],
-            connectSrc: ["'self'", 'http://localhost:8000'],
+            scriptSrc: ["'self'", "'unsafe-inline'", "https://vape-website-client.vercel.app"],
+            styleSrc: ["'self'", "'unsafe-inline'", "https://vape-website-client.vercel.app"],
+            fontSrc: ["'self'", "https://fonts.googleapis.com", "https://fonts.gstatic.com"],
+            imgSrc: ["'self'", "https://res.cloudinary.com", "data:"],
+            connectSrc: ["'self'", "http://localhost:8000", "https://vape-website-client.vercel.app"], // ✅ Allow frontend API requests
             frameSrc: ["'self'"],
             objectSrc: ["'none'"],
-            // Add other directives as needed
         },
     },
 }));

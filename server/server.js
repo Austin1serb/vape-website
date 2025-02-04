@@ -8,11 +8,23 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
-const frontEndDomain = process.env.FRONTEND_DOMAIN;
+
+const allowedOrigins = [
+    "http://localhost:3000",
+    "http://localhost:8000",
+    "https://vape-website-client.vercel.app" // ✅ Allow Vercel Frontend
+];
 
 app.use(cors({
-    origin: frontEndDomain,
-    credentials: true,
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("CORS policy violation"));
+        }
+    },
+    credentials: true, // ✅ Allow cookies & authentication
+    methods: "GET,POST,PUT,DELETE,OPTIONS",
 }));
 
 app.use(express.json({ limit: "50mb" }));
@@ -65,5 +77,5 @@ module.exports = app;
 module.exports.handler = serverless(app);
 
 // This part is not needed for serverless functions
- const port = process.env.PORT || 3000;
- app.listen(port, () => console.log(`Listening on port: ${port} AUSTIN SERB CREATED THIS!!`));
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`Listening on port: ${port} AUSTIN SERB CREATED THIS!!`));

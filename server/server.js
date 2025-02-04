@@ -65,5 +65,5 @@ module.exports = app;
 module.exports.handler = serverless(app);
 
 // This part is not needed for serverless functions
-// const port = process.env.PORT || 3000;
-// app.listen(port, () => console.log(`Listening on port: ${port} AUSTIN SERB CREATED THIS!!`));
+ const port = process.env.PORT || 3000;
+ app.listen(port, () => console.log(`Listening on port: ${port} AUSTIN SERB CREATED THIS!!`));

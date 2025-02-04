@@ -53,11 +53,11 @@ const GPTResponseGenerator: React.FC<GPTResponseGeneratorProps> = ({ prompt, onR
     };
 
     return (
-        <div>
-            <Button disabled={loading} color='success' fullWidth sx={{ height: '36.5px', width: '110.5px' }} variant="contained" onClick={fetchGPTResponse}>
+       
+            <Button disabled={loading} color='success'  variant="contained" onClick={fetchGPTResponse}>
                 {loading ? <CircularProgress size={30} /> : 'Generate'}
             </Button>
-        </div>
+    
     );
 };
 
